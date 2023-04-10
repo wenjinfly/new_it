@@ -1,0 +1,18 @@
+[serviceweaver]
+binary = "new_it"
+
+["new_it/app/configApp/ConfigApp"]
+Mysql.Ip = "192.168.0.169"
+Mysql.Port = "33069"
+Mysql.Config= "charset=utf8mb4&parseTime=True&loc=Local"
+Mysql.Dbname= "looklook_admin"
+Mysql.Username="root"
+Mysql.Password="PXDN93VRKUm8TeE7"
+Mysql.MaxIdleConns=3
+Mysql.MaxOpenConns=10
+Mysql.LogMode=""
+#jwt config
+JWT.ExpiresTime=86400
+JWT.BufferTime=604800
+JWT.Issuer="new-it"
+JWT.SigningKey="4rfvgy765-qwerty54321"
