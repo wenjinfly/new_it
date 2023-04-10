@@ -24,9 +24,11 @@ func main() {
 
 	conapp.Get(ctx, "ddd")
 
-	mysql, _ := conapp.GetConfigJWT(ctx)
+	//fmt.Println(global.GLB_CFG_APP.DbType)
+	//fmt.Println(global.GLB_CFG_APP.Mysql.Ip)
+	// mysql, _ := conapp.GetConfigJWT(ctx)
 
-	fmt.Println(mysql)
+	// fmt.Println(mysql)
 
 	fmt.Println("hello new it !")
 }

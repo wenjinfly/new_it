@@ -5,6 +5,8 @@ import (
 )
 
 type ConfigInfo struct {
-	JWT   model.JWT
-	Mysql model.Mysql
+	//weaver.AutoMarshal
+	DbType string //数据库类型
+	JWT    model.JWT
+	Mysql  model.Mysql
 }

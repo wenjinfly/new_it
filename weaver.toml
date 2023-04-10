@@ -2,6 +2,7 @@
 binary = "new_it"
 
 ["new_it/app/configApp/ConfigApp"]
+DbType = "mysql"
 Mysql.Ip = "192.168.0.169"
 Mysql.Port = "33069"
 Mysql.Config= "charset=utf8mb4&parseTime=True&loc=Local"

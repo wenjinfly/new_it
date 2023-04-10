@@ -9,6 +9,9 @@ import (
 
 type ConfigApp interface {
 	Get(ctx context.Context, key string) (string, error)
+	GetDBType(ctx context.Context) (string, error)
+	//CopyCfg(ctx context.Context) (ConfigInfo, error)
+
 	//GetConfigMysql(ctx context.Context) (model.Mysql, error)
 	//GetConfigJWT(ctx context.Context) (model.JWT, error)
 }
@@ -16,6 +19,25 @@ type ConfigApp interface {
 type config_app struct {
 	weaver.Implements[ConfigApp]
 	weaver.WithConfig[ConfigInfo]
+}
+
+// func (c *config_app) CopyCfg(ctx context.Context) (ConfigInfo, error) {
+// 	var cfg ConfigInfo
+
+// 	cfg.DbType = c.Config().DbType
+// 	cfg.Mysql.Ip = c.Config().Mysql.Ip
+
+// 	return cfg, nil
+
+// }
+
+func (c *config_app) GetDBType(ctx context.Context) (string, error) {
+	dbtype := c.Config().DbType
+	if dbtype == "" {
+		dbtype = "mysql"
+	}
+
+	return dbtype, nil
 }
 
 // func (c *config_app) GetConfigJWT(ctx context.Context) (model.JWT, error) {

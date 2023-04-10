@@ -20,7 +20,7 @@ func init() {
 			return configApp_local_stub{impl: impl.(ConfigApp), tracer: tracer}
 		},
 		ClientStubFn: func(stub codegen.Stub, caller string) any {
-			return configApp_client_stub{stub: stub, getMetrics: codegen.MethodMetricsFor(codegen.MethodLabels{Caller: caller, Component: "new_it/app/configApp/ConfigApp", Method: "Get"})}
+			return configApp_client_stub{stub: stub, getMetrics: codegen.MethodMetricsFor(codegen.MethodLabels{Caller: caller, Component: "new_it/app/configApp/ConfigApp", Method: "Get"}), getDBTypeMetrics: codegen.MethodMetricsFor(codegen.MethodLabels{Caller: caller, Component: "new_it/app/configApp/ConfigApp", Method: "GetDBType"})}
 		},
 		ServerStubFn: func(impl any, addLoad func(uint64, float64)) codegen.Server {
 			return configApp_server_stub{impl: impl.(ConfigApp), addLoad: addLoad}
@@ -52,11 +52,29 @@ func (s configApp_local_stub) Get(ctx context.Context, a0 string) (r0 string, er
 	return s.impl.Get(ctx, a0)
 }
 
+func (s configApp_local_stub) GetDBType(ctx context.Context) (r0 string, err error) {
+	span := trace.SpanFromContext(ctx)
+	if span.SpanContext().IsValid() {
+		// Create a child span for this method.
+		ctx, span = s.tracer.Start(ctx, "configApp.ConfigApp.GetDBType", trace.WithSpanKind(trace.SpanKindInternal))
+		defer func() {
+			if err != nil {
+				span.RecordError(err)
+				span.SetStatus(codes.Error, err.Error())
+			}
+			span.End()
+		}()
+	}
+
+	return s.impl.GetDBType(ctx)
+}
+
 // Client stub implementations.
 
 type configApp_client_stub struct {
-	stub       codegen.Stub
-	getMetrics *codegen.MethodMetrics
+	stub             codegen.Stub
+	getMetrics       *codegen.MethodMetrics
+	getDBTypeMetrics *codegen.MethodMetrics
 }
 
 func (s configApp_client_stub) Get(ctx context.Context, a0 string) (r0 string, err error) {
@@ -113,6 +131,52 @@ func (s configApp_client_stub) Get(ctx context.Context, a0 string) (r0 string, e
 	return
 }
 
+func (s configApp_client_stub) GetDBType(ctx context.Context) (r0 string, err error) {
+	// Update metrics.
+	start := time.Now()
+	s.getDBTypeMetrics.Count.Add(1)
+
+	span := trace.SpanFromContext(ctx)
+	if span.SpanContext().IsValid() {
+		// Create a child span for this method.
+		ctx, span = s.stub.Tracer().Start(ctx, "configApp.ConfigApp.GetDBType", trace.WithSpanKind(trace.SpanKindClient))
+	}
+
+	defer func() {
+		// Catch and return any panics detected during encoding/decoding/rpc.
+		if err == nil {
+			err = codegen.CatchPanics(recover())
+		}
+		err = s.stub.WrapError(err)
+
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, err.Error())
+			s.getDBTypeMetrics.ErrorCount.Add(1)
+		}
+		span.End()
+
+		s.getDBTypeMetrics.Latency.Put(float64(time.Since(start).Microseconds()))
+	}()
+
+	var shardKey uint64
+
+	// Call the remote method.
+	s.getDBTypeMetrics.BytesRequest.Put(0)
+	var results []byte
+	results, err = s.stub.Run(ctx, 1, nil, shardKey)
+	if err != nil {
+		return
+	}
+	s.getDBTypeMetrics.BytesReply.Put(float64(len(results)))
+
+	// Decode the results.
+	dec := codegen.NewDecoder(results)
+	r0 = dec.String()
+	err = dec.Error()
+	return
+}
+
 // Server stub implementations.
 
 type configApp_server_stub struct {
@@ -125,6 +189,8 @@ func (s configApp_server_stub) GetStubFn(method string) func(ctx context.Context
 	switch method {
 	case "Get":
 		return s.get
+	case "GetDBType":
+		return s.getDBType
 	default:
 		return nil
 	}
@@ -147,6 +213,26 @@ func (s configApp_server_stub) get(ctx context.Context, args []byte) (res []byte
 	// user code: fix this.
 	// Call the local method.
 	r0, appErr := s.impl.Get(ctx, a0)
+
+	// Encode the results.
+	enc := codegen.NewEncoder()
+	enc.String(r0)
+	enc.Error(appErr)
+	return enc.Data(), nil
+}
+
+func (s configApp_server_stub) getDBType(ctx context.Context, args []byte) (res []byte, err error) {
+	// Catch and return any panics detected during encoding/decoding/rpc.
+	defer func() {
+		if err == nil {
+			err = codegen.CatchPanics(recover())
+		}
+	}()
+
+	// TODO(rgrandl): The deferred function above will recover from panics in the
+	// user code: fix this.
+	// Call the local method.
+	r0, appErr := s.impl.GetDBType(ctx)
 
 	// Encode the results.
 	enc := codegen.NewEncoder()

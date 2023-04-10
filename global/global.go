@@ -1,6 +1,7 @@
 package global
 
 import (
+	"new_it/app/configApp"
 	"sync"
 
 	"github.com/ServiceWeaver/weaver"
@@ -11,6 +12,7 @@ var (
 	GLB_WEAVER_ROOT weaver.Instance
 	GLB_DB          *gorm.DB
 	GLB_DBList      map[string]*gorm.DB
+	GLB_CFG_APP     configApp.ConfigInfo
 
 	lock sync.RWMutex
 )
