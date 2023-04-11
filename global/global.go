@@ -12,7 +12,7 @@ var (
 	GLB_WEAVER_ROOT weaver.Instance
 	GLB_DB          *gorm.DB
 	GLB_DBList      map[string]*gorm.DB
-	GLB_CFG_APP     configApp.ConfigInfo
+	GLB_CFG_INFO    *configApp.ConfigInfo
 
 	lock sync.RWMutex
 )

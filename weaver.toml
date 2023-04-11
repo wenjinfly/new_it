@@ -6,7 +6,7 @@ DbType = "mysql"
 Mysql.Ip = "192.168.0.169"
 Mysql.Port = "33069"
 Mysql.Config= "charset=utf8mb4&parseTime=True&loc=Local"
-Mysql.Dbname= "looklook_admin"
+Mysql.Dbname= "new_it"
 Mysql.Username="root"
 Mysql.Password="PXDN93VRKUm8TeE7"
 Mysql.MaxIdleConns=3

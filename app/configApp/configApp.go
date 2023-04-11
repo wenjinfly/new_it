@@ -12,6 +12,8 @@ type ConfigApp interface {
 
 	GetConfigMysql(ctx context.Context) (model.Mysql, error)
 	GetConfigJWT(ctx context.Context) (model.JWT, error)
+
+	GetConfigConfigInfo(ctx context.Context) (*ConfigInfo, error)
 }
 
 type config_app struct {
@@ -40,4 +42,11 @@ func (c *config_app) GetConfigMysql(ctx context.Context) (model.Mysql, error) {
 	mysql := c.Config().Mysql
 
 	return mysql, nil
+}
+
+func (c *config_app) GetConfigConfigInfo(ctx context.Context) (*ConfigInfo, error) {
+
+	cfg := c.Config()
+
+	return cfg, nil
 }
