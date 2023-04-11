@@ -6,6 +6,7 @@ import (
 	"github.com/ServiceWeaver/weaver/runtime/codegen"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
+	"new_it/app/configApp/model"
 	"reflect"
 	"time"
 )
@@ -20,7 +21,7 @@ func init() {
 			return configApp_local_stub{impl: impl.(ConfigApp), tracer: tracer}
 		},
 		ClientStubFn: func(stub codegen.Stub, caller string) any {
-			return configApp_client_stub{stub: stub, getMetrics: codegen.MethodMetricsFor(codegen.MethodLabels{Caller: caller, Component: "new_it/app/configApp/ConfigApp", Method: "Get"}), getDBTypeMetrics: codegen.MethodMetricsFor(codegen.MethodLabels{Caller: caller, Component: "new_it/app/configApp/ConfigApp", Method: "GetDBType"})}
+			return configApp_client_stub{stub: stub, getDBTypeMetrics: codegen.MethodMetricsFor(codegen.MethodLabels{Caller: caller, Component: "new_it/app/configApp/ConfigApp", Method: "GetDBType"}), getConfigMysqlMetrics: codegen.MethodMetricsFor(codegen.MethodLabels{Caller: caller, Component: "new_it/app/configApp/ConfigApp", Method: "GetConfigMysql"}), getConfigJWTMetrics: codegen.MethodMetricsFor(codegen.MethodLabels{Caller: caller, Component: "new_it/app/configApp/ConfigApp", Method: "GetConfigJWT"})}
 		},
 		ServerStubFn: func(impl any, addLoad func(uint64, float64)) codegen.Server {
 			return configApp_server_stub{impl: impl.(ConfigApp), addLoad: addLoad}
@@ -33,23 +34,6 @@ func init() {
 type configApp_local_stub struct {
 	impl   ConfigApp
 	tracer trace.Tracer
-}
-
-func (s configApp_local_stub) Get(ctx context.Context, a0 string) (r0 string, err error) {
-	span := trace.SpanFromContext(ctx)
-	if span.SpanContext().IsValid() {
-		// Create a child span for this method.
-		ctx, span = s.tracer.Start(ctx, "configApp.ConfigApp.Get", trace.WithSpanKind(trace.SpanKindInternal))
-		defer func() {
-			if err != nil {
-				span.RecordError(err)
-				span.SetStatus(codes.Error, err.Error())
-			}
-			span.End()
-		}()
-	}
-
-	return s.impl.Get(ctx, a0)
 }
 
 func (s configApp_local_stub) GetDBType(ctx context.Context) (r0 string, err error) {
@@ -69,66 +53,47 @@ func (s configApp_local_stub) GetDBType(ctx context.Context) (r0 string, err err
 	return s.impl.GetDBType(ctx)
 }
 
-// Client stub implementations.
-
-type configApp_client_stub struct {
-	stub             codegen.Stub
-	getMetrics       *codegen.MethodMetrics
-	getDBTypeMetrics *codegen.MethodMetrics
-}
-
-func (s configApp_client_stub) Get(ctx context.Context, a0 string) (r0 string, err error) {
-	// Update metrics.
-	start := time.Now()
-	s.getMetrics.Count.Add(1)
-
+func (s configApp_local_stub) GetConfigMysql(ctx context.Context) (r0 model.Mysql, err error) {
 	span := trace.SpanFromContext(ctx)
 	if span.SpanContext().IsValid() {
 		// Create a child span for this method.
-		ctx, span = s.stub.Tracer().Start(ctx, "configApp.ConfigApp.Get", trace.WithSpanKind(trace.SpanKindClient))
+		ctx, span = s.tracer.Start(ctx, "configApp.ConfigApp.GetConfigMysql", trace.WithSpanKind(trace.SpanKindInternal))
+		defer func() {
+			if err != nil {
+				span.RecordError(err)
+				span.SetStatus(codes.Error, err.Error())
+			}
+			span.End()
+		}()
 	}
 
-	defer func() {
-		// Catch and return any panics detected during encoding/decoding/rpc.
-		if err == nil {
-			err = codegen.CatchPanics(recover())
-		}
-		err = s.stub.WrapError(err)
+	return s.impl.GetConfigMysql(ctx)
+}
 
-		if err != nil {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, err.Error())
-			s.getMetrics.ErrorCount.Add(1)
-		}
-		span.End()
-
-		s.getMetrics.Latency.Put(float64(time.Since(start).Microseconds()))
-	}()
-
-	// Preallocate a buffer of the right size.
-	size := 0
-	size += (4 + len(a0))
-	enc := codegen.NewEncoder()
-	enc.Reset(size)
-
-	// Encode arguments.
-	enc.String(a0)
-	var shardKey uint64
-
-	// Call the remote method.
-	s.getMetrics.BytesRequest.Put(float64(len(enc.Data())))
-	var results []byte
-	results, err = s.stub.Run(ctx, 0, enc.Data(), shardKey)
-	if err != nil {
-		return
+func (s configApp_local_stub) GetConfigJWT(ctx context.Context) (r0 model.JWT, err error) {
+	span := trace.SpanFromContext(ctx)
+	if span.SpanContext().IsValid() {
+		// Create a child span for this method.
+		ctx, span = s.tracer.Start(ctx, "configApp.ConfigApp.GetConfigJWT", trace.WithSpanKind(trace.SpanKindInternal))
+		defer func() {
+			if err != nil {
+				span.RecordError(err)
+				span.SetStatus(codes.Error, err.Error())
+			}
+			span.End()
+		}()
 	}
-	s.getMetrics.BytesReply.Put(float64(len(results)))
 
-	// Decode the results.
-	dec := codegen.NewDecoder(results)
-	r0 = dec.String()
-	err = dec.Error()
-	return
+	return s.impl.GetConfigJWT(ctx)
+}
+
+// Client stub implementations.
+
+type configApp_client_stub struct {
+	stub                  codegen.Stub
+	getDBTypeMetrics      *codegen.MethodMetrics
+	getConfigMysqlMetrics *codegen.MethodMetrics
+	getConfigJWTMetrics   *codegen.MethodMetrics
 }
 
 func (s configApp_client_stub) GetDBType(ctx context.Context) (r0 string, err error) {
@@ -164,7 +129,7 @@ func (s configApp_client_stub) GetDBType(ctx context.Context) (r0 string, err er
 	// Call the remote method.
 	s.getDBTypeMetrics.BytesRequest.Put(0)
 	var results []byte
-	results, err = s.stub.Run(ctx, 1, nil, shardKey)
+	results, err = s.stub.Run(ctx, 2, nil, shardKey)
 	if err != nil {
 		return
 	}
@@ -173,6 +138,98 @@ func (s configApp_client_stub) GetDBType(ctx context.Context) (r0 string, err er
 	// Decode the results.
 	dec := codegen.NewDecoder(results)
 	r0 = dec.String()
+	err = dec.Error()
+	return
+}
+
+func (s configApp_client_stub) GetConfigMysql(ctx context.Context) (r0 model.Mysql, err error) {
+	// Update metrics.
+	start := time.Now()
+	s.getConfigMysqlMetrics.Count.Add(1)
+
+	span := trace.SpanFromContext(ctx)
+	if span.SpanContext().IsValid() {
+		// Create a child span for this method.
+		ctx, span = s.stub.Tracer().Start(ctx, "configApp.ConfigApp.GetConfigMysql", trace.WithSpanKind(trace.SpanKindClient))
+	}
+
+	defer func() {
+		// Catch and return any panics detected during encoding/decoding/rpc.
+		if err == nil {
+			err = codegen.CatchPanics(recover())
+		}
+		err = s.stub.WrapError(err)
+
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, err.Error())
+			s.getConfigMysqlMetrics.ErrorCount.Add(1)
+		}
+		span.End()
+
+		s.getConfigMysqlMetrics.Latency.Put(float64(time.Since(start).Microseconds()))
+	}()
+
+	var shardKey uint64
+
+	// Call the remote method.
+	s.getConfigMysqlMetrics.BytesRequest.Put(0)
+	var results []byte
+	results, err = s.stub.Run(ctx, 1, nil, shardKey)
+	if err != nil {
+		return
+	}
+	s.getConfigMysqlMetrics.BytesReply.Put(float64(len(results)))
+
+	// Decode the results.
+	dec := codegen.NewDecoder(results)
+	(&r0).WeaverUnmarshal(dec)
+	err = dec.Error()
+	return
+}
+
+func (s configApp_client_stub) GetConfigJWT(ctx context.Context) (r0 model.JWT, err error) {
+	// Update metrics.
+	start := time.Now()
+	s.getConfigJWTMetrics.Count.Add(1)
+
+	span := trace.SpanFromContext(ctx)
+	if span.SpanContext().IsValid() {
+		// Create a child span for this method.
+		ctx, span = s.stub.Tracer().Start(ctx, "configApp.ConfigApp.GetConfigJWT", trace.WithSpanKind(trace.SpanKindClient))
+	}
+
+	defer func() {
+		// Catch and return any panics detected during encoding/decoding/rpc.
+		if err == nil {
+			err = codegen.CatchPanics(recover())
+		}
+		err = s.stub.WrapError(err)
+
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, err.Error())
+			s.getConfigJWTMetrics.ErrorCount.Add(1)
+		}
+		span.End()
+
+		s.getConfigJWTMetrics.Latency.Put(float64(time.Since(start).Microseconds()))
+	}()
+
+	var shardKey uint64
+
+	// Call the remote method.
+	s.getConfigJWTMetrics.BytesRequest.Put(0)
+	var results []byte
+	results, err = s.stub.Run(ctx, 0, nil, shardKey)
+	if err != nil {
+		return
+	}
+	s.getConfigJWTMetrics.BytesReply.Put(float64(len(results)))
+
+	// Decode the results.
+	dec := codegen.NewDecoder(results)
+	(&r0).WeaverUnmarshal(dec)
 	err = dec.Error()
 	return
 }
@@ -187,38 +244,15 @@ type configApp_server_stub struct {
 // GetStubFn implements the stub.Server interface.
 func (s configApp_server_stub) GetStubFn(method string) func(ctx context.Context, args []byte) ([]byte, error) {
 	switch method {
-	case "Get":
-		return s.get
 	case "GetDBType":
 		return s.getDBType
+	case "GetConfigMysql":
+		return s.getConfigMysql
+	case "GetConfigJWT":
+		return s.getConfigJWT
 	default:
 		return nil
 	}
-}
-
-func (s configApp_server_stub) get(ctx context.Context, args []byte) (res []byte, err error) {
-	// Catch and return any panics detected during encoding/decoding/rpc.
-	defer func() {
-		if err == nil {
-			err = codegen.CatchPanics(recover())
-		}
-	}()
-
-	// Decode arguments.
-	dec := codegen.NewDecoder(args)
-	var a0 string
-	a0 = dec.String()
-
-	// TODO(rgrandl): The deferred function above will recover from panics in the
-	// user code: fix this.
-	// Call the local method.
-	r0, appErr := s.impl.Get(ctx, a0)
-
-	// Encode the results.
-	enc := codegen.NewEncoder()
-	enc.String(r0)
-	enc.Error(appErr)
-	return enc.Data(), nil
 }
 
 func (s configApp_server_stub) getDBType(ctx context.Context, args []byte) (res []byte, err error) {
@@ -237,6 +271,46 @@ func (s configApp_server_stub) getDBType(ctx context.Context, args []byte) (res 
 	// Encode the results.
 	enc := codegen.NewEncoder()
 	enc.String(r0)
+	enc.Error(appErr)
+	return enc.Data(), nil
+}
+
+func (s configApp_server_stub) getConfigMysql(ctx context.Context, args []byte) (res []byte, err error) {
+	// Catch and return any panics detected during encoding/decoding/rpc.
+	defer func() {
+		if err == nil {
+			err = codegen.CatchPanics(recover())
+		}
+	}()
+
+	// TODO(rgrandl): The deferred function above will recover from panics in the
+	// user code: fix this.
+	// Call the local method.
+	r0, appErr := s.impl.GetConfigMysql(ctx)
+
+	// Encode the results.
+	enc := codegen.NewEncoder()
+	(r0).WeaverMarshal(enc)
+	enc.Error(appErr)
+	return enc.Data(), nil
+}
+
+func (s configApp_server_stub) getConfigJWT(ctx context.Context, args []byte) (res []byte, err error) {
+	// Catch and return any panics detected during encoding/decoding/rpc.
+	defer func() {
+		if err == nil {
+			err = codegen.CatchPanics(recover())
+		}
+	}()
+
+	// TODO(rgrandl): The deferred function above will recover from panics in the
+	// user code: fix this.
+	// Call the local method.
+	r0, appErr := s.impl.GetConfigJWT(ctx)
+
+	// Encode the results.
+	enc := codegen.NewEncoder()
+	(r0).WeaverMarshal(enc)
 	enc.Error(appErr)
 	return enc.Data(), nil
 }

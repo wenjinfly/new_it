@@ -22,13 +22,13 @@ func main() {
 
 	ctx := context.Background()
 
-	conapp.Get(ctx, "ddd")
-
 	//fmt.Println(global.GLB_CFG_APP.DbType)
 	//fmt.Println(global.GLB_CFG_APP.Mysql.Ip)
-	// mysql, _ := conapp.GetConfigJWT(ctx)
+	jwt, _ := conapp.GetConfigJWT(ctx)
+	mysql, _ := conapp.GetConfigMysql(ctx)
 
-	// fmt.Println(mysql)
+	fmt.Println(jwt)
+	fmt.Println(mysql)
 
 	fmt.Println("hello new it !")
 }
