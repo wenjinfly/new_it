@@ -19,16 +19,23 @@ type usercent_App struct {
 
 func (u *usercent_App) RegisterTables(ctx context.Context) error {
 
-	err := global.GLB_DB.AutoMigrate(
-		model.SysUsers{},
-	)
-
+	var err error
 	log := u.Logger()
-	if err != nil {
-		log.Error("register table failed", err)
-		os.Exit(0)
+	//建表,每个模块都有自己的Tables
+	for _, t := range Tables {
+		err = global.GLB_DB.AutoMigrate(t)
+		if nil != err {
+			if err != nil {
+				log.Error("register usercent_App table failed", err)
+				os.Exit(0)
+			}
+			return err
+		}
+
+		log.Info("register " + t.(model.TableName_).TableName() + "success")
 	}
-	log.Info("register table success")
+
+	log.Info("register usercent_App table success")
 
 	return err
 }
