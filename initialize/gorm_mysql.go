@@ -12,7 +12,7 @@ func Gorm_mysql() *gorm.DB {
 	m := global.GLB_CFG_INFO.Mysql
 	if m.Dbname == "" {
 		panic("can not find dbname")
-		return nil
+		//return nil
 	}
 
 	mysqlConfig := mysql.Config{
@@ -23,7 +23,7 @@ func Gorm_mysql() *gorm.DB {
 
 	if db, err := gorm.Open(mysql.New(mysqlConfig), &gorm.Config{}); err != nil {
 		panic("can not open db error: " + err.Error())
-		return nil
+		//return nil
 	} else {
 		sqlDB, _ := db.DB()
 		sqlDB.SetMaxIdleConns(m.MaxIdleConns)

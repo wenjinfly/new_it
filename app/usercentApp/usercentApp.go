@@ -11,6 +11,7 @@ import (
 
 type UsercentApp interface {
 	RegisterTables(ctx context.Context) error
+	RegisterRouter(ctx context.Context) error
 }
 
 type usercent_App struct {
@@ -38,4 +39,9 @@ func (u *usercent_App) RegisterTables(ctx context.Context) error {
 	log.Info("register usercent_App table success")
 
 	return err
+}
+
+func (u *usercent_App) RegisterRouter(ctx context.Context) error {
+
+	return nil
 }
