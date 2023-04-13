@@ -2,6 +2,8 @@ package usercentApp
 
 import (
 	"context"
+	"net/http"
+	"new_it/app/usercentApp/api"
 	"new_it/app/usercentApp/model"
 	"new_it/global"
 	"os"
@@ -17,6 +19,8 @@ type UsercentApp interface {
 type usercent_App struct {
 	weaver.Implements[UsercentApp]
 }
+
+//var uApi api.usercentApi
 
 func (u *usercent_App) RegisterTables(ctx context.Context) error {
 
@@ -42,6 +46,8 @@ func (u *usercent_App) RegisterTables(ctx context.Context) error {
 }
 
 func (u *usercent_App) RegisterRouter(ctx context.Context) error {
+
+	http.HandleFunc("/greeter", api.Login)
 
 	return nil
 }
