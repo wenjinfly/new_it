@@ -4,6 +4,9 @@ go 1.20
 
 require (
 	github.com/ServiceWeaver/weaver v0.3.0
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/satori/go.uuid v1.2.0
 	go.opentelemetry.io/otel v1.13.0
 	go.opentelemetry.io/otel/trace v1.13.0
 	gorm.io/driver/mysql v1.5.0

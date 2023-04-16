@@ -3,7 +3,6 @@ package usercentApp
 import (
 	"context"
 	"net/http"
-	"new_it/app/usercentApp/api"
 	"new_it/app/usercentApp/model"
 	"new_it/global"
 	"os"
@@ -47,7 +46,17 @@ func (u *usercent_App) RegisterTables(ctx context.Context) error {
 
 func (u *usercent_App) RegisterRouter(ctx context.Context) error {
 
-	http.HandleFunc("/greeter", api.Login)
+	var err error
+	log := u.Logger()
+	//每个组件或APP都有自己的路由
+	for _, t := range RouterList {
 
-	return nil
+		http.HandleFunc(t.router, t.handler)
+
+		log.Info("register " + t.router + "success")
+	}
+
+	log.Info("register Router success")
+
+	return err
 }

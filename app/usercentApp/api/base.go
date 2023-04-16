@@ -1,3 +1,9 @@
 package api
 
-type usercentApi struct{}
+type UsercentApiGroup struct {
+	UsercentApi
+}
+
+var (
+	UserApi = UsercentApi{}
+)

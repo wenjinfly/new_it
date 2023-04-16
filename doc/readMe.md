@@ -14,8 +14,8 @@ SERVICEWEAVER_CONFIG=weaver.toml go run .
 weaver multi deploy weaver.toml
 
 使用命令
-curl "localhost:12345/greeter?name=66188"
 
+curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "password":"100" }' "http://127.0.0.1:12345/login"
 
 
 

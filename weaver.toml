@@ -16,4 +16,4 @@ Mysql.LogMode=""
 JWT.ExpiresTime=86400
 JWT.BufferTime=604800
 JWT.Issuer="new-it"
-JWT.SigningKey="4rfvgy765-qwerty54321"
+JWT.SigningKey="ff76be17-bca3-a2f4-a6c3-66da4f1bcfee"
