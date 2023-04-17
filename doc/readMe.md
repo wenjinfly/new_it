@@ -20,3 +20,8 @@ curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "passwo
 
 
 #mysql config
+
+#数据模型
+文件是newit.pdma.json
+使用PDManer打开
+
