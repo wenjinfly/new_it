@@ -7,3 +7,7 @@ type LoginResponse struct {
 	Token     string         `json:"token"`
 	ExpiresAt int64          `json:"expiresAt"`
 }
+
+type SysUserResponse struct {
+	User model.SysUsers `json:"user"`
+}

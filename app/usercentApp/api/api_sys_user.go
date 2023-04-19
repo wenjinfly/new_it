@@ -10,6 +10,7 @@ import (
 	"new_it/app/usercentApp/model"
 	"new_it/app/usercentApp/service"
 	"new_it/common"
+	"new_it/errorcode"
 	"new_it/global"
 	"new_it/utils"
 )
@@ -34,27 +35,29 @@ func (us *UsercentApi) Login(w http.ResponseWriter, r *http.Request) {
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		fmt.Printf("read body err, %v\n", err)
+		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+
 		return
 	}
-	fmt.Println("body :", string(body))
 	if err := json.Unmarshal(body, &l); err != nil {
-		fmt.Printf("Unmarshal err, %v\n", err)
+		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+
 		return
 	}
-	fmt.Println("body struct:", l)
 
 	//2 从数据库查看是否存在
 	var token string
 	var ExpiresAt int64
-	var msg []byte
 
 	u := &model.SysUsers{UserName: l.Username, Password: l.Password}
 	if err, user := service.UserServices.Login(u); err != nil {
-		//response.FailWithMessage("用户名不存在或者密码错误", c)
+		common.HttpErrorResponse(w, *errorcode.ErrUserOrPassword)
 	} else {
-		fmt.Println(user)
-		token, ExpiresAt, _ = getNewToken(user)
+		token, ExpiresAt, err = getNewToken(user)
+		if err != nil {
+			common.HttpErrorResponse(w, *errorcode.ErrTokenSign)
+			return
+		}
 
 		user.Password = "xxx"
 		user.IdentityCard = "111"
@@ -65,14 +68,8 @@ func (us *UsercentApi) Login(w http.ResponseWriter, r *http.Request) {
 			ExpiresAt: ExpiresAt * 1000,
 		}
 
-		msg, _ = json.Marshal(res)
+		common.HttpOKResponse(w, res)
 	}
-
-	//3 返回token
-	//fmt.Println("token:", token)
-	w.WriteHeader(http.StatusOK)
-
-	w.Write(msg)
 
 }
 
@@ -87,9 +84,7 @@ func getNewToken(user *model.SysUsers) (string, int64, error) {
 	})
 	token, err := j.CreateToken(claims)
 	if err != nil {
-		//global.GVA_LOG.Error("获取token失败!", zap.Error(err))
-		//response.FailWithMessage("获取token失败", c)
-		//return
+		return "", 0, err
 	}
 
 	return token, claims.StandardClaims.ExpiresAt, err
@@ -102,6 +97,17 @@ func getNewToken(user *model.SysUsers) (string, int64, error) {
 // @Success 200 {object} response.Response{data=systemRes.SysUserResponse,msg=string} "用户注册账号,返回包括用户信息"
 // @Router /user/register [post]
 func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
+	var req request.Register
+
+	user := &model.SysUsers{UserName: req.Username, NickName: req.NickName, Password: req.Password, HeaderImg: req.HeaderImg, AuthorityId: req.AuthorityId}
+	err, userReturn := service.UserServices.Register(*user)
+	if err != nil {
+		common.HttpErrorResponse(w, *errorcode.ErrUserExist)
+		return
+	}
+
+	common.HttpOKResponse(w, userReturn)
+
 }
 
 // @Tags SysUser
