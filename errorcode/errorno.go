@@ -9,3 +9,8 @@ type Errno struct {
 func (err Errno) Error() string {
 	return err.Message
 }
+
+func (err Errno) FillMsg(msg string) Errno {
+	err.Message = msg
+	return err
+}

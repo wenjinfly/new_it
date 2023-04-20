@@ -22,7 +22,7 @@ type UsercentApi struct{}
 // @Produce  application/json
 // @Param data body systemReq.Login true "用户名, 密码"
 // @Success 200 {object} response.Response{data=systemRes.LoginResponse,msg=string} "返回包括用户信息,token,过期时间"
-// @Router /base/login [post]
+// @Router /login [post]
 func (us *UsercentApi) Login(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Login")
 	//1 获取传入的用户信息
@@ -99,10 +99,23 @@ func getNewToken(user *model.SysUsers) (string, int64, error) {
 func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
 	var req request.Register
 
-	user := &model.SysUsers{UserName: req.Username, NickName: req.NickName, Password: req.Password, HeaderImg: req.HeaderImg, AuthorityId: req.AuthorityId}
-	err, userReturn := service.UserServices.Register(*user)
+	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		common.HttpErrorResponse(w, *errorcode.ErrUserExist)
+		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+
+		return
+	}
+	if err := json.Unmarshal(body, &req); err != nil {
+		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+
+		return
+	}
+
+	user := &model.SysUsers{UserName: req.Username, NickName: req.NickName, Password: req.Password, HeaderImg: req.HeaderImg, AuthorityId: req.AuthorityId}
+	err, userReturn := service.UserServices.Register(user)
+	if err != nil {
+		common.HttpErrorResponse(w, errorcode.ErrUserCenterComm.FillMsg(err.Error()))
+
 		return
 	}
 
@@ -117,7 +130,29 @@ func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
 // @Param data body systemReq.ChangePasswordStruct true "用户名, 原密码, 新密码"
 // @Success 200 {object} response.Response{msg=string} "用户修改密码"
 // @Router /user/changePassword [post]
-func (us *UsercentApi) ChangePassword(w http.ResponseWriter, r *http.Request) {}
+func (us *UsercentApi) ChangePassword(w http.ResponseWriter, r *http.Request) {
+	var user request.ChangePasswordStruct
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+
+		return
+	}
+	if err := json.Unmarshal(body, &user); err != nil {
+		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+
+		return
+	}
+
+	u := &model.SysUsers{UserName: user.Username, Password: user.Password}
+	if err, _ := service.UserServices.ChangePassword(u, user.NewPassword); err != nil {
+		common.HttpErrorResponse(w, errorcode.ErrUserCenterComm.FillMsg("修改失败，原密码与当前账户不符"))
+	} else {
+		common.HttpOKResponse(w, nil)
+
+	}
+}
 
 // @Tags SysUser
 // @Summary 分页获取用户列表
@@ -195,4 +230,34 @@ func (us *UsercentApi) GetUserInfo(w http.ResponseWriter, r *http.Request) {}
 // @Param data body system.SysUser true "ID"
 // @Success 200 {object} response.Response{msg=string} "重置用户密码"
 // @Router /user/resetPassword [post]
-func (us *UsercentApi) ResetPassword(w http.ResponseWriter, r *http.Request) {}
+func (us *UsercentApi) ResetPassword(w http.ResponseWriter, r *http.Request) {
+	var user model.SysUsers
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+
+		return
+	}
+	if err := json.Unmarshal(body, &user); err != nil {
+		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+
+		return
+	}
+
+	if 0 == user.UserId {
+		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+
+		return
+	}
+
+	fmt.Println("UserId=", user.UserId)
+
+	if err := service.UserServices.ResetPassword(user.UserId); err != nil {
+		common.HttpErrorResponse(w, errorcode.ErrUserCenterComm.FillMsg("重置失败-"+err.Error()))
+
+	} else {
+		common.HttpOKResponse(w, nil)
+	}
+
+}

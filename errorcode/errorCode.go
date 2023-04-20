@@ -29,4 +29,5 @@ var (
 	ErrPasswordIncorrect = &Errno{Code: 20302, Message: "密码错误"}
 	ErrUserOrPassword    = &Errno{Code: 20303, Message: "用户或密码错误"}
 	ErrUserExist         = &Errno{Code: 20303, Message: "用户已经存在不能注册"}
+	ErrUserCenterComm    = &Errno{Code: 20399, Message: ""} //通用错误可以自己补存msg
 )

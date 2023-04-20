@@ -36,7 +36,7 @@ func (u *usercent_App) RegisterTables(ctx context.Context) error {
 			return err
 		}
 
-		log.Info("register " + t.(model.TableName_).TableName() + "success")
+		log.Info("register " + t.(model.TableName_).TableName() + " table success")
 	}
 
 	log.Info("register usercent_App table success")
@@ -53,7 +53,7 @@ func (u *usercent_App) RegisterRouter(ctx context.Context) error {
 
 		http.HandleFunc(t.router, t.handler)
 
-		log.Info("register " + t.router + "success")
+		log.Info("register " + t.router + " success")
 	}
 
 	log.Info("register Router success")

@@ -17,7 +17,13 @@ weaver multi deploy weaver.toml
 
 curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "password":"100" }' "http://127.0.0.1:12345/login"
 
+curl -H "Content-Type: application/json" -X POST -d '{"username": "hello", "password":"1003","nickname":"good","authorityId":"1" }' "http://127.0.0.1:12345/user/register"
 
+
+curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "password":"100","newPassword":"345" }' "http://127.0.0.1:12345/user/changePassword"
+
+
+curl -H "Content-Type: application/json" -X POST -d '{"UserId": 2 }' "http://127.0.0.1:12345/user/resetPassword"
 
 #mysql config
 
