@@ -1,9 +1,7 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"new_it/app/usercentApp/api/request"
 	"new_it/app/usercentApp/api/response"
@@ -33,13 +31,8 @@ func (us *UsercentApi) Login(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Content-Type", v2)
 	}
 
-	body, err := ioutil.ReadAll(r.Body)
+	err := common.HttpRequest2Struct(r, &l)
 	if err != nil {
-		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
-
-		return
-	}
-	if err := json.Unmarshal(body, &l); err != nil {
 		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
 
 		return
@@ -99,13 +92,8 @@ func getNewToken(user *model.SysUsers) (string, int64, error) {
 func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
 	var req request.Register
 
-	body, err := ioutil.ReadAll(r.Body)
+	err := common.HttpRequest2Struct(r, &req)
 	if err != nil {
-		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
-
-		return
-	}
-	if err := json.Unmarshal(body, &req); err != nil {
 		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
 
 		return
@@ -118,6 +106,9 @@ func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
+
+	userReturn.Password = "xxx"
+	userReturn.IdentityCard = "111"
 
 	common.HttpOKResponse(w, userReturn)
 
@@ -133,15 +124,10 @@ func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
 func (us *UsercentApi) ChangePassword(w http.ResponseWriter, r *http.Request) {
 	var user request.ChangePasswordStruct
 
-	body, err := ioutil.ReadAll(r.Body)
+	err := common.HttpRequest2Struct(r, &user)
+
 	if err != nil {
 		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
-
-		return
-	}
-	if err := json.Unmarshal(body, &user); err != nil {
-		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
-
 		return
 	}
 
@@ -233,19 +219,14 @@ func (us *UsercentApi) GetUserInfo(w http.ResponseWriter, r *http.Request) {}
 func (us *UsercentApi) ResetPassword(w http.ResponseWriter, r *http.Request) {
 	var user model.SysUsers
 
-	body, err := ioutil.ReadAll(r.Body)
+	err := common.HttpRequest2Struct(r, &user)
+
 	if err != nil {
 		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
-
-		return
-	}
-	if err := json.Unmarshal(body, &user); err != nil {
-		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
-
 		return
 	}
 
-	if 0 == user.UserId {
+	if user.UserId == 0 {
 		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
 
 		return
