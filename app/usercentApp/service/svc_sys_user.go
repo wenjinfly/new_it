@@ -7,6 +7,7 @@ import (
 	"new_it/common"
 	"new_it/global"
 
+	"github.com/gofrs/uuid"
 	"gorm.io/gorm"
 )
 
@@ -29,8 +30,10 @@ func (userService *UserService) Register(u *model.SysUsers) (err error, userInte
 		return errors.New("用户名已注册"), userInter
 	}
 
-	//u.UUID = uuid.NewV4()
+	uid, _ := uuid.NewV4()
+	u.Uuid = uid.String()
 	err = global.GLB_DB.Create(&u).Error
+
 	return err, u
 }
 

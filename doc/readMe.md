@@ -1,3 +1,5 @@
+go mod tidy
+
 这是一个新项目基于service weaver
 
 weaver generate .
@@ -17,7 +19,7 @@ weaver multi deploy weaver.toml
 
 curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "password":"2361bd3bf151f0ec52a3ee762bca3644" }' "http://127.0.0.1:12345/login"
 
-curl -H "Content-Type: application/json" -X POST -d '{"username": "aaaaaa", "password":"56778899","nickname":"yyds","authorityId":"1" }' "http://127.0.0.1:12345/user/register"
+curl -H "Content-Type: application/json" -X POST -d '{"username": "ccccc", "password":"56778899","nickname":"yyds","authorityId":"1" }' "http://127.0.0.1:12345/user/register"
 
 
 curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "password":"2361bd3bf151f0ec52a3ee762bca3644","newPassword":"345" }' "http://127.0.0.1:12345/user/changePassword"
