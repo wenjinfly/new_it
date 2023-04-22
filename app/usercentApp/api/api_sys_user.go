@@ -95,7 +95,6 @@ func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
 	err := common.HttpRequest2Struct(r, &req)
 	if err != nil {
 		common.HttpOKErrorResponse(w, *errorcode.ErrBindParam)
-
 		return
 	}
 
@@ -103,15 +102,12 @@ func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
 	err, userReturn := service.UserServices.Register(user)
 	if err != nil {
 		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
-
 		return
 	}
 
 	userReturn.Password = "xxx"
 	userReturn.IdentityCard = "111"
-
 	common.HttpOKResponse(w, userReturn)
-
 }
 
 // @Tags SysUser

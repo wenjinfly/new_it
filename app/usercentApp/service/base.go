@@ -1,5 +1,6 @@
 package service
 
 var (
-	UserServices = UserService{}
+	UserServices      = UserService{}
+	AuthorityServices = AuthorityService{}
 )

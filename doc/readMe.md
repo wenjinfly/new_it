@@ -34,8 +34,14 @@ curl -H "Content-Type: application/json" -X GET "http://127.0.0.1:12345/user/get
 #有token
 curl -H "Content-Type: application/json" --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiYTgxNTQ3YjktYTRkOC1kZjNmLWM0NzAtYWZlYWExMWVjNTY0IiwiSUQiOjEsIlVzZXJuYW1lIjoiMTIzIiwiQXV0aG9yaXR5SWQiOiIxIiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODIyMzM5NTUsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4MjE0NjU1NX0.OrRw8hfpnedD4hOhGGcwvFPdyC3zfcv41O0qt_qKglQ" -X GET "http://127.0.0.1:12345/user/getUserInfo"
 
+#角色
+curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "666", "AuthorityName":"\u7814\u53d1\u4eba\u5458","ParentId":"0", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
 
+curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "888", "AuthorityName":"\u666e\u901a\u7528\u6237","ParentId":"0", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
 
+#转码
+研发人员 \u7814\u53d1\u4eba\u5458
+普通用户 \u666e\u901a\u7528\u6237
 #mysql config
 
 #数据模型

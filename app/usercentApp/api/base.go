@@ -2,8 +2,10 @@ package api
 
 type UsercentApiGroup struct {
 	UsercentApi
+	AuthorityInfoApi
 }
 
 var (
-	UserApi = UsercentApi{}
+	UserApi      = UsercentApi{}
+	AuthorityApi = AuthorityInfoApi{}
 )
