@@ -16,6 +16,7 @@ import (
 func main() {
 	// Initialize the Service Weaver application.
 	global.GLB_WEAVER_ROOT = weaver.Init(context.Background())
+	global.GLB_LOG = global.GLB_WEAVER_ROOT.Logger()
 
 	// Get a client to the Reverser component.
 	conapp, err := weaver.Get[configApp.ConfigApp](global.GLB_WEAVER_ROOT)

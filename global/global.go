@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/ServiceWeaver/weaver"
+	"golang.org/x/exp/slog"
 	"gorm.io/gorm"
 )
 
@@ -13,6 +14,7 @@ var (
 	GLB_DB          *gorm.DB
 	GLB_DBList      map[string]*gorm.DB
 	GLB_CFG_INFO    *configApp.ConfigInfo
+	GLB_LOG         *slog.Logger
 
 	lock sync.RWMutex
 )

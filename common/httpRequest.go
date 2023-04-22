@@ -2,6 +2,7 @@ package common
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -23,6 +24,19 @@ func HttpRequest2Struct(req *http.Request, obj interface{}) error {
 		return fmt.Errorf("invalid request")
 	}
 	return decodeJSON(req.Body, obj)
+}
+
+func HttpRequestGetJWTToken(req *http.Request) (string, error) {
+
+	//判断Cookie是否存在,再做cur的时候可能不会带，系统没有检查这个
+	header := req.Header
+	if _, ok := header["Cookie"]; !ok {
+		return "", errors.New("http: named cookie not present")
+	}
+
+	c, err := req.Cookie("token")
+
+	return c.Value, err
 }
 
 func decodeJSON(r io.Reader, obj interface{}) error {

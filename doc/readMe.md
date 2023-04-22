@@ -17,6 +17,8 @@ weaver multi deploy weaver.toml
 
 使用命令
 
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiYTgxNTQ3YjktYTRkOC1kZjNmLWM0NzAtYWZlYWExMWVjNTY0IiwiSUQiOjEsIlVzZXJuYW1lIjoiMTIzIiwiQXV0aG9yaXR5SWQiOiIxIiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODIyMzM5NTUsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4MjE0NjU1NX0.OrRw8hfpnedD4hOhGGcwvFPdyC3zfcv41O0qt_qKglQ
+
 curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "password":"2361bd3bf151f0ec52a3ee762bca3644" }' "http://127.0.0.1:12345/login"
 
 curl -H "Content-Type: application/json" -X POST -d '{"username": "ccccc", "password":"56778899","nickname":"yyds","authorityId":"1" }' "http://127.0.0.1:12345/user/register"
@@ -26,6 +28,13 @@ curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "passwo
 
 
 curl -H "Content-Type: application/json" -X POST -d '{"UserId": 1 }' "http://127.0.0.1:12345/user/resetPassword"
+
+#没有token
+curl -H "Content-Type: application/json" -X GET "http://127.0.0.1:12345/user/getUserInfo"
+#有token
+curl -H "Content-Type: application/json" --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiYTgxNTQ3YjktYTRkOC1kZjNmLWM0NzAtYWZlYWExMWVjNTY0IiwiSUQiOjEsIlVzZXJuYW1lIjoiMTIzIiwiQXV0aG9yaXR5SWQiOiIxIiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODIyMzM5NTUsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4MjE0NjU1NX0.OrRw8hfpnedD4hOhGGcwvFPdyC3zfcv41O0qt_qKglQ" -X GET "http://127.0.0.1:12345/user/getUserInfo"
+
+
 
 #mysql config
 

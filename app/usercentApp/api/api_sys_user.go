@@ -33,7 +33,7 @@ func (us *UsercentApi) Login(w http.ResponseWriter, r *http.Request) {
 
 	err := common.HttpRequest2Struct(r, &l)
 	if err != nil {
-		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+		common.HttpOKErrorResponse(w, *errorcode.ErrBindParam)
 
 		return
 	}
@@ -44,11 +44,11 @@ func (us *UsercentApi) Login(w http.ResponseWriter, r *http.Request) {
 
 	u := &model.SysUsers{UserName: l.Username, Password: l.Password}
 	if err, user := service.UserServices.Login(u); err != nil {
-		common.HttpErrorResponse(w, *errorcode.ErrUserOrPassword)
+		common.HttpOKErrorResponse(w, *errorcode.ErrUserOrPassword)
 	} else {
 		token, ExpiresAt, err = getNewToken(user)
 		if err != nil {
-			common.HttpErrorResponse(w, *errorcode.ErrTokenSign)
+			common.HttpOKErrorResponse(w, *errorcode.ErrTokenSign)
 			return
 		}
 
@@ -94,7 +94,7 @@ func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
 
 	err := common.HttpRequest2Struct(r, &req)
 	if err != nil {
-		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+		common.HttpOKErrorResponse(w, *errorcode.ErrBindParam)
 
 		return
 	}
@@ -102,7 +102,7 @@ func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
 	user := &model.SysUsers{UserName: req.Username, NickName: req.NickName, Password: req.Password, HeaderImg: req.HeaderImg, AuthorityId: req.AuthorityId}
 	err, userReturn := service.UserServices.Register(user)
 	if err != nil {
-		common.HttpErrorResponse(w, errorcode.ErrUserCenterComm.FillMsg(err.Error()))
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
 
 		return
 	}
@@ -127,13 +127,13 @@ func (us *UsercentApi) ChangePassword(w http.ResponseWriter, r *http.Request) {
 	err := common.HttpRequest2Struct(r, &user)
 
 	if err != nil {
-		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+		common.HttpOKErrorResponse(w, *errorcode.ErrBindParam)
 		return
 	}
 
 	u := &model.SysUsers{UserName: user.Username, Password: user.Password}
 	if err, _ := service.UserServices.ChangePassword(u, user.NewPassword); err != nil {
-		common.HttpErrorResponse(w, errorcode.ErrUserCenterComm.FillMsg("修改失败，原密码与当前账户不符"))
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("修改失败，原密码与当前账户不符"))
 	} else {
 		common.HttpOKResponse(w, nil)
 
@@ -207,7 +207,31 @@ func (us *UsercentApi) SetSelfInfo(w http.ResponseWriter, r *http.Request) {}
 // @Produce application/json
 // @Success 200 {object} response.Response{data=map[string]interface{},msg=string} "获取用户信息"
 // @Router /user/getUserInfo [get]
-func (us *UsercentApi) GetUserInfo(w http.ResponseWriter, r *http.Request) {}
+func (us *UsercentApi) GetUserInfo(w http.ResponseWriter, r *http.Request) {
+
+	//拿不到token或是uuid则说明 认证异常
+	token, err := common.HttpRequestGetJWTToken(r)
+	if err != nil {
+		common.HttpErrorErrorResponse(w, http.StatusUnauthorized, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+
+	uuid, errs := utils.GetUserUUIDFromJWT(token)
+	if errs != nil {
+		common.HttpErrorErrorResponse(w, http.StatusUnauthorized, errorcode.ErrUserComm.FillMsg(errs.Error()))
+		return
+	}
+
+	//
+	if err, userReturn := service.UserServices.GetUserInfo(uuid); err != nil {
+		common.HttpOKErrorResponse(w, *errorcode.ErrUserNotFound)
+	} else {
+		userReturn.Password = "xxx"
+		userReturn.IdentityCard = "111"
+
+		common.HttpOKResponse(w, userReturn)
+	}
+}
 
 // @Tags SysUser
 // @Summary 重置用户密码
@@ -222,12 +246,12 @@ func (us *UsercentApi) ResetPassword(w http.ResponseWriter, r *http.Request) {
 	err := common.HttpRequest2Struct(r, &user)
 
 	if err != nil {
-		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+		common.HttpOKErrorResponse(w, *errorcode.ErrBindParam)
 		return
 	}
 
 	if user.UserId == 0 {
-		common.HttpErrorResponse(w, *errorcode.ErrBindParam)
+		common.HttpOKErrorResponse(w, *errorcode.ErrBindParam)
 
 		return
 	}
@@ -235,7 +259,7 @@ func (us *UsercentApi) ResetPassword(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("UserId=", user.UserId)
 
 	if err := service.UserServices.ResetPassword(user.UserId); err != nil {
-		common.HttpErrorResponse(w, errorcode.ErrUserCenterComm.FillMsg("重置失败-"+err.Error()))
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("重置失败-"+err.Error()))
 
 	} else {
 		common.HttpOKResponse(w, nil)

@@ -61,3 +61,15 @@ func (userService *UserService) ResetPassword(user_id uint64) (err error) {
 	err = global.GLB_DB.Model(&model.SysUsers{}).Where("user_id = ?", user_id).Update("password", common.MD5([]byte(pass))).Error
 	return err
 }
+
+//@author: [piexlmax](https://github.com/piexlmax)
+//@function: GetUserInfo
+//@description: 获取用户信息
+//@param: uuid uuid.UUID
+//@return: err error, user system.SysUser
+
+func (userService *UserService) GetUserInfo(uuid string) (err error, user model.SysUsers) {
+	var reqUser model.SysUsers
+	err = global.GLB_DB.First(&reqUser, "uuid = ?", uuid).Error
+	return err, reqUser
+}

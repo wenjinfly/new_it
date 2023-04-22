@@ -36,11 +36,15 @@ type RouterInfo struct {
 var RouterList []RouterInfo
 
 func initRouter() {
+	//post
 	RouterList = append(RouterList, RouterInfo{"/login", api.UserApi.Login})
 	RouterList = append(RouterList, RouterInfo{"/user/register", api.UserApi.Register})
 	RouterList = append(RouterList, RouterInfo{"/user/changePassword", api.UserApi.ChangePassword})
 	RouterList = append(RouterList, RouterInfo{"/user/resetPassword", api.UserApi.ResetPassword})
-	///user/resetPassword
+	//get
+	RouterList = append(RouterList, RouterInfo{"/user/getUserInfo", api.UserApi.GetUserInfo})
+
+	//
 }
 
 /*

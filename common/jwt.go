@@ -13,7 +13,6 @@ type CustomClaims struct {
 }
 
 type BaseClaims struct {
-	//UUID        uuid.UUID
 	UUID        string
 	ID          uint64
 	Username    string

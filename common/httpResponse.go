@@ -6,32 +6,32 @@ import (
 	"new_it/errorcode"
 )
 
-func HttpResponse(w http.ResponseWriter, statusCode int, res Response) {
+// 自定义http的状态和，业务状态
+func HttpStatusResponse(w http.ResponseWriter, statusCode int, res Response) {
 
 	msg, _ := json.Marshal(res)
-
 	w.WriteHeader(statusCode)
-
 	w.Write(msg)
-
 }
 
-func HttpErrorResponse(w http.ResponseWriter, errs errorcode.Errno) {
-	w.WriteHeader(http.StatusOK)
+// http协议错误
+func HttpErrorErrorResponse(w http.ResponseWriter, statusCode int, errs errorcode.Errno) {
 	res := responseError(errs)
-	msg, _ := json.Marshal(res)
-
-	w.Write(msg)
+	HttpStatusResponse(w, statusCode, *res)
 }
 
+// http协议正常，但是业务有错误
+func HttpOKErrorResponse(w http.ResponseWriter, errs errorcode.Errno) {
+	res := responseError(errs)
+	HttpStatusResponse(w, http.StatusOK, *res)
+}
+
+// http协议正常，业务也正常
 func HttpOKResponse(w http.ResponseWriter, data interface{}) {
-
-	w.WriteHeader(http.StatusOK)
-
+	//err
 	res := responseError(*errorcode.OK)
+	//data
 	newres := res.AddData(data)
 
-	msg, _ := json.Marshal(newres)
-
-	w.Write(msg)
+	HttpStatusResponse(w, http.StatusOK, newres)
 }
