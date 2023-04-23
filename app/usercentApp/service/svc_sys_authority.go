@@ -164,14 +164,14 @@ func (authorityService *AuthorityService) SetDataAuthority(auth model.SysAuthori
 //@description: 菜单与角色绑定
 //@param: auth *model.SysAuthority
 //@return: error
-/*
+
 func (authorityService *AuthorityService) SetMenuAuthority(auth *model.SysAuthorities) error {
 	var s model.SysAuthorities
 	global.GLB_DB.Preload("SysBaseMenus").First(&s, "authority_id = ?", auth.AuthorityId)
 	err := global.GLB_DB.Model(&s).Association("SysBaseMenus").Replace(&auth.SysBaseMenus)
 	return err
 }
-*/
+
 //@author: [piexlmax](https://github.com/piexlmax)
 //@function: findChildrenAuthority
 //@description: 查询子角色

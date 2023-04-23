@@ -8,4 +8,5 @@ type UsercentApiGroup struct {
 var (
 	UserApi      = UsercentApi{}
 	AuthorityApi = AuthorityInfoApi{}
+	MenuApi      = MenuInfoApi{}
 )

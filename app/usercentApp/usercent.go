@@ -15,8 +15,8 @@ func initTable() {
 	Tables = append(Tables, new(model.SysUsers))
 	Tables = append(Tables, new(model.SysAuthorities))
 	Tables = append(Tables, new(model.SysBaseMenus))
-	Tables = append(Tables, new(model.SysUserAuthority))
-	Tables = append(Tables, new(model.SysAuthorityMenus))
+	//Tables = append(Tables, new(model.SysUserAuthority))
+	//Tables = append(Tables, new(model.SysAuthorityMenus))
 	Tables = append(Tables, new(model.SysOperationRecords))
 	Tables = append(Tables, new(model.SysApis))
 	Tables = append(Tables, new(model.JwtBlacklists))
@@ -46,6 +46,9 @@ func initRouter() {
 	//post
 
 	RouterList = append(RouterList, RouterInfo{"/authority/createAuthority", api.AuthorityApi.CreateAuthority})
+
+	//menus
+	RouterList = append(RouterList, RouterInfo{"/menu/addBaseMenu", api.MenuApi.AddBaseMenu})
 
 }
 

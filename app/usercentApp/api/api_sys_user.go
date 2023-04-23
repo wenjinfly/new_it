@@ -33,7 +33,7 @@ func (us *UsercentApi) Login(w http.ResponseWriter, r *http.Request) {
 
 	err := common.HttpRequest2Struct(r, &l)
 	if err != nil {
-		common.HttpOKErrorResponse(w, *errorcode.ErrBindParam)
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
 
 		return
 	}
@@ -44,11 +44,11 @@ func (us *UsercentApi) Login(w http.ResponseWriter, r *http.Request) {
 
 	u := &model.SysUsers{UserName: l.Username, Password: l.Password}
 	if err, user := service.UserServices.Login(u); err != nil {
-		common.HttpOKErrorResponse(w, *errorcode.ErrUserOrPassword)
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
 	} else {
 		token, ExpiresAt, err = getNewToken(user)
 		if err != nil {
-			common.HttpOKErrorResponse(w, *errorcode.ErrTokenSign)
+			common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
 			return
 		}
 
@@ -94,7 +94,7 @@ func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
 
 	err := common.HttpRequest2Struct(r, &req)
 	if err != nil {
-		common.HttpOKErrorResponse(w, *errorcode.ErrBindParam)
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
 		return
 	}
 
@@ -123,7 +123,7 @@ func (us *UsercentApi) ChangePassword(w http.ResponseWriter, r *http.Request) {
 	err := common.HttpRequest2Struct(r, &user)
 
 	if err != nil {
-		common.HttpOKErrorResponse(w, *errorcode.ErrBindParam)
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
 		return
 	}
 
@@ -220,7 +220,7 @@ func (us *UsercentApi) GetUserInfo(w http.ResponseWriter, r *http.Request) {
 
 	//
 	if err, userReturn := service.UserServices.GetUserInfo(uuid); err != nil {
-		common.HttpOKErrorResponse(w, *errorcode.ErrUserNotFound)
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
 	} else {
 		userReturn.Password = "xxx"
 		userReturn.IdentityCard = "111"
@@ -242,12 +242,12 @@ func (us *UsercentApi) ResetPassword(w http.ResponseWriter, r *http.Request) {
 	err := common.HttpRequest2Struct(r, &user)
 
 	if err != nil {
-		common.HttpOKErrorResponse(w, *errorcode.ErrBindParam)
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
 		return
 	}
 
 	if user.UserId == 0 {
-		common.HttpOKErrorResponse(w, *errorcode.ErrBindParam)
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
 
 		return
 	}

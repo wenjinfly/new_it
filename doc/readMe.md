@@ -19,9 +19,9 @@ weaver multi deploy weaver.toml
 
 //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiYTgxNTQ3YjktYTRkOC1kZjNmLWM0NzAtYWZlYWExMWVjNTY0IiwiSUQiOjEsIlVzZXJuYW1lIjoiMTIzIiwiQXV0aG9yaXR5SWQiOiIxIiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODIyMzM5NTUsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4MjE0NjU1NX0.OrRw8hfpnedD4hOhGGcwvFPdyC3zfcv41O0qt_qKglQ
 
-curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "password":"2361bd3bf151f0ec52a3ee762bca3644" }' "http://127.0.0.1:12345/login"
+curl -H "Content-Type: application/json" -X POST -d '{"username": "admin", "password":"2361bd3bf151f0ec52a3ee762bca3644" }' "http://127.0.0.1:12345/login"
 
-curl -H "Content-Type: application/json" -X POST -d '{"username": "ccccc", "password":"56778899","nickname":"yyds","authorityId":"1" }' "http://127.0.0.1:12345/user/register"
+curl -H "Content-Type: application/json" -X POST -d '{"username": "admin", "password":"2361bd3bf151f0ec52a3ee762bca3644","nickname":"yyds","authorityId":"888" }' "http://127.0.0.1:12345/user/register"
 
 
 curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "password":"2361bd3bf151f0ec52a3ee762bca3644","newPassword":"345" }' "http://127.0.0.1:12345/user/changePassword"
@@ -39,9 +39,19 @@ curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "666", "Au
 
 curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "888", "AuthorityName":"\u666e\u901a\u7528\u6237","ParentId":"0", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
 
+curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "999", "AuthorityName":"\u6d4b\u8bd5\u89d2\u8272","ParentId":"0", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
+
+#目录                                                  
+
+curl -H "Content-Type: application/json" -X POST  -d '{"MenuLevel":0,"ParentId": 0, "Path":"dashboard","Name":"dashboard", "Component":"view/dashboard/index.vue","Sort":1,"Hidden":false,"Title":"\u4eea\u8868\u76d8"}' "http://127.0.0.1:12345/menu/addBaseMenu"
+
 #转码
 研发人员 \u7814\u53d1\u4eba\u5458
 普通用户 \u666e\u901a\u7528\u6237
+仪表盘 \u4eea\u8868\u76d8
+
+测试角色 \u6d4b\u8bd5\u89d2\u8272
+
 #mysql config
 
 #数据模型

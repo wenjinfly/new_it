@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"new_it/app/usercentApp/api/request"
 	"new_it/app/usercentApp/api/response"
 	"new_it/app/usercentApp/model"
 	"new_it/app/usercentApp/service"
@@ -34,7 +35,10 @@ func (a *AuthorityInfoApi) CreateAuthority(w http.ResponseWriter, r *http.Reques
 		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("创建失败"+err.Error()))
 	} else {
 		//_ = menuService.AddMenuAuthority(systemReq.DefaultMenu(), authority.AuthorityId)
-		//_ = casbinService.UpdateCasbin(authority.AuthorityId, systemReq.DefaultCasbin())
+		var auth model.SysAuthorities
+		auth.AuthorityId = authority.AuthorityId
+		auth.SysBaseMenus = request.DefaultMenu()
+		err = service.AuthorityServices.SetMenuAuthority(&auth)
 
 		common.HttpOKResponse(w, response.SysAuthorityResponse{Authority: authBack})
 
