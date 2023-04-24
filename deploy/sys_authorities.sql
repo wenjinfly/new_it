@@ -1,0 +1,3 @@
+INSERT INTO `sys_authorities`(`authority_id`, `authority_name`, `parent_id`, `default_router`, `created_at`, `updated_at`, `deleted_at`) VALUES ('666', '研发人员', '0', 'MainIndex', '2023-04-24 00:14:35.714', '2023-04-24 00:14:35.823', NULL);
+INSERT INTO `sys_authorities`(`authority_id`, `authority_name`, `parent_id`, `default_router`, `created_at`, `updated_at`, `deleted_at`) VALUES ('888', '普通用户', '0', 'MainIndex', '2023-04-24 00:17:19.557', '2023-04-24 00:17:19.592', NULL);
+INSERT INTO `sys_authorities`(`authority_id`, `authority_name`, `parent_id`, `default_router`, `created_at`, `updated_at`, `deleted_at`) VALUES ('999', '测试角色', '0', 'MainIndex', '2023-04-24 00:13:15.128', '2023-04-24 00:13:15.234', NULL);

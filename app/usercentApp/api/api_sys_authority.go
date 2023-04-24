@@ -2,7 +2,6 @@ package api
 
 import (
 	"net/http"
-	"new_it/app/usercentApp/api/request"
 	"new_it/app/usercentApp/api/response"
 	"new_it/app/usercentApp/model"
 	"new_it/app/usercentApp/service"
@@ -34,12 +33,12 @@ func (a *AuthorityInfoApi) CreateAuthority(w http.ResponseWriter, r *http.Reques
 	if err, authBack := service.AuthorityServices.CreateAuthority(authority); err != nil {
 		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("创建失败"+err.Error()))
 	} else {
-		//_ = menuService.AddMenuAuthority(systemReq.DefaultMenu(), authority.AuthorityId)
-		var auth model.SysAuthorities
-		auth.AuthorityId = authority.AuthorityId
-		auth.SysBaseMenus = request.DefaultMenu()
-		err = service.AuthorityServices.SetMenuAuthority(&auth)
-
+		/*
+			var auth model.SysAuthorities
+			auth.AuthorityId = authority.AuthorityId
+			auth.SysBaseMenus = request.DefaultMenu()
+			err = service.AuthorityServices.SetMenuAuthority(&auth)
+		*/
 		common.HttpOKResponse(w, response.SysAuthorityResponse{Authority: authBack})
 
 	}
