@@ -126,5 +126,25 @@ func (a *MenuInfoApi) GetBaseMenuById(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} response.Response{data=response.PageResult,msg=string} "分页获取基础menu列表,返回包括列表,总数,页码,每页数量"
 // @Router /menu/getMenuList [post]
 func (a *MenuInfoApi) GetMenuList(w http.ResponseWriter, r *http.Request) {
+	var pageInfo common.PageInfo
+	err := common.HttpRequest2Struct(r, &pageInfo)
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
 
+	if err, menuList, total := service.MenusServices.GetInfoList(); err != nil {
+
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+
+	} else {
+		res := common.PageResult{
+			List:     menuList,
+			Total:    total,
+			Page:     pageInfo.Page,
+			PageSize: pageInfo.PageSize,
+		}
+		common.HttpOKResponse(w, res)
+
+	}
 }

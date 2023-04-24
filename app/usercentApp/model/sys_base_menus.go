@@ -24,6 +24,7 @@ type SysBaseMenus struct {
 	UpdatedAt     *time.Time       `gorm:"column:updated_at" json:"UpdatedAt"`        //type:*time.Time        comment:                    version:2023-03-12 22:57
 	DeletedAt     *time.Time       `gorm:"column:deleted_at" json:"DeletedAt"`        //type:*time.Time        comment:                    version:2023-03-12 22:57
 	SysAuthoritys []SysAuthorities `json:"authoritys" gorm:"many2many:sys_authority_menus;"`
+	Children      []SysBaseMenus   `json:"children" gorm:"-"` //辅助变量用于生成菜单树
 }
 
 // TableName 表名:sys_base_menus，菜单。

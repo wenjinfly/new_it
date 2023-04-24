@@ -45,6 +45,9 @@ curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "999", "Au
 
 curl -H "Content-Type: application/json" -X POST  -d '{"MenuLevel":0,"ParentId": 0, "Path":"dashboard","Name":"dashboard", "Component":"view/dashboard/index.vue","Sort":1,"Hidden":false,"Title":"\u4eea\u8868\u76d8"}' "http://127.0.0.1:12345/menu/addBaseMenu"
 
+
+curl -H "Content-Type: application/json" -X POST  -d '{"page":1,"pageSize": 20}' "http://127.0.0.1:12345/menu/getMenuList"
+
 #转码
 研发人员 \u7814\u53d1\u4eba\u5458
 普通用户 \u666e\u901a\u7528\u6237
