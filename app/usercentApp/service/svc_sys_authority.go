@@ -2,12 +2,9 @@ package service
 
 import (
 	"errors"
-
-	"new_it/global"
-
 	"gorm.io/gorm"
-
 	"new_it/app/usercentApp/model"
+	"new_it/global"
 )
 
 type AuthorityService struct{}

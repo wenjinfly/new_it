@@ -22,7 +22,7 @@ func Gorm_mysql() *gorm.DB {
 		SkipInitializeWithVersion: false,   // 根据版本自动配置
 	}
 
-	if db, err := gorm.Open(mysql.New(mysqlConfig), &gorm.Config{Logger: logger.Default}); err != nil {
+	if db, err := gorm.Open(mysql.New(mysqlConfig), &gorm.Config{Logger: logger.Default.LogMode(logger.Info)}); err != nil {
 		panic("can not open db error: " + err.Error())
 		//return nil
 	} else {

@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"new_it/app/usercentApp/api/request"
 	"new_it/app/usercentApp/model"
 	"new_it/app/usercentApp/service"
 	"new_it/common"
@@ -18,7 +19,15 @@ type MenuInfoApi struct{}
 // @Success 200 {object} response.Response{data=systemRes.SysMenusResponse,msg=string} "获取用户动态路由,返回包括系统菜单详情列表"
 // @Router /menu/getMenu [post]
 func (a *MenuInfoApi) GetMenu(w http.ResponseWriter, r *http.Request) {
-
+	/*	if err, menus := service.MenusServices.GetMenuTree(utils.GetUserAuthorityId(c)); err != nil {
+			common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		} else {
+			if menus == nil {
+				menus = []model.SysBaseMenus{}
+			}
+			response.OkWithDetailed(systemRes.SysMenusResponse{Menus: menus}, "获取成功", c)
+		}
+	*/
 }
 
 // @Tags AuthorityMenu
@@ -41,7 +50,19 @@ func (a *MenuInfoApi) GetBaseMenuTree(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} response.Response{msg=string} "增加menu和角色关联关系"
 // @Router /menu/addMenuAuthority [post]
 func (a *MenuInfoApi) AddMenuAuthority(w http.ResponseWriter, r *http.Request) {
+	var authorityMenu request.AddMenuAuthorityInfo
+	err := common.HttpRequest2Struct(r, &authorityMenu)
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
 
+	if err := service.MenusServices.AddMenuAuthority(authorityMenu.Menus, authorityMenu.AuthorityId); err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+
+	} else {
+		common.HttpOKResponse(w, nil)
+	}
 }
 
 // @Tags AuthorityMenu
