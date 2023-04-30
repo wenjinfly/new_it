@@ -11,6 +11,7 @@ import (
 	"new_it/errorcode"
 	"new_it/global"
 	"new_it/utils"
+	"strconv"
 )
 
 type UsercentApi struct{}
@@ -188,7 +189,61 @@ func (us *UsercentApi) GetUserList(w http.ResponseWriter, r *http.Request) {
 // @Param data body systemReq.SetUserAuth true "用户UUID, 角色ID"
 // @Success 200 {object} response.Response{msg=string} "设置用户权限"
 // @Router /user/setUserAuthority [post]
-func (us *UsercentApi) SetUserAuthority(w http.ResponseWriter, r *http.Request) {}
+func (us *UsercentApi) SetUserAuthority(w http.ResponseWriter, r *http.Request) {
+
+	//拿不到token或是uuid则说明 认证异常
+	token, err := common.HttpRequestGetJWTToken(r)
+	if err != nil {
+		common.HttpErrorErrorResponse(w, http.StatusUnauthorized, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+	Claims, errs := utils.GetClaims(token)
+	if errs != nil {
+		common.HttpErrorErrorResponse(w, http.StatusUnauthorized, errorcode.ErrUserComm.FillMsg(errs.Error()))
+		return
+	}
+
+	//
+	var sua request.SetUserAuth
+	err = common.HttpRequest2Struct(r, &sua)
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+
+	if sua.AuthorityId == "" {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("角色数据为空"))
+		return
+	}
+
+	//
+	if err := service.UserServices.SetUserAuthority(Claims.ID, Claims.UUID, sua.AuthorityId); err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+
+	} else {
+
+		Claims.AuthorityId = sua.AuthorityId
+
+		user := &model.SysUsers{UserId: Claims.ID,
+			UserName:    Claims.Username,
+			AuthorityId: Claims.AuthorityId,
+			Uuid:        Claims.UUID,
+		}
+
+		token, ExpiresAt, err := getNewToken(user)
+		if err != nil {
+			common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+			return
+		} else {
+			w.Header().Set("new-token", token)
+			w.Header().Set("new-expires-at", strconv.FormatInt(ExpiresAt, 10))
+
+			common.HttpOKResponse(w, nil)
+
+		}
+
+	}
+}
 
 // @Tags SysUser
 // @Summary 设置用户权限
@@ -198,7 +253,29 @@ func (us *UsercentApi) SetUserAuthority(w http.ResponseWriter, r *http.Request) 
 // @Param data body systemReq.SetUserAuthorities true "用户UUID, 角色ID"
 // @Success 200 {object} response.Response{msg=string} "设置用户权限"
 // @Router /user/setUserAuthorities [post]
-func (us *UsercentApi) SetUserAuthorities(w http.ResponseWriter, r *http.Request) {}
+func (us *UsercentApi) SetUserAuthorities(w http.ResponseWriter, r *http.Request) {
+	var sua request.SetUserAuthorities
+
+	err := common.HttpRequest2Struct(r, &sua)
+
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+
+	if len(sua.AuthorityIds) == 0 {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("角色数据为空"))
+		return
+	}
+
+	if err := service.UserServices.SetUserAuthorities(sua.UserId, sua.AuthorityIds); err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+
+	} else {
+		common.HttpOKResponse(w, nil)
+
+	}
+}
 
 // @Tags SysUser
 // @Summary 删除用户

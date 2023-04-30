@@ -7,7 +7,7 @@ import (
 
 func GetUserIDFromJWT(token string) (uint64, error) {
 
-	cl, errs := getClaims(token)
+	cl, errs := GetClaims(token)
 	if errs != nil {
 		return 0, errs
 	}
@@ -17,7 +17,7 @@ func GetUserIDFromJWT(token string) (uint64, error) {
 
 func GetUserUUIDFromJWT(token string) (string, error) {
 
-	cl, errs := getClaims(token)
+	cl, errs := GetClaims(token)
 	if errs != nil {
 		return "", errs
 	}
@@ -27,7 +27,7 @@ func GetUserUUIDFromJWT(token string) (string, error) {
 
 func GetUserNameFromJWT(token string) (string, error) {
 
-	cl, errs := getClaims(token)
+	cl, errs := GetClaims(token)
 	if errs != nil {
 		return "", errs
 	}
@@ -36,7 +36,7 @@ func GetUserNameFromJWT(token string) (string, error) {
 }
 
 func GetUserAuthorityIDFromJWT(token string) (string, error) {
-	cl, errs := getClaims(token)
+	cl, errs := GetClaims(token)
 	if errs != nil {
 		return "", errs
 	}
@@ -44,7 +44,7 @@ func GetUserAuthorityIDFromJWT(token string) (string, error) {
 	return cl.AuthorityId, errs
 }
 
-func getClaims(token string) (*common.CustomClaims, error) {
+func GetClaims(token string) (*common.CustomClaims, error) {
 	j := NewJWT()
 	claims, err := j.ParseToken(token)
 	if err != nil {

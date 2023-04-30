@@ -104,3 +104,51 @@ func (userService *UserService) SetUserInfo(reqUser model.SysUsers) (err error, 
 	err = global.GLB_DB.Updates(&reqUser).Error
 	return err, reqUser
 }
+
+//@author: [piexlmax](https://github.com/piexlmax)
+//@function: SetUserAuthority
+//@description: 设置一个用户的权限
+//@param: uuid uuid.UUID, authorityId string
+//@return: err error
+
+func (userService *UserService) SetUserAuthority(userid uint64, uuid string, authorityId string) (err error) {
+	assignErr := global.GLB_DB.Where("user_id = ? AND authority_id = ?", userid, authorityId).First(&model.SysUserAuthority{}).Error
+	if errors.Is(assignErr, gorm.ErrRecordNotFound) {
+		return errors.New("该用户无此角色")
+	}
+	err = global.GLB_DB.Where("uuid = ?", uuid).First(&model.SysUsers{}).Update("authority_id", authorityId).Error
+	return err
+}
+
+//@author: [piexlmax](https://github.com/piexlmax)
+//@function: SetUserAuthorities
+//@description: 设置一个用户的权限
+//@param: id uint, authorityIds []string
+//@return: err error
+
+func (userService *UserService) SetUserAuthorities(id uint64, authorityIds []string) (err error) {
+	return global.GLB_DB.Transaction(func(tx *gorm.DB) error {
+		TxErr := tx.Delete(&[]model.SysUserAuthority{}, "user_id = ?", id).Error
+		if TxErr != nil {
+			return TxErr
+		}
+
+		useAuthority := []model.SysUserAuthority{}
+		for _, v := range authorityIds {
+			useAuthority = append(useAuthority, model.SysUserAuthority{
+				UserId:      id,
+				AuthorityId: v,
+			})
+		}
+		TxErr = tx.Create(&useAuthority).Error
+		if TxErr != nil {
+			return TxErr
+		}
+		TxErr = tx.Where("user_id = ?", id).First(&model.SysUsers{}).Update("authority_id", authorityIds[0]).Error
+		if TxErr != nil {
+			return TxErr
+		}
+		// 返回 nil 提交事务
+		return nil
+	})
+}

@@ -44,6 +44,9 @@ func initRouter() {
 	RouterList = append(RouterList, RouterInfo{"/user/resetPassword", api.UserApi.ResetPassword})
 	RouterList = append(RouterList, RouterInfo{"/user/getUserList", api.UserApi.GetUserList})
 	RouterList = append(RouterList, RouterInfo{"/user/SetSelfInfo", api.UserApi.SetSelfInfo})
+	RouterList = append(RouterList, RouterInfo{"/user/setUserAuthorities", api.UserApi.SetUserAuthorities})
+	RouterList = append(RouterList, RouterInfo{"/user/setUserAuthority", api.UserApi.SetUserAuthority})
+
 	//get
 	RouterList = append(RouterList, RouterInfo{"/user/getUserInfo", api.UserApi.GetUserInfo})
 	//post

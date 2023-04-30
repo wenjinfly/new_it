@@ -21,3 +21,14 @@ type ChangePasswordStruct struct {
 	Password    string `json:"password"`    // 密码
 	NewPassword string `json:"newPassword"` // 新密码
 }
+
+// Modify  user's auth structure
+type SetUserAuth struct {
+	AuthorityId string `json:"authorityId"` // 角色ID
+}
+
+// Modify  user's auth structure
+type SetUserAuthorities struct {
+	UserId       uint64   `json:"UserId"`
+	AuthorityIds []string `json:"authorityIds"` // 角色ID
+}
