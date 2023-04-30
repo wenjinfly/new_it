@@ -13,6 +13,7 @@ import (
 type UsercentApp interface {
 	RegisterTables(ctx context.Context) error
 	RegisterRouter(ctx context.Context) error
+	RegisterDBdata(ctx context.Context) error
 }
 
 type usercent_App struct {
@@ -58,5 +59,21 @@ func (u *usercent_App) RegisterRouter(ctx context.Context) error {
 
 	log.Info("register Router success")
 
+	return err
+}
+
+func (u *usercent_App) RegisterDBdata(ctx context.Context) error {
+	var err error
+	log := u.Logger()
+
+	for _, data := range Dbdatas {
+		if data.CheckDataExist() {
+			log.Info("init dbdata " + data.TableName() + " exist")
+			continue
+		} else {
+			data.Initialize()
+			log.Info("init dbdata " + data.TableName() + " success")
+		}
+	}
 	return err
 }

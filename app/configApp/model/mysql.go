@@ -15,7 +15,7 @@ type Mysql struct {
 	LogMode      string // 是否开启Gorm全局日志
 }
 
-//"root:@tcp(localhost:3306)/"
+//"root:@tcp(localhost:3306)/"&parseTime=true
 func (m *Mysql) Dsn() string {
 	return m.Username + ":" + m.Password + "@tcp(" + m.Ip + ":" + m.Port + ")/" + m.Dbname + "?" + m.Config
 }

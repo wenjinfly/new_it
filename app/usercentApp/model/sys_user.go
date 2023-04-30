@@ -24,7 +24,7 @@ type SysUsers struct {
 	CreatedAt    *time.Time       `gorm:"column:created_at" json:"CreatedAt"`       //type:*time.Time        comment:                version:2023-03-12 00:10
 	UpdatedAt    *time.Time       `gorm:"column:updated_at" json:"UpdatedAt"`       //type:*time.Time        comment:                version:2023-03-12 00:10
 	DeletedAt    *time.Time       `gorm:"column:deleted_at" json:"DeletedAt"`       //type:*time.Time        comment:                version:2023-03-12 00:10
-	Authorities  []SysAuthorities `json:"authorities" gorm:"many2many:sys_user_authority;"`
+	Authorities  []SysAuthorities `json:"authorities" gorm:"many2many:sys_user_authority;joinForeignKey:UserId;joinReferences:AuthorityId"`
 }
 
 // TableName 表名:sys_users，用户表。

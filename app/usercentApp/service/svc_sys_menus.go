@@ -61,7 +61,7 @@ func (m *MenusService) GetMenuTree(authorityId string) (err error, menus []model
 //@return: err error
 
 func (m *MenusService) getChildrenList(menu *model.SysBaseMenus, treeMap map[int][]model.SysBaseMenus) (err error) {
-	menu.Children = treeMap[int(menu.MenusId)]
+	menu.Children = treeMap[int(menu.MenuId)]
 	for i := 0; i < len(menu.Children); i++ {
 		err = m.getChildrenList(&menu.Children[i], treeMap)
 	}
@@ -90,7 +90,7 @@ func (m *MenusService) getBaseMenuTreeMap() (err error, treeMap map[int][]model.
 //@return: err error
 
 func (m *MenusService) getBaseChildrenList(menu *model.SysBaseMenus, treeMap map[int][]model.SysBaseMenus) (err error) {
-	menu.Children = treeMap[int(menu.MenusId)]
+	menu.Children = treeMap[int(menu.MenuId)]
 	for i := 0; i < len(menu.Children); i++ {
 		err = m.getBaseChildrenList(&menu.Children[i], treeMap)
 	}
@@ -124,7 +124,7 @@ func (m *MenusService) GetInfoList() (err error, list interface{}, total int64) 
 func (m *MenusService) AddMenuAuthority(menus []model.SysBaseMenus, authorityId string) (err error) {
 	var auth model.SysAuthorities
 	auth.AuthorityId = authorityId
-	auth.SysBaseMenus = menus
+	//auth.SysBaseMenus = menus
 	err = AuthorityServices.SetMenuAuthority(&auth)
 	return err
 }

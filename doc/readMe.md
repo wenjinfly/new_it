@@ -4,6 +4,7 @@ go mod tidy
 
 weaver generate .
 weaver generate ./app/configApp/
+weaver generate ./app/usercentApp/
 
 继承过weaver里边的东西都需要生成,比如configAPP就需要执行两次
 一次是：weaver generate ./app/configApp/model

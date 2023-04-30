@@ -54,6 +54,7 @@ func main() {
 
 	user.RegisterTables(ctx)
 	user.RegisterRouter(ctx)
+	user.RegisterDBdata(ctx)
 
 	http.Serve(lis, nil)
 }

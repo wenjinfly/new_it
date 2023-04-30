@@ -15,8 +15,8 @@ type SysAuthorities struct {
 	CreatedAt     *time.Time     `gorm:"column:created_at" json:"CreatedAt"`                //type:*time.Time   comment:            version:2023-03-12 22:39
 	UpdatedAt     *time.Time     `gorm:"column:updated_at" json:"UpdatedAt"`                //type:*time.Time   comment:            version:2023-03-12 22:39
 	DeletedAt     *time.Time     `gorm:"column:deleted_at" json:"DeletedAt"`                //type:*time.Time   comment:            version:2023-03-12 22:39
-	SysBaseMenus  []SysBaseMenus `json:"menus" gorm:"many2many:sys_authority_menus;"`
-	Users         []SysUsers     `json:"-" gorm:"many2many:sys_user_authority;"`
+	SysBaseMenus  []SysBaseMenus `json:"menus" gorm:"many2many:sys_authority_menus;joinForeignKey:AuthorityId;joinReferences:MenuId"`
+	Users         []SysUsers     `json:"-" gorm:"many2many:sys_user_authority;joinForeignKey:AuthorityId;joinReferences:UserId"`
 }
 
 // TableName 表名:sys_authorities，角色表

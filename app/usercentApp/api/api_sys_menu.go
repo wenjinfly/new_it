@@ -57,12 +57,12 @@ func (a *MenuInfoApi) AddMenuAuthority(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := service.MenusServices.AddMenuAuthority(authorityMenu.Menus, authorityMenu.AuthorityId); err != nil {
-		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+	// if err := service.MenusServices.AddMenuAuthority(authorityMenu.Menus, authorityMenu.AuthorityId); err != nil {
+	// 	common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
 
-	} else {
-		common.HttpOKResponse(w, nil)
-	}
+	// } else {
+	// 	common.HttpOKResponse(w, nil)
+	// }
 }
 
 // @Tags AuthorityMenu

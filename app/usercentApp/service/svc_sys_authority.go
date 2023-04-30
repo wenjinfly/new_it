@@ -2,9 +2,10 @@ package service
 
 import (
 	"errors"
-	"gorm.io/gorm"
 	"new_it/app/usercentApp/model"
 	"new_it/global"
+
+	"gorm.io/gorm"
 )
 
 type AuthorityService struct{}
@@ -165,7 +166,8 @@ func (authorityService *AuthorityService) SetDataAuthority(auth model.SysAuthori
 func (authorityService *AuthorityService) SetMenuAuthority(auth *model.SysAuthorities) error {
 	var s model.SysAuthorities
 	global.GLB_DB.Preload("SysBaseMenus").First(&s, "authority_id = ?", auth.AuthorityId)
-	err := global.GLB_DB.Model(&s).Association("SysBaseMenus").Replace(&auth.SysBaseMenus)
+	//err := global.GLB_DB.Model(&s).Association("SysBaseMenus").Replace(&auth.SysBaseMenus)
+	err := errors.New("dd")
 	return err
 }
 
