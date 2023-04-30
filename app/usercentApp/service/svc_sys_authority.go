@@ -144,6 +144,11 @@ func (authorityService *AuthorityService) GetAuthorityInfo(auth model.SysAuthori
 	return err, sa
 }
 
+func (authorityService *AuthorityService) GetAuthorityInfoByID(authid string) (err error, sa model.SysAuthorities) {
+	err = global.GLB_DB.Where("authority_id = ?", authid).First(&sa).Error
+	return err, sa
+}
+
 //@author: [piexlmax](https://github.com/piexlmax)
 //@function: SetDataAuthority
 //@description: 设置角色资源权限

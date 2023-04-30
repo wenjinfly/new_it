@@ -98,15 +98,29 @@ func (us *UsercentApi) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := &model.SysUsers{UserName: req.Username, NickName: req.NickName, Password: req.Password, HeaderImg: req.HeaderImg, AuthorityId: req.AuthorityId}
+	err2, auths := service.AuthorityServices.GetAuthorityInfoByID(req.AuthorityId)
+	if err2 != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("角色ID不存在-"+err2.Error()))
+		return
+	}
+
+	var authorities []model.SysAuthorities
+
+	authorities = append(authorities, model.SysAuthorities{AuthorityId: auths.AuthorityId})
+
+	user := &model.SysUsers{UserName: req.Username, NickName: req.NickName,
+		Password: req.Password, HeaderImg: req.HeaderImg,
+		AuthorityId: req.AuthorityId,
+		Authorities: authorities}
+
 	err, userReturn := service.UserServices.Register(user)
 	if err != nil {
 		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
 		return
 	}
 
-	userReturn.Password = "xxx"
-	userReturn.IdentityCard = "111"
+	userReturn.Password = ""
+	userReturn.IdentityCard = ""
 	common.HttpOKResponse(w, userReturn)
 }
 
@@ -214,7 +228,47 @@ func (us *UsercentApi) SetUserInfo(w http.ResponseWriter, r *http.Request) {}
 // @Param data body system.SysUser true "ID, 用户名, 昵称, 头像链接"
 // @Success 200 {object} response.Response{data=map[string]interface{},msg=string} "设置用户信息"
 // @Router /user/SetSelfInfo [put]
-func (us *UsercentApi) SetSelfInfo(w http.ResponseWriter, r *http.Request) {}
+func (us *UsercentApi) SetSelfInfo(w http.ResponseWriter, r *http.Request) {
+	//拿不到token或是uuid则说明 认证异常
+	token, err := common.HttpRequestGetJWTToken(r)
+	if err != nil {
+		common.HttpErrorErrorResponse(w, http.StatusUnauthorized, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+
+	userid, errs := utils.GetUserIDFromJWT(token)
+	if errs != nil {
+		common.HttpErrorErrorResponse(w, http.StatusUnauthorized, errorcode.ErrUserComm.FillMsg(errs.Error()))
+		return
+	}
+
+	//解析请求
+	var user model.SysUsers
+	err = common.HttpRequest2Struct(r, &user)
+
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+
+	user.UserName = ""
+	user.Password = ""
+	user.AuthorityId = ""
+	user.Uuid = ""
+
+	user.UserId = userid
+
+	if err, ReqUser := service.UserServices.SetUserInfo(user); err != nil {
+
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("重置失败-"+err.Error()))
+
+	} else {
+
+		ReqUser.Password = ""
+		ReqUser.IdentityCard = ""
+		common.HttpOKResponse(w, response.SysUserResponse{User: ReqUser})
+	}
+}
 
 // @Tags SysUser
 // @Summary 获取用户信息

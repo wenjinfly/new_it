@@ -93,3 +93,14 @@ func (userService *UserService) GetUserInfoList(info common.PageInfo) (err error
 	//err = db.Limit(limit).Offset(offset).Find(&userList).Error
 	return err, userList, total
 }
+
+//@author: [piexlmax](https://github.com/piexlmax)
+//@function: SetUserInfo
+//@description: 设置用户信息
+//@param: reqUser model.SysUser
+//@return: err error, user model.SysUser
+
+func (userService *UserService) SetUserInfo(reqUser model.SysUsers) (err error, user model.SysUsers) {
+	err = global.GLB_DB.Updates(&reqUser).Error
+	return err, reqUser
+}

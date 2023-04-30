@@ -22,10 +22,16 @@ weaver multi deploy weaver.toml
 
 curl -H "Content-Type: application/json" -X POST -d '{"username": "admin", "password":"2361bd3bf151f0ec52a3ee762bca3644" }' "http://127.0.0.1:12345/login"
 
-curl -H "Content-Type: application/json" -X POST -d '{"username": "admin", "password":"2361bd3bf151f0ec52a3ee762bca3644","nickname":"yyds","authorityId":"888" }' "http://127.0.0.1:12345/user/register"
+curl -H "Content-Type: application/json" -X POST -d '{"username": "test", "password":"2361bd3bf151f0ec52a3ee762bca3644","nickname":"yyds","authorityId":"888" }' "http://127.0.0.1:12345/user/register"
+
+curl -H "Content-Type: application/json" -X POST -d '{"username": "test", "password":"2361bd3bf151f0ec52a3ee762bca3644" }' "http://127.0.0.1:12345/login"
+
+curl -H "Content-Type: application/json" --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiOTNiODc0MTItMmUyYy00NmE0LTliYTMtY2M5NjM5MTdlNzZhIiwiSUQiOjMsIlVzZXJuYW1lIjoidGVzdCIsIkF1dGhvcml0eUlkIjoiODg4IiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODI5NjA1NDEsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4Mjg3MzE0MX0.EJQLxHO4CHR-xF2Oz6HV6r4BUbwgg_fNEqT5gzjvcZk" -X POST -d '{"nickname":"\u6d4b\u8bd5","Phone":"18112056621" }' "http://127.0.0.1:12345/user/SetSelfInfo"
 
 
 curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "password":"2361bd3bf151f0ec52a3ee762bca3644","newPassword":"345" }' "http://127.0.0.1:12345/user/changePassword"
+
+
 
 
 curl -H "Content-Type: application/json" -X POST -d '{"UserId": 1 }' "http://127.0.0.1:12345/user/resetPassword"
@@ -37,7 +43,7 @@ curl -H "Content-Type: application/json" -X POST -d '{"page": 1 ,"pageSize":10}'
 #没有token
 curl -H "Content-Type: application/json" -X GET "http://127.0.0.1:12345/user/getUserInfo"
 #有token
-curl -H "Content-Type: application/json" --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiYTgxNTQ3YjktYTRkOC1kZjNmLWM0NzAtYWZlYWExMWVjNTY0IiwiSUQiOjEsIlVzZXJuYW1lIjoiMTIzIiwiQXV0aG9yaXR5SWQiOiIxIiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODIyMzM5NTUsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4MjE0NjU1NX0.OrRw8hfpnedD4hOhGGcwvFPdyC3zfcv41O0qt_qKglQ" -X GET "http://127.0.0.1:12345/user/getUserInfo"
+curl -H "Content-Type: application/json" --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiOTNiODc0MTItMmUyYy00NmE0LTliYTMtY2M5NjM5MTdlNzZhIiwiSUQiOjMsIlVzZXJuYW1lIjoidGVzdCIsIkF1dGhvcml0eUlkIjoiODg4IiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODI5NjA1NDEsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4Mjg3MzE0MX0.EJQLxHO4CHR-xF2Oz6HV6r4BUbwgg_fNEqT5gzjvcZk" -X GET "http://127.0.0.1:12345/user/getUserInfo"
 
 #角色
 curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "666", "AuthorityName":"\u7814\u53d1\u4eba\u5458","ParentId":"0", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
@@ -65,6 +71,7 @@ curl -H "Content-Type: application/json" -X POST  -d '{"authorityId": "888", "me
 仪表盘 \u4eea\u8868\u76d8
 
 测试角色 \u6d4b\u8bd5\u89d2\u8272
+测试 \u6d4b\u8bd5
 
 #mysql config
 
