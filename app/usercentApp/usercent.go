@@ -42,6 +42,7 @@ func initRouter() {
 	RouterList = append(RouterList, RouterInfo{"/user/register", api.UserApi.Register})
 	RouterList = append(RouterList, RouterInfo{"/user/changePassword", api.UserApi.ChangePassword})
 	RouterList = append(RouterList, RouterInfo{"/user/resetPassword", api.UserApi.ResetPassword})
+	RouterList = append(RouterList, RouterInfo{"/user/getUserList", api.UserApi.GetUserList})
 	//get
 	RouterList = append(RouterList, RouterInfo{"/user/getUserInfo", api.UserApi.GetUserInfo})
 	//post

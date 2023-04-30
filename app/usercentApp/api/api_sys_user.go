@@ -144,7 +144,27 @@ func (us *UsercentApi) ChangePassword(w http.ResponseWriter, r *http.Request) {
 // @Param data body request.PageInfo true "页码, 每页大小"
 // @Success 200 {object} response.Response{data=response.PageResult,msg=string} "分页获取用户列表,返回包括列表,总数,页码,每页数量"
 // @Router /user/getUserList [post]
-func (us *UsercentApi) GetUserList(w http.ResponseWriter, r *http.Request) {}
+func (us *UsercentApi) GetUserList(w http.ResponseWriter, r *http.Request) {
+	var pageInfo common.PageInfo
+	err := common.HttpRequest2Struct(r, &pageInfo)
+
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+
+	if err, list, total := service.UserServices.GetUserInfoList(pageInfo); err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+
+	} else {
+		common.HttpOKResponse(w, common.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     pageInfo.Page,
+			PageSize: pageInfo.PageSize,
+		})
+	}
+}
 
 // @Tags SysUser
 // @Summary 更改用户权限

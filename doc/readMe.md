@@ -30,6 +30,10 @@ curl -H "Content-Type: application/json" -X POST -d '{"username": "123", "passwo
 
 curl -H "Content-Type: application/json" -X POST -d '{"UserId": 1 }' "http://127.0.0.1:12345/user/resetPassword"
 
+//
+curl -H "Content-Type: application/json" -X POST -d '{"page": 1 ,"pageSize":10}' "http://127.0.0.1:12345/user/getUserList"
+
+
 #没有token
 curl -H "Content-Type: application/json" -X GET "http://127.0.0.1:12345/user/getUserInfo"
 #有token

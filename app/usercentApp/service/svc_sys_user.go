@@ -73,3 +73,23 @@ func (userService *UserService) GetUserInfo(uuid string) (err error, user model.
 	err = global.GLB_DB.First(&reqUser, "uuid = ?", uuid).Error
 	return err, reqUser
 }
+
+//@author: [piexlmax](https://github.com/piexlmax)
+//@function: GetUserInfoList
+//@description: 分页获取数据
+//@param: info request.PageInfo
+//@return: err error, list interface{}, total int64
+
+func (userService *UserService) GetUserInfoList(info common.PageInfo) (err error, list interface{}, total int64) {
+	limit := info.PageSize
+	offset := info.PageSize * (info.Page - 1)
+	db := global.GLB_DB.Model(&model.SysUsers{})
+	var userList []model.SysUsers
+	err = db.Count(&total).Error
+	if err != nil {
+		return
+	}
+	err = db.Limit(limit).Offset(offset).Preload("Authorities").Find(&userList).Error
+	//err = db.Limit(limit).Offset(offset).Find(&userList).Error
+	return err, userList, total
+}
