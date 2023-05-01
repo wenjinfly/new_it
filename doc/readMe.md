@@ -50,7 +50,7 @@ curl -H "Content-Type: application/json" -X GET "http://127.0.0.1:12345/user/get
 curl -H "Content-Type: application/json" --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiOTNiODc0MTItMmUyYy00NmE0LTliYTMtY2M5NjM5MTdlNzZhIiwiSUQiOjMsIlVzZXJuYW1lIjoidGVzdCIsIkF1dGhvcml0eUlkIjoiODg4IiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODI5NjA1NDEsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4Mjg3MzE0MX0.EJQLxHO4CHR-xF2Oz6HV6r4BUbwgg_fNEqT5gzjvcZk" -X GET "http://127.0.0.1:12345/user/getUserInfo"
 
 #角色
-curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "666", "AuthorityName":"\u7814\u53d1\u4eba\u5458","ParentId":"0", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
+curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "222", "AuthorityName":"\u6d4b\u8bd5","ParentId":"0", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
 
 curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "888", "AuthorityName":"\u666e\u901a\u7528\u6237","ParentId":"0", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
 
@@ -64,11 +64,14 @@ curl -H "Content-Type: application/json" -X POST  -d '{"MenuLevel":0,"ParentId":
 curl -H "Content-Type: application/json" -X POST  -d '{"page":1,"pageSize": 20}' "http://127.0.0.1:12345/menu/getMenuList"
 
 
-curl -H "Content-Type: application/json" -X POST  -d '{"authorityId": "888", "menus":[{"menus_id":9,"MenuLevel":0,"ParentId": 0, "Path":"mainindex","Name":"mainindex", "Component":"view/task/index.vue","Sort":1,"Hidden":false,"Title":"\u4e3b\u9875\u9762"}]}' "http://127.0.0.1:12345/menu/addMenuAuthority"
+curl -H "Content-Type: application/json" -X POST  -d '{"authorityId": "222", "menuId":3}' "http://127.0.0.1:12345/menu/addMenuAuthority"
 
 
 curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":3}' "http://127.0.0.1:12345/menu/getBaseMenuById"
 
+curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":11}' "http://127.0.0.1:12345/menu/deleteBaseMenu"
+
+//
 
 curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":11,"MenuLevel":0,"ParentId": 3, "Path":"dashboardtest","Name":"dashboardtest", "Component":"view/task/index.vue","Sort":35,"Hidden":false,"Title":"\u4e3b\u9875\u9762"}' "http://127.0.0.1:12345/menu/updateBaseMenu"
 

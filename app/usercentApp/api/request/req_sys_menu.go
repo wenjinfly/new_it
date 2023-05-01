@@ -6,7 +6,7 @@ import (
 
 // Add menu authority info structure
 type AddMenuAuthorityInfo struct {
-	MenusId     uint64 `json:"MenusId"`     //type:                  comment:菜单ID              version:2023-03-12 22:57
+	MenuId      uint64 `json:"menuId"`      //type:                  comment:菜单ID              version:2023-03-12 22:57
 	AuthorityId string `json:"authorityId"` // 角色ID
 }
 

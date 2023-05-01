@@ -58,12 +58,27 @@ func (a *MenuInfoApi) AddMenuAuthority(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// if err := service.MenusServices.AddMenuAuthority(authorityMenu.Menus, authorityMenu.AuthorityId); err != nil {
-	// 	common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+	//获取menu
+	menu, err2 := service.MenusServices.GetBaseMenuById(authorityMenu.MenuId)
+	if err2 != nil {
 
-	// } else {
-	// 	common.HttpOKResponse(w, nil)
-	// }
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("获取失败-"+err2.Error()))
+		return
+	}
+
+	var menus []model.SysBaseMenus
+	menus = append(menus, menu)
+
+	if len(menu.Children) > 0 {
+		menus = append(menus, menu.Children...)
+	}
+
+	if err := service.MenusServices.AddMenuAuthority(menus, authorityMenu.AuthorityId); err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+
+	} else {
+		common.HttpOKResponse(w, nil)
+	}
 }
 
 // @Tags AuthorityMenu
@@ -112,7 +127,19 @@ func (a *MenuInfoApi) AddBaseMenu(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} response.Response{msg=string} "删除菜单"
 // @Router /menu/deleteBaseMenu [post]
 func (a *MenuInfoApi) DeleteBaseMenu(w http.ResponseWriter, r *http.Request) {
+	var idInfo request.GetByMenuId
+	err := common.HttpRequest2Struct(r, &idInfo)
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
 
+	if err := service.MenusServices.DeleteBaseMenu(idInfo.MenuId); err != nil {
+
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("删除失败-"+err.Error()))
+	} else {
+		common.HttpOKResponse(w, nil)
+	}
 }
 
 // @Tags Menu

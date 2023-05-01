@@ -124,8 +124,45 @@ func (m *MenusService) GetInfoList() (err error, list interface{}, total int64) 
 func (m *MenusService) AddMenuAuthority(menus []model.SysBaseMenus, authorityId string) (err error) {
 	var auth model.SysAuthorities
 	auth.AuthorityId = authorityId
-	//auth.SysBaseMenus = menus
+	auth.SysBaseMenus = menus
 	err = AuthorityServices.SetMenuAuthority(&auth)
+	return err
+}
+
+//@author: [piexlmax](https://github.com/piexlmax)
+//@function: DeleteBaseMenu
+//@description: 删除基础路由
+//@param: id float64
+//@return: err error
+
+func (m *MenusService) DeleteBaseMenu(menu_id uint64) (err error) {
+	err = global.GLB_DB.Where("parent_id = ?", menu_id).First(&model.SysBaseMenus{}).Error
+	if err != nil {
+		var menu model.SysBaseMenus
+
+		db := global.GLB_DB.Preload("SysAuthoritys").Where("menu_id = ?", menu_id).First(&menu)
+		if db.Error != nil {
+			return db.Error
+		}
+
+		//删除关联表
+		if len(menu.SysAuthoritys) > 0 {
+			err = global.GLB_DB.Model(&menu).Association("SysAuthoritys").Delete(&menu.SysAuthoritys)
+			if err != nil {
+				return
+			}
+			//尝试删除
+			err = db.Delete(&menu).Error
+
+		} else {
+			err = db.Error
+			if err != nil {
+				return
+			}
+		}
+	} else {
+		return errors.New("此菜单存在子菜单不可删除")
+	}
 	return err
 }
 

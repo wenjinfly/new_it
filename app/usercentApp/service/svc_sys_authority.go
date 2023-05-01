@@ -171,8 +171,8 @@ func (authorityService *AuthorityService) SetDataAuthority(auth model.SysAuthori
 func (authorityService *AuthorityService) SetMenuAuthority(auth *model.SysAuthorities) error {
 	var s model.SysAuthorities
 	global.GLB_DB.Preload("SysBaseMenus").First(&s, "authority_id = ?", auth.AuthorityId)
-	//err := global.GLB_DB.Model(&s).Association("SysBaseMenus").Replace(&auth.SysBaseMenus)
-	err := errors.New("dd")
+	err := global.GLB_DB.Model(&s).Association("SysBaseMenus").Append(&auth.SysBaseMenus)
+
 	return err
 }
 
