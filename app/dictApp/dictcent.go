@@ -3,15 +3,17 @@ package dictApp
 import (
 	"net/http"
 	"new_it/app/dictApp/dbdata"
+	"new_it/app/dictApp/model"
 )
 
 /*
-Tables : 当前模块数据库表
+Tables : 当前模块数据库表DictInfo
 */
 var Tables []interface{}
 
 func initTable() {
-	//Tables = append(Tables, new(model.Task))
+	Tables = append(Tables, new(model.DictType))
+	Tables = append(Tables, new(model.DictInfo))
 
 }
 
@@ -40,8 +42,8 @@ var Dbdatas []dbdata.InitDBData
 
 // 初始化数据库表的内容
 func initdbdatas() {
-	//Dbdatas = append(Dbdatas, dbdata.User)
-	//Dbdatas = append(Dbdatas, dbdata.BaseMenu)
+	Dbdatas = append(Dbdatas, dbdata.DictTypes)
+	Dbdatas = append(Dbdatas, dbdata.DictInfos)
 }
 
 /*
