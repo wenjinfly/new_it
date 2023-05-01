@@ -17,9 +17,9 @@ type MenusService struct{}
 //@param: authorityId string
 //@return: err error, treeMap map[string][]model.SysMenu
 
-func (m *MenusService) getMenuTreeMap(authorityId string) (err error, treeMap map[int][]model.SysBaseMenus) {
-	var allMenus []model.SysBaseMenus
-	treeMap = make(map[int][]model.SysBaseMenus)
+func (m *MenusService) getMenuTreeMap(authorityId string) (err error, treeMap map[uint64][]model.ViewAuthorityMenu) {
+	var allMenus []model.ViewAuthorityMenu
+	treeMap = make(map[uint64][]model.ViewAuthorityMenu)
 	err = global.GLB_DB.Where("authority_id = ?", authorityId).Order("sort").Find(&allMenus).Error
 	for _, v := range allMenus {
 		treeMap[v.ParentId] = append(treeMap[v.ParentId], v)
@@ -46,13 +46,41 @@ func (m *MenusService) AddBaseMenu(menu model.SysBaseMenus) error {
 //@param: authorityId string
 //@return: err error, menus []model.SysMenu
 
-func (m *MenusService) GetMenuTree(authorityId string) (err error, menus []model.SysBaseMenus) {
+func (m *MenusService) GetMenuTree(authorityId string) (err error, menus []model.ViewAuthorityMenu) {
 	err, menuTree := m.getMenuTreeMap(authorityId)
 	menus = menuTree[0]
 	for i := 0; i < len(menus); i++ {
-		err = m.getChildrenList(&menus[i], menuTree)
+		err = m.getViewChildrenList(&menus[i], menuTree)
 	}
 	return err, menus
+}
+
+//@author: [piexlmax](https://github.com/piexlmax)
+//@function: getChildrenList
+//@description: 获取子菜单
+//@param: menu *model.SysMenu, treeMap map[string][]model.SysMenu
+//@return: err error
+
+func (m *MenusService) getViewChildrenList(menu *model.ViewAuthorityMenu, treeMap map[uint64][]model.ViewAuthorityMenu) (err error) {
+	menu.ChildrenView = treeMap[menu.MenuId]
+	for i := 0; i < len(menu.Children); i++ {
+		err = m.getViewChildrenList(&menu.ChildrenView[i], treeMap)
+	}
+	return err
+}
+
+//@author: [piexlmax](https://github.com/piexlmax)
+//@function: GetBaseMenuTree
+//@description: 获取基础路由树
+//@return: err error, menus []model.SysBaseMenu
+
+func (m *MenusService) GetBaseMenuTree() (menus []model.SysBaseMenus, err error) {
+	err, treeMap := m.getBaseMenuTreeMap()
+	menus = treeMap[0]
+	for i := 0; i < len(menus); i++ {
+		err = m.getBaseChildrenList(&menus[i], treeMap)
+	}
+	return menus, err
 }
 
 //@author: [piexlmax](https://github.com/piexlmax)
@@ -74,9 +102,9 @@ func (m *MenusService) getChildrenList(menu *model.SysBaseMenus, treeMap map[int
 //@description: 获取路由总树map
 //@return: err error, treeMap map[int][]model.SysBaseMenu
 
-func (m *MenusService) getBaseMenuTreeMap() (err error, treeMap map[int][]model.SysBaseMenus) {
+func (m *MenusService) getBaseMenuTreeMap() (err error, treeMap map[uint64][]model.SysBaseMenus) {
 	var allMenus []model.SysBaseMenus
-	treeMap = make(map[int][]model.SysBaseMenus)
+	treeMap = make(map[uint64][]model.SysBaseMenus)
 	err = global.GLB_DB.Order("sort").Find(&allMenus).Error
 	for _, v := range allMenus {
 		treeMap[v.ParentId] = append(treeMap[v.ParentId], v)
@@ -90,8 +118,8 @@ func (m *MenusService) getBaseMenuTreeMap() (err error, treeMap map[int][]model.
 //@param: menu *model.SysBaseMenu, treeMap map[string][]model.SysBaseMenu
 //@return: err error
 
-func (m *MenusService) getBaseChildrenList(menu *model.SysBaseMenus, treeMap map[int][]model.SysBaseMenus) (err error) {
-	menu.Children = treeMap[int(menu.MenuId)]
+func (m *MenusService) getBaseChildrenList(menu *model.SysBaseMenus, treeMap map[uint64][]model.SysBaseMenus) (err error) {
+	menu.Children = treeMap[menu.MenuId]
 	for i := 0; i < len(menu.Children); i++ {
 		err = m.getBaseChildrenList(&menu.Children[i], treeMap)
 	}

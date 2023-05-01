@@ -9,7 +9,7 @@ import "time"
 type SysBaseMenus struct {
 	MenuId        uint64           `gorm:"column:menu_id;primaryKey" json:"MenuId"` //type:                  comment:菜单ID              version:2023-03-12 22:57
 	MenuLevel     int              `gorm:"column:menu_level" json:"MenuLevel"`      //type:BIGINT UNSIGNED   comment:                    version:2023-03-12 22:57
-	ParentId      int              `gorm:"column:parent_id" json:"ParentId"`        //type:string            comment:父菜单ID            version:2023-03-12 22:57
+	ParentId      uint64           `gorm:"column:parent_id" json:"ParentId"`        //type:string            comment:父菜单ID            version:2023-03-12 22:57
 	Path          string           `gorm:"column:path" json:"Path"`                 //type:string            comment:路由path            version:2023-03-12 22:57
 	Name          string           `gorm:"column:name" json:"Name"`                 //type:string            comment:路由name            version:2023-03-12 22:57
 	Hidden        bool             `gorm:"column:hidden" json:"Hidden"`             //type:BIT               comment:是否在列表隐藏      version:2023-03-12 22:57

@@ -60,7 +60,9 @@ func initRouter() {
 	RouterList = append(RouterList, RouterInfo{"/menu/getBaseMenuById", api.MenuApi.GetBaseMenuById})
 	RouterList = append(RouterList, RouterInfo{"/menu/updateBaseMenu", api.MenuApi.UpdateBaseMenu})
 	RouterList = append(RouterList, RouterInfo{"/menu/deleteBaseMenu", api.MenuApi.DeleteBaseMenu})
+	RouterList = append(RouterList, RouterInfo{"/menu/getBaseMenuTree", api.MenuApi.GetBaseMenuTree})
 	RouterList = append(RouterList, RouterInfo{"/menu/getMenusByAuthority", api.MenuApi.GetMenusByAuthority})
+	RouterList = append(RouterList, RouterInfo{"/menu/getViewMenu", api.MenuApi.GetViewMenu}) //动态路由
 
 	///menu/
 

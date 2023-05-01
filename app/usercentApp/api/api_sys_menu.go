@@ -8,6 +8,7 @@ import (
 	"new_it/app/usercentApp/service"
 	"new_it/common"
 	"new_it/errorcode"
+	"new_it/utils"
 )
 
 type MenuInfoApi struct{}
@@ -18,17 +19,31 @@ type MenuInfoApi struct{}
 // @Produce  application/json
 // @Param data body request.Empty true "空"
 // @Success 200 {object} response.Response{data=systemRes.SysMenusResponse,msg=string} "获取用户动态路由,返回包括系统菜单详情列表"
-// @Router /menu/getMenu [post]
-func (a *MenuInfoApi) GetMenu(w http.ResponseWriter, r *http.Request) {
-	/*	if err, menus := service.MenusServices.GetMenuTree(utils.GetUserAuthorityId(c)); err != nil {
-			common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
-		} else {
-			if menus == nil {
-				menus = []model.SysBaseMenus{}
-			}
-			response.OkWithDetailed(systemRes.SysMenusResponse{Menus: menus}, "获取成功", c)
+// @Router /menu/getViewMenu [post]
+func (a *MenuInfoApi) GetViewMenu(w http.ResponseWriter, r *http.Request) {
+
+	//拿不到token或是uuid则说明 认证异常
+	token, err := common.HttpRequestGetJWTToken(r)
+	if err != nil {
+		common.HttpErrorErrorResponse(w, http.StatusUnauthorized, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+
+	authid, errs := utils.GetUserAuthorityIDFromJWT(token)
+	if errs != nil {
+		common.HttpErrorErrorResponse(w, http.StatusUnauthorized, errorcode.ErrUserComm.FillMsg(errs.Error()))
+		return
+	}
+
+	if err, menus := service.MenusServices.GetMenuTree(authid); err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+	} else {
+		if menus == nil {
+			menus = []model.ViewAuthorityMenu{}
 		}
-	*/
+		common.HttpOKResponse(w, response.SysMenusResponse{Menus: menus})
+	}
+
 }
 
 // @Tags AuthorityMenu
@@ -39,7 +54,13 @@ func (a *MenuInfoApi) GetMenu(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} response.Response{data=systemRes.SysBaseMenusResponse,msg=string} "获取用户动态路由,返回包括系统菜单列表"
 // @Router /menu/getBaseMenuTree [post]
 func (a *MenuInfoApi) GetBaseMenuTree(w http.ResponseWriter, r *http.Request) {
+	if menus, err := service.MenusServices.GetBaseMenuTree(); err != nil {
 
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("获取失败-"+err.Error()))
+
+	} else {
+		common.HttpOKResponse(w, response.SysBaseMenusResponse{Menus: menus})
+	}
 }
 
 // @Tags AuthorityMenu
