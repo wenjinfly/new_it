@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"new_it/app/configApp"
+	"new_it/app/dictApp"
+	"new_it/app/taskApp"
 	"new_it/app/usercentApp"
 	"new_it/global"
 	"new_it/initialize"
@@ -35,17 +37,16 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("hello listener available on %v\n", lis)
-
-	//for test
-	jwt, _ := conapp.GetConfigJWT(ctx)
-	mysql, _ := conapp.GetConfigMysql(ctx)
-	fmt.Println(jwt)
-	fmt.Println(mysql)
-	fmt.Println(global.GLB_CFG_INFO)
-	//end test
 
 	fmt.Println("--------------------------")
+	dict, err2 := weaver.Get[dictApp.DictcentApp](global.GLB_WEAVER_ROOT)
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+
+	dict.RegisterTables(ctx)
+	dict.RegisterRouter(ctx)
+	dict.RegisterDBdata(ctx)
 
 	user, err2 := weaver.Get[usercentApp.UsercentApp](global.GLB_WEAVER_ROOT)
 	if err2 != nil {
@@ -55,6 +56,15 @@ func main() {
 	user.RegisterTables(ctx)
 	user.RegisterRouter(ctx)
 	user.RegisterDBdata(ctx)
+
+	task, err3 := weaver.Get[taskApp.TaskcentApp](global.GLB_WEAVER_ROOT)
+	if err3 != nil {
+		log.Fatal(err3)
+	}
+
+	task.RegisterTables(ctx)
+	task.RegisterRouter(ctx)
+	task.RegisterDBdata(ctx)
 
 	http.Serve(lis, nil)
 }
