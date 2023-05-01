@@ -58,7 +58,7 @@ curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "999", "Au
 
 #目录                                                  
 
-curl -H "Content-Type: application/json" -X POST  -d '{"MenuLevel":0,"ParentId": 0, "Path":"dashboard","Name":"dashboard", "Component":"view/dashboard/index.vue","Sort":1,"Hidden":false,"Title":"\u4eea\u8868\u76d8"}' "http://127.0.0.1:12345/menu/addBaseMenu"
+curl -H "Content-Type: application/json" -X POST  -d '{"MenuLevel":0,"ParentId": 3, "Path":"dashboard","Name":"dashboard", "Component":"view/dashboard/index.vue","Sort":34,"Hidden":false,"Title":"\u4eea\u8868\u76d8"}' "http://127.0.0.1:12345/menu/addBaseMenu"
 
 
 curl -H "Content-Type: application/json" -X POST  -d '{"page":1,"pageSize": 20}' "http://127.0.0.1:12345/menu/getMenuList"
@@ -66,6 +66,8 @@ curl -H "Content-Type: application/json" -X POST  -d '{"page":1,"pageSize": 20}'
 
 curl -H "Content-Type: application/json" -X POST  -d '{"authorityId": "888", "menus":[{"menus_id":9,"MenuLevel":0,"ParentId": 0, "Path":"mainindex","Name":"mainindex", "Component":"view/task/index.vue","Sort":1,"Hidden":false,"Title":"\u4e3b\u9875\u9762"}]}' "http://127.0.0.1:12345/menu/addMenuAuthority"
 
+
+curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":3}' "http://127.0.0.1:12345/menu/getBaseMenuById"
 
 
 

@@ -34,7 +34,7 @@ func (m *MenusService) getMenuTreeMap(authorityId string) (err error, treeMap ma
 
 func (m *MenusService) AddBaseMenu(menu model.SysBaseMenus) error {
 	if !errors.Is(global.GLB_DB.Where("name = ?", menu.Name).First(&model.SysBaseMenus{}).Error, gorm.ErrRecordNotFound) {
-		return errors.New("存在重复name，请修改name")
+		return errors.New("存在重复name,请修改name")
 	}
 	return global.GLB_DB.Create(&menu).Error
 }
@@ -127,4 +127,23 @@ func (m *MenusService) AddMenuAuthority(menus []model.SysBaseMenus, authorityId 
 	//auth.SysBaseMenus = menus
 	err = AuthorityServices.SetMenuAuthority(&auth)
 	return err
+}
+
+//@author: [piexlmax](https://github.com/piexlmax)
+//@function: GetBaseMenuById
+//@description: 返回当前选中menu
+//@param: id uint64
+//@return: menu model.SysBaseMenus, err error
+
+func (m *MenusService) GetBaseMenuById(id uint64) (menu model.SysBaseMenus, err error) {
+	err = global.GLB_DB.Where("menu_id = ?", id).First(&menu).Error
+	if err != nil {
+		return
+	}
+
+	var allMenus []model.SysBaseMenus
+	err = global.GLB_DB.Where("parent_id = ?", menu.MenuId).Order("sort").Find(&allMenus).Error
+	menu.Children = allMenus
+
+	return
 }

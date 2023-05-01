@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 	"new_it/app/usercentApp/api/request"
+	"new_it/app/usercentApp/api/response"
 	"new_it/app/usercentApp/model"
 	"new_it/app/usercentApp/service"
 	"new_it/common"
@@ -135,7 +136,20 @@ func (a *MenuInfoApi) UpdateBaseMenu(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} response.Response{data=systemRes.SysBaseMenuResponse,msg=string} "根据id获取菜单,返回包括系统菜单列表"
 // @Router /menu/getBaseMenuById [post]
 func (a *MenuInfoApi) GetBaseMenuById(w http.ResponseWriter, r *http.Request) {
+	var idInfo request.GetByMenuId
+	err := common.HttpRequest2Struct(r, &idInfo)
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
 
+	if menu, err := service.MenusServices.GetBaseMenuById(idInfo.MenuId); err != nil {
+
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("获取失败-"+err.Error()))
+
+	} else {
+		common.HttpOKResponse(w, response.SysBaseMenuResponse{Menu: menu})
+	}
 }
 
 // @Tags Menu

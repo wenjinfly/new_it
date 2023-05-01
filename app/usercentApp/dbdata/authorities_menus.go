@@ -27,6 +27,9 @@ func (a *authoritiesMenus) Initialize() error {
 		{MenuId: 5, AuthorityId: "666"},
 		{MenuId: 6, AuthorityId: "666"},
 		{MenuId: 7, AuthorityId: "666"},
+		{MenuId: 8, AuthorityId: "666"},
+		{MenuId: 9, AuthorityId: "666"},
+		{MenuId: 10, AuthorityId: "666"},
 		//管理员角色
 		{MenuId: 1, AuthorityId: "777"},
 		{MenuId: 2, AuthorityId: "777"},
@@ -35,13 +38,17 @@ func (a *authoritiesMenus) Initialize() error {
 		{MenuId: 5, AuthorityId: "777"},
 		{MenuId: 6, AuthorityId: "777"},
 		{MenuId: 7, AuthorityId: "777"},
+		{MenuId: 8, AuthorityId: "777"},
+		{MenuId: 9, AuthorityId: "777"},
+		{MenuId: 10, AuthorityId: "777"},
 
 		//普通用户
-		{MenuId: 3, AuthorityId: "888"},
-		{MenuId: 4, AuthorityId: "888"},
-		{MenuId: 5, AuthorityId: "888"},
-		{MenuId: 6, AuthorityId: "888"},
+		{MenuId: 1, AuthorityId: "888"},
+		{MenuId: 2, AuthorityId: "888"},
 		{MenuId: 7, AuthorityId: "888"},
+		{MenuId: 8, AuthorityId: "888"},
+		{MenuId: 9, AuthorityId: "888"},
+		{MenuId: 10, AuthorityId: "888"},
 
 		//测试角色
 		{MenuId: 1, AuthorityId: "999"},
@@ -51,6 +58,9 @@ func (a *authoritiesMenus) Initialize() error {
 		{MenuId: 5, AuthorityId: "999"},
 		{MenuId: 6, AuthorityId: "999"},
 		{MenuId: 7, AuthorityId: "999"},
+		{MenuId: 8, AuthorityId: "999"},
+		{MenuId: 9, AuthorityId: "999"},
+		{MenuId: 10, AuthorityId: "999"},
 	}
 	if err := global.GLB_DB.Create(&entities).Error; err != nil {
 		return errors.New(a.TableName() + "表数据初始化失败!")

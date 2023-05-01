@@ -19,7 +19,7 @@ func (a *USERAuthority) TableName() string {
 func (a *USERAuthority) Initialize() error {
 	entities := []model.SysAuthorities{
 		{AuthorityId: "666", AuthorityName: "研发人员", ParentId: "0", DefaultRouter: "MainIndex"},
-		{AuthorityId: "777", AuthorityName: "管理员角色", ParentId: "0", DefaultRouter: "MainIndex"},
+		{AuthorityId: "777", AuthorityName: "管理员角色", ParentId: "0", DefaultRouter: "admin"},
 		{AuthorityId: "888", AuthorityName: "普通用户", ParentId: "0", DefaultRouter: "MainIndex"},
 		{AuthorityId: "999", AuthorityName: "测试角色", ParentId: "0", DefaultRouter: "MainIndex"},
 	}

@@ -27,3 +27,8 @@ func DefaultMenu() []model.SysBaseMenus {
 		Icon:      "setting",
 	}}
 }
+
+// GetById Find by id structure
+type GetByMenuId struct {
+	MenuId uint64 `json:"MenuId" form:"MenuId"` // 主键ID
+}
