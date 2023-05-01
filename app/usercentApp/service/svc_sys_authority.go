@@ -67,17 +67,24 @@ func (authorityService *AuthorityService) CopyAuthority(copyInfo response.SysAut
 //@param: auth model.SysAuthority
 //@return: err error, authority model.SysAuthority
 
-func (authorityService *AuthorityService) UpdateAuthority(auth model.SysAuthorities) (err error, authority model.SysAuthorities) {
+func (authorityService *AuthorityService) UpdateAuthority(auth model.SysAuthorities) (authority model.SysAuthorities, err error) {
+
+	if auth.ParentId != "" {
+		if errors.Is(global.GLB_DB.Where("authority_id = ?", auth.ParentId).First(&model.SysAuthorities{}).Error, gorm.ErrRecordNotFound) {
+			// 判断父角色是否存在
+			return model.SysAuthorities{}, errors.New("需要设置的父角色不存在")
+		}
+
+	}
 	err = global.GLB_DB.Where("authority_id = ?", auth.AuthorityId).First(&model.SysAuthorities{}).Updates(&auth).Error
-	return err, auth
+	return auth, err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: DeleteAuthority
-//@description: 删除角色
-//@param: auth *model.SysAuthority
-//@return: err error
-/*
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: DeleteAuthority
+// @description: 删除角色
+// @param: auth *model.SysAuthority
+// @return: err error
 func (authorityService *AuthorityService) DeleteAuthority(auth *model.SysAuthorities) (err error) {
 	if errors.Is(global.GLB_DB.Debug().Preload("Users").First(&auth).Error, gorm.ErrRecordNotFound) {
 		return errors.New("该角色不存在")
@@ -85,34 +92,33 @@ func (authorityService *AuthorityService) DeleteAuthority(auth *model.SysAuthori
 	if len(auth.Users) != 0 {
 		return errors.New("此角色有用户正在使用禁止删除")
 	}
-	if !errors.Is(global.GLB_DB.Where("authority_id = ?", auth.AuthorityId).First(&model.SysUser{}).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.GLB_DB.Where("authority_id = ?", auth.AuthorityId).First(&model.SysUsers{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("此角色有用户正在使用禁止删除")
 	}
-	if !errors.Is(global.GLB_DB.Where("parent_id = ?", auth.AuthorityId).First(&model.SysAuthority{}).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.GLB_DB.Where("parent_id = ?", auth.AuthorityId).First(&model.SysAuthorities{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("此角色存在子角色不允许删除")
 	}
 	db := global.GLB_DB.Preload("SysBaseMenus").Where("authority_id = ?", auth.AuthorityId).First(auth)
-	err = db.Unscoped().Delete(auth).Error
-	if err != nil {
-		return
-	}
+
 	if len(auth.SysBaseMenus) > 0 {
+		//先删除关联数据
 		err = global.GLB_DB.Model(auth).Association("SysBaseMenus").Delete(auth.SysBaseMenus)
 		if err != nil {
 			return
 		}
-		// err = db.Association("SysBaseMenus").Delete(&auth)
+		err = db.Unscoped().Delete(auth).Error
+
 	} else {
 		err = db.Error
 		if err != nil {
 			return
 		}
 	}
-	err = global.GLB_DB.Delete(&[]model.SysUseAuthority{}, "sys_authority_authority_id = ?", auth.AuthorityId).Error
-	CasbinServiceApp.ClearCasbin(0, auth.AuthorityId)
+	//err = global.GLB_DB.Delete(&[]model.SysUserAuthority{}, "sys_authority_authority_id = ?", auth.AuthorityId).Error
+
 	return err
 }
-*/
+
 //@author: [piexlmax](https://github.com/piexlmax)
 //@function: GetAuthorityInfoList
 //@description: 分页获取数据
@@ -151,19 +157,6 @@ func (authorityService *AuthorityService) GetAuthorityInfoByID(authid string) (e
 	return err, sa
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: SetDataAuthority
-//@description: 设置角色资源权限
-//@param: auth model.SysAuthority
-//@return: error
-/*
-func (authorityService *AuthorityService) SetDataAuthority(auth model.SysAuthorities) error {
-	var s model.SysAuthorities
-	global.GLB_DB.Preload("DataAuthorityId").First(&s, "authority_id = ?", auth.AuthorityId)
-	err := global.GLB_DB.Model(&s).Association("DataAuthorityId").Replace(&auth.DataAuthorityId)
-	return err
-}
-*/
 //@author: [piexlmax](https://github.com/piexlmax)
 //@function: SetMenuAuthority
 //@description: 菜单与角色绑定

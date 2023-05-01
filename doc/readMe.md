@@ -24,6 +24,8 @@ curl -H "Content-Type: application/json" -X POST -d '{"username": "admin", "pass
 
 curl -H "Content-Type: application/json" -X POST -d '{"username": "test", "password":"2361bd3bf151f0ec52a3ee762bca3644","nickname":"yyds","authorityId":"888" }' "http://127.0.0.1:12345/user/register"
 
+curl -H "Content-Type: application/json" -X POST -d '{"username": "test", "password":"2361bd3bf151f0ec52a3ee762bca3644","nickname":"yyds","authorityId":"2221" }' "http://127.0.0.1:12345/user/register"
+
 curl -H "Content-Type: application/json" -X POST -d '{"username": "test", "password":"2361bd3bf151f0ec52a3ee762bca3644" }' "http://127.0.0.1:12345/login"
 
 curl -H "Content-Type: application/json" --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiOTNiODc0MTItMmUyYy00NmE0LTliYTMtY2M5NjM5MTdlNzZhIiwiSUQiOjMsIlVzZXJuYW1lIjoidGVzdCIsIkF1dGhvcml0eUlkIjoiODg4IiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODI5NjA1NDEsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4Mjg3MzE0MX0.EJQLxHO4CHR-xF2Oz6HV6r4BUbwgg_fNEqT5gzjvcZk" -X POST -d '{"nickname":"\u6d4b\u8bd5","Phone":"18112056621" }' "http://127.0.0.1:12345/user/SetSelfInfo"
@@ -58,9 +60,15 @@ curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "999", "Au
 
 curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "2221", "AuthorityName":"\u6d4b\u8bd5\u7528\u6237","ParentId":"222", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
 
+curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "2222", "AuthorityName":"\u6d4b\u8bd5\u7528\u6237","ParentId":"222", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
+
 curl -H "Content-Type: application/json" -X POST  -d '{"page":1,"pageSize": 20}' "http://127.0.0.1:12345/authority/getAuthorityList"
 
+curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "2221", "AuthorityName":"\u6d4b\u8bd5\u7528\u6237","ParentId":"333", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/updateAuthority"
 
+curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "2222"}' "http://127.0.0.1:12345/authority/deleteAuthority"
+
+//deleteAuthority
 #目录                                                  
 
 curl -H "Content-Type: application/json" -X POST  -d '{"MenuLevel":0,"ParentId": 3, "Path":"dashboard","Name":"dashboard", "Component":"view/dashboard/index.vue","Sort":34,"Hidden":false,"Title":"\u4eea\u8868\u76d8"}' "http://127.0.0.1:12345/menu/addBaseMenu"
@@ -70,6 +78,8 @@ curl -H "Content-Type: application/json" -X POST  -d '{"page":1,"pageSize": 20}'
 
 
 curl -H "Content-Type: application/json" -X POST  -d '{"authorityId": "222", "menuId":3}' "http://127.0.0.1:12345/menu/addMenuAuthority"
+
+curl -H "Content-Type: application/json" -X POST  -d '{"authorityId": "2221", "menuId":1}' "http://127.0.0.1:12345/menu/addMenuAuthority"
 
 
 curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":3}' "http://127.0.0.1:12345/menu/getBaseMenuById"

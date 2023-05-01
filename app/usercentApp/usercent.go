@@ -53,7 +53,9 @@ func initRouter() {
 
 	RouterList = append(RouterList, RouterInfo{"/authority/createAuthority", api.AuthorityApi.CreateAuthority})
 	RouterList = append(RouterList, RouterInfo{"/authority/getAuthorityList", api.AuthorityApi.GetAuthorityList})
-	//getAuthorityList
+	RouterList = append(RouterList, RouterInfo{"/authority/updateAuthority", api.AuthorityApi.UpdateAuthority})
+	RouterList = append(RouterList, RouterInfo{"/authority/deleteAuthority", api.AuthorityApi.DeleteAuthority})
+	//
 
 	//menus
 	RouterList = append(RouterList, RouterInfo{"/menu/addBaseMenu", api.MenuApi.AddBaseMenu})
