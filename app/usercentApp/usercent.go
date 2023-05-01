@@ -52,6 +52,8 @@ func initRouter() {
 	//post
 
 	RouterList = append(RouterList, RouterInfo{"/authority/createAuthority", api.AuthorityApi.CreateAuthority})
+	RouterList = append(RouterList, RouterInfo{"/authority/getAuthorityList", api.AuthorityApi.GetAuthorityList})
+	//getAuthorityList
 
 	//menus
 	RouterList = append(RouterList, RouterInfo{"/menu/addBaseMenu", api.MenuApi.AddBaseMenu})

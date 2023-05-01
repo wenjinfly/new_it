@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"new_it/app/usercentApp/model"
+	"new_it/common"
 	"new_it/global"
 
 	"gorm.io/gorm"
@@ -117,21 +118,22 @@ func (authorityService *AuthorityService) DeleteAuthority(auth *model.SysAuthori
 //@description: 分页获取数据
 //@param: info request.PageInfo
 //@return: err error, list interface{}, total int64
-/*
-func (authorityService *AuthorityService) GetAuthorityInfoList(info request.PageInfo) (err error, list interface{}, total int64) {
+
+func (a *AuthorityService) GetAuthorityInfoList(info common.PageInfo) (err error, list interface{}, total int64) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
 	db := global.GLB_DB.Model(&model.SysAuthorities{})
-	err = db.Where("parent_id = ?", "0").Count(&total).Error
+	db.Where("parent_id = ?", "0").Count(&total)
+
 	var authority []model.SysAuthorities
-	err = db.Limit(limit).Offset(offset).Preload("DataAuthorityId").Where("parent_id = ?", "0").Find(&authority).Error
+	err = db.Limit(limit).Offset(offset).Where("parent_id = ?", "0").Find(&authority).Error
 	if len(authority) > 0 {
 		for k := range authority {
-			err = authorityService.findChildrenAuthority(&authority[k])
+			err = a.findChildrenAuthority(&authority[k])
 		}
 	}
 	return err, authority, total
-}*/
+}
 
 //@author: [piexlmax](https://github.com/piexlmax)
 //@function: GetAuthorityInfo
@@ -181,14 +183,13 @@ func (authorityService *AuthorityService) SetMenuAuthority(auth *model.SysAuthor
 //@description: 查询子角色
 //@param: authority *model.SysAuthority
 //@return: err error
-/*
-func (authorityService *AuthorityService) findChildrenAuthority(authority *model.SysAuthorities) (err error) {
-	err = global.GLB_DB.Preload("DataAuthorityId").Where("parent_id = ?", authority.AuthorityId).Find(&authority.Children).Error
+
+func (a *AuthorityService) findChildrenAuthority(authority *model.SysAuthorities) (err error) {
+	err = global.GLB_DB.Where("parent_id = ?", authority.AuthorityId).Find(&authority.Children).Error
 	if len(authority.Children) > 0 {
 		for k := range authority.Children {
-			err = authorityService.findChildrenAuthority(&authority.Children[k])
+			err = a.findChildrenAuthority(&authority.Children[k])
 		}
 	}
 	return err
 }
-*/

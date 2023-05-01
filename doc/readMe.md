@@ -56,6 +56,11 @@ curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "888", "Au
 
 curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "999", "AuthorityName":"\u6d4b\u8bd5\u89d2\u8272","ParentId":"0", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
 
+curl -H "Content-Type: application/json" -X POST  -d '{"AuthorityId": "2221", "AuthorityName":"\u6d4b\u8bd5\u7528\u6237","ParentId":"222", "DefaultRouter":"dashboard"}' "http://127.0.0.1:12345/authority/createAuthority"
+
+curl -H "Content-Type: application/json" -X POST  -d '{"page":1,"pageSize": 20}' "http://127.0.0.1:12345/authority/getAuthorityList"
+
+
 #目录                                                  
 
 curl -H "Content-Type: application/json" -X POST  -d '{"MenuLevel":0,"ParentId": 3, "Path":"dashboard","Name":"dashboard", "Component":"view/dashboard/index.vue","Sort":34,"Hidden":false,"Title":"\u4eea\u8868\u76d8"}' "http://127.0.0.1:12345/menu/addBaseMenu"

@@ -33,12 +33,7 @@ func (a *AuthorityInfoApi) CreateAuthority(w http.ResponseWriter, r *http.Reques
 	if err, authBack := service.AuthorityServices.CreateAuthority(authority); err != nil {
 		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("创建失败"+err.Error()))
 	} else {
-		/*
-			var auth model.SysAuthorities
-			auth.AuthorityId = authority.AuthorityId
-			auth.SysBaseMenus = request.DefaultMenu()
-			err = service.AuthorityServices.SetMenuAuthority(&auth)
-		*/
+
 		common.HttpOKResponse(w, response.SysAuthorityResponse{Authority: authBack})
 
 	}
@@ -127,23 +122,25 @@ func (a *AuthorityInfoApi) UpdateAuthority(w http.ResponseWriter, r *http.Reques
 // @Success 200 {object} response.Response{data=response.PageResult,msg=string} "分页获取角色列表,返回包括列表,总数,页码,每页数量"
 // @Router /authority/getAuthorityList [post]
 func (a *AuthorityInfoApi) GetAuthorityList(w http.ResponseWriter, r *http.Request) {
-	/*	var pageInfo request.PageInfo
-		_ = c.ShouldBindJSON(&pageInfo)
-		if err := utils.Verify(pageInfo, utils.PageInfoVerify); err != nil {
-			response.FailWithMessage(err.Error(), c)
-			return
+	var pageInfo common.PageInfo
+	err := common.HttpRequest2Struct(r, &pageInfo)
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+
+	if err, list, total := service.AuthorityServices.GetAuthorityInfoList(pageInfo); err != nil {
+
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("获取失败-"+err.Error()))
+	} else {
+		res := common.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     pageInfo.Page,
+			PageSize: pageInfo.PageSize,
 		}
-		if err, list, total := authorityService.GetAuthorityInfoList(pageInfo); err != nil {
-			global.GVA_LOG.Error("获取失败!", zap.Error(err))
-			response.FailWithMessage("获取失败"+err.Error(), c)
-		} else {
-			response.OkWithDetailed(response.PageResult{
-				List:     list,
-				Total:    total,
-				Page:     pageInfo.Page,
-				PageSize: pageInfo.PageSize,
-			}, "获取成功", c)
-		}*/
+		common.HttpOKResponse(w, res)
+	}
 }
 
 // @Tags Authority
