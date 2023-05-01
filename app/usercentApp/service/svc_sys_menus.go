@@ -130,6 +130,46 @@ func (m *MenusService) AddMenuAuthority(menus []model.SysBaseMenus, authorityId 
 }
 
 //@author: [piexlmax](https://github.com/piexlmax)
+//@function: UpdateBaseMenu
+//@description: 更新路由
+//@param: menu model.SysBaseMenu
+//@return: err error
+
+func (m *MenusService) UpdateBaseMenu(menu model.SysBaseMenus) (err error) {
+	var oldMenu model.SysBaseMenus
+	upDateMap := make(map[string]interface{})
+	upDateMap["keep_alive"] = menu.KeepAlive
+	upDateMap["close_tab"] = menu.CloseTab
+	upDateMap["default_menu"] = menu.DefaultMenu
+	upDateMap["parent_id"] = menu.ParentId
+	upDateMap["path"] = menu.Path
+	upDateMap["name"] = menu.Name
+	upDateMap["hidden"] = menu.Hidden
+	upDateMap["component"] = menu.Component
+	upDateMap["title"] = menu.Title
+	upDateMap["icon"] = menu.Icon
+	upDateMap["sort"] = menu.Sort
+
+	err = global.GLB_DB.Transaction(func(tx *gorm.DB) error {
+		db := tx.Where("menu_id = ?", menu.MenuId).Find(&oldMenu)
+
+		if oldMenu.Name != menu.Name {
+			if !errors.Is(tx.Where("menu_id <> ? AND name = ?", menu.MenuId, menu.Name).First(&model.SysBaseMenus{}).Error, gorm.ErrRecordNotFound) {
+
+				return errors.New("存在相同name修改失败")
+			}
+		}
+
+		txErr := db.Updates(upDateMap).Error
+		if txErr != nil {
+			return txErr
+		}
+		return nil
+	})
+	return err
+}
+
+//@author: [piexlmax](https://github.com/piexlmax)
 //@function: GetBaseMenuById
 //@description: 返回当前选中menu
 //@param: id uint64

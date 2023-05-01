@@ -124,7 +124,19 @@ func (a *MenuInfoApi) DeleteBaseMenu(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} response.Response{msg=string} "更新菜单"
 // @Router /menu/updateBaseMenu [post]
 func (a *MenuInfoApi) UpdateBaseMenu(w http.ResponseWriter, r *http.Request) {
+	var menu model.SysBaseMenus
+	err := common.HttpRequest2Struct(r, &menu)
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
 
+	if err := service.MenusServices.UpdateBaseMenu(menu); err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("更新失败-"+err.Error()))
+
+	} else {
+		common.HttpOKResponse(w, nil)
+	}
 }
 
 // @Tags Menu

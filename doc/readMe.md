@@ -70,6 +70,9 @@ curl -H "Content-Type: application/json" -X POST  -d '{"authorityId": "888", "me
 curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":3}' "http://127.0.0.1:12345/menu/getBaseMenuById"
 
 
+curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":11,"MenuLevel":0,"ParentId": 3, "Path":"dashboardtest","Name":"dashboardtest", "Component":"view/task/index.vue","Sort":35,"Hidden":false,"Title":"\u4e3b\u9875\u9762"}' "http://127.0.0.1:12345/menu/updateBaseMenu"
+
+
 
 #转码
 研发人员 \u7814\u53d1\u4eba\u5458
