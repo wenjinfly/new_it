@@ -32,3 +32,8 @@ func DefaultMenu() []model.SysBaseMenus {
 type GetByMenuId struct {
 	MenuId uint64 `json:"MenuId" form:"MenuId"` // 主键ID
 }
+
+// GetAuthorityId Get role by id structure
+type GetAuthorityId struct {
+	AuthorityId string `json:"authorityId" form:"authorityId"` // 角色ID
+}

@@ -71,6 +71,7 @@ curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":3}' "http://127.
 
 curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":11}' "http://127.0.0.1:12345/menu/deleteBaseMenu"
 
+curl -H "Content-Type: application/json" -X POST  -d '{"authorityId":"222"}' "http://127.0.0.1:12345/menu/getMenusByAuthority"
 //
 
 curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":11,"MenuLevel":0,"ParentId": 3, "Path":"dashboardtest","Name":"dashboardtest", "Component":"view/task/index.vue","Sort":35,"Hidden":false,"Title":"\u4e3b\u9875\u9762"}' "http://127.0.0.1:12345/menu/updateBaseMenu"

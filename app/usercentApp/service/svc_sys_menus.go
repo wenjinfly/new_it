@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"new_it/app/usercentApp/api/request"
 	"new_it/app/usercentApp/model"
 	"new_it/global"
 
@@ -223,4 +224,16 @@ func (m *MenusService) GetBaseMenuById(id uint64) (menu model.SysBaseMenus, err 
 	menu.Children = allMenus
 
 	return
+}
+
+//@author: [piexlmax](https://github.com/piexlmax)
+//@function: GetMenuAuthority
+//@description: 查看当前角色树
+//@param: info *request.GetAuthorityId
+//@return: err error, menus []model.ViewAuthorityMenu
+
+// 查询的视图
+func (menuService *MenusService) GetMenuByAuthority(info *request.GetAuthorityId) (menus []model.ViewAuthorityMenu, err error) {
+	err = global.GLB_DB.Where("authority_id = ? ", info.AuthorityId).Order("sort").Find(&menus).Error
+	return menus, err
 }

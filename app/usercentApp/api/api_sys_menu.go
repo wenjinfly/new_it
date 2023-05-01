@@ -88,9 +88,20 @@ func (a *MenuInfoApi) AddMenuAuthority(w http.ResponseWriter, r *http.Request) {
 // @Produce application/json
 // @Param data body request.GetAuthorityId true "角色ID"
 // @Success 200 {object} response.Response{data=map[string]interface{},msg=string} "获取指定角色menu"
-// @Router /menu/getMenuAuthority [post]
-func (a *MenuInfoApi) GetMenuAuthority(w http.ResponseWriter, r *http.Request) {
+// @Router /menu/getMenusByAuthority [post]
+func (a *MenuInfoApi) GetMenusByAuthority(w http.ResponseWriter, r *http.Request) {
+	var param request.GetAuthorityId
+	err := common.HttpRequest2Struct(r, &param)
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
 
+	if viewAuthMenus, err := service.MenusServices.GetMenuByAuthority(&param); err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("获取失败-"+err.Error()))
+	} else {
+		common.HttpOKResponse(w, response.SysMenusResponse{Menus: viewAuthMenus})
+	}
 }
 
 // @Tags Menu

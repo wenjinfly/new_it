@@ -60,7 +60,9 @@ func initRouter() {
 	RouterList = append(RouterList, RouterInfo{"/menu/getBaseMenuById", api.MenuApi.GetBaseMenuById})
 	RouterList = append(RouterList, RouterInfo{"/menu/updateBaseMenu", api.MenuApi.UpdateBaseMenu})
 	RouterList = append(RouterList, RouterInfo{"/menu/deleteBaseMenu", api.MenuApi.DeleteBaseMenu})
-	///menu/deleteBaseMenu
+	RouterList = append(RouterList, RouterInfo{"/menu/getMenusByAuthority", api.MenuApi.GetMenusByAuthority})
+
+	///menu/
 
 }
 
@@ -73,6 +75,7 @@ func initdbdatas() {
 	Dbdatas = append(Dbdatas, dbdata.Authority)
 	Dbdatas = append(Dbdatas, dbdata.AuthoritiesMenus)
 	Dbdatas = append(Dbdatas, dbdata.UserAuthority)
+	Dbdatas = append(Dbdatas, dbdata.ViewAuthorityMenuMysql)
 }
 
 /*

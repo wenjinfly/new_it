@@ -3,7 +3,7 @@ package response
 import "new_it/app/usercentApp/model"
 
 type SysMenusResponse struct {
-	//Menus []model.SysMenu `json:"menus"`
+	Menus []model.ViewAuthorityMenu `json:"menus"`
 }
 
 type SysBaseMenusResponse struct {
