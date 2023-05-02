@@ -47,3 +47,35 @@ func (us *TaskAPI) AddTask(w http.ResponseWriter, r *http.Request) {
 		common.HttpOKResponse(w, nil)
 	}
 }
+
+func (us *TaskAPI) DeleteTask(w http.ResponseWriter, r *http.Request) {
+}
+
+func (us *TaskAPI) UpdateTaskInfo(w http.ResponseWriter, r *http.Request) {
+}
+
+// UpdateTaskStatus
+// 更新任务状态
+//
+//	@receiver us
+//	@param w
+//	@param r
+func (us *TaskAPI) UpdateTaskStatus(w http.ResponseWriter, r *http.Request) {
+
+}
+
+// UpdateTaskPhase
+// 更新任务阶段
+//
+// @receiver us
+// @param w
+// @param r
+func (us *TaskAPI) UpdateTaskPhase(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (us *TaskAPI) GetTaskByTaskID(w http.ResponseWriter, r *http.Request) {
+}
+
+func (us *TaskAPI) GetTaskListByUserId(w http.ResponseWriter, r *http.Request) {
+}

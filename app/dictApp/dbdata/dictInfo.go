@@ -41,10 +41,11 @@ func (u *DICT_INFO) Initialize() error {
 		{Code: "206", Name: "TaskCompleted", CNName: "任务已完成", Fixed: true, TypeCode: "200"},
 		{Code: "207", Name: "TaskAbandoned", CNName: "任务已废弃", Fixed: true, TypeCode: "200"},
 		//
-		{Code: "301", Name: "Applying", CNName: "申请中", Fixed: true, TypeCode: "300"},
-		{Code: "302", Name: "InNegotiation", CNName: "洽谈中", Fixed: true, TypeCode: "300"},
-		{Code: "303", Name: "ConditionsMet", CNName: "条件符合", Fixed: true, TypeCode: "300"},
-		{Code: "304", Name: "LackOfConditions", CNName: "条件欠缺", Fixed: true, TypeCode: "300"},
+		{Code: "301", Name: "Favorite", CNName: "已收藏", Fixed: true, TypeCode: "300"},
+		{Code: "302", Name: "Applying", CNName: "申请中", Fixed: true, TypeCode: "300"},
+		{Code: "303", Name: "InNegotiation", CNName: "洽谈中", Fixed: true, TypeCode: "300"},
+		{Code: "304", Name: "SuccessfulNegotiation", CNName: "洽谈成功", Fixed: true, TypeCode: "300"},
+		{Code: "305", Name: "LackOfConditions", CNName: "条件欠缺", Fixed: true, TypeCode: "300"},
 		//
 		{Code: "401", Name: "Male", CNName: "男", Fixed: true, TypeCode: "400"},
 		{Code: "402", Name: "Female", CNName: "女", Fixed: true, TypeCode: "400"},
