@@ -13,6 +13,9 @@ var Tables []interface{}
 
 func initTable() {
 	Tables = append(Tables, new(model.Task))
+	Tables = append(Tables, new(model.UserTaskRelation))
+	Tables = append(Tables, new(model.ChatCommunication))
+	Tables = append(Tables, new(model.Contract))
 
 }
 
