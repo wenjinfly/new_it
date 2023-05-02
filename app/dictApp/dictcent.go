@@ -2,6 +2,7 @@ package dictApp
 
 import (
 	"net/http"
+	"new_it/app/dictApp/api"
 	"new_it/app/dictApp/dbdata"
 	"new_it/app/dictApp/model"
 )
@@ -31,8 +32,19 @@ var RouterList []RouterInfo
 
 func initRouter() {
 	//post
-	//RouterList = append(RouterList, RouterInfo{"/login", api.UserApi.Login})
-	//RouterList = append(RouterList, RouterInfo{"/user/register", api.UserApi.Register})
+	//DictType
+	RouterList = append(RouterList, RouterInfo{"/dict/AddDictType", api.DirctTypeApi.AddDictType})
+	RouterList = append(RouterList, RouterInfo{"/dict/DeleteDictType", api.DirctTypeApi.DeleteDictType})
+	RouterList = append(RouterList, RouterInfo{"/dict/UpdateDictType", api.DirctTypeApi.UpdateDictType})
+	RouterList = append(RouterList, RouterInfo{"/dict/GetDictTypeByCode", api.DirctTypeApi.GetDictTypeByCode})
+	RouterList = append(RouterList, RouterInfo{"/dict/GetDictTypeList", api.DirctTypeApi.GetDictTypeList})
+
+	//DictInfo
+	RouterList = append(RouterList, RouterInfo{"/dict/AddDictInfo", api.DirctInfoApi.AddDictInfo})
+	RouterList = append(RouterList, RouterInfo{"/dict/DeleteDictInfo", api.DirctInfoApi.DeleteDictInfo})
+	RouterList = append(RouterList, RouterInfo{"/dict/UpdateDictInfo", api.DirctInfoApi.UpdateDictInfo})
+	RouterList = append(RouterList, RouterInfo{"/dict/GetDictInfoByCode", api.DirctInfoApi.GetDictInfoByCode})
+	RouterList = append(RouterList, RouterInfo{"/dict/GetDictInfoListByTypeCode", api.DirctInfoApi.GetDictInfoListByTypeCode})
 
 	///menu/
 

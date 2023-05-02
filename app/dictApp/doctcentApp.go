@@ -22,6 +22,11 @@ type dictcent_App struct {
 
 //var uApi api.usercentApi
 
+// RegisterTables
+//
+//	@receiver u
+//	@param ctx
+//	@return error
 func (u *dictcent_App) RegisterTables(ctx context.Context) error {
 
 	var err error
