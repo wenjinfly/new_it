@@ -19,9 +19,10 @@ func (u *DICT_TYPE) TableName() string {
 func (u *DICT_TYPE) Initialize() error {
 
 	entities := []model.DictType{
-		{TypeCode: "100", TypeName: "SoftLifeCycle", TypeCNName: "软件生命周期"},
+		{TypeCode: "100", TypeName: "TaskPhase", TypeCNName: "软件生命周期"},
 		{TypeCode: "200", TypeName: "TaskStatus", TypeCNName: "任务状态"},
 		{TypeCode: "300", TypeName: "CommStatus", TypeCNName: "沟通状态"},
+		{TypeCode: "400", TypeName: "Gender", TypeCNName: "性别"},
 	}
 	if err := global.GLB_DB.Create(&entities).Error; err != nil {
 		return errors.New(u.TableName() + "表数据初始化失败!")

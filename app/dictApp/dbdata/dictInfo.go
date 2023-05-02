@@ -31,6 +31,7 @@ func (u *DICT_INFO) Initialize() error {
 		{Code: "109", Name: "UserTesting", CNName: "用户测试", Fixed: true, TypeCode: "100"},
 		{Code: "110", Name: "SoftwarePublishing", CNName: "软件发行", Fixed: true, TypeCode: "100"},
 		{Code: "111", Name: "DeploymentOperations", CNName: "部署运维", Fixed: true, TypeCode: "100"},
+		{Code: "112", Name: "WholeDevelopment", CNName: "整体开发", Fixed: true, TypeCode: "100"},
 		//
 		{Code: "201", Name: "TaskDraft", CNName: "任务草稿", Fixed: true, TypeCode: "200"},
 		{Code: "202", Name: "TaskPublishing", CNName: "任务发布", Fixed: true, TypeCode: "200"},
@@ -44,6 +45,10 @@ func (u *DICT_INFO) Initialize() error {
 		{Code: "302", Name: "InNegotiation", CNName: "洽谈中", Fixed: true, TypeCode: "300"},
 		{Code: "303", Name: "ConditionsMet", CNName: "条件符合", Fixed: true, TypeCode: "300"},
 		{Code: "304", Name: "LackOfConditions", CNName: "条件欠缺", Fixed: true, TypeCode: "300"},
+		//
+		{Code: "401", Name: "Male", CNName: "男", Fixed: true, TypeCode: "400"},
+		{Code: "402", Name: "Female", CNName: "女", Fixed: true, TypeCode: "400"},
+		{Code: "403", Name: "NotFilled", CNName: "未填", Fixed: true, TypeCode: "400"},
 	}
 	if err := global.GLB_DB.Create(&entities).Error; err != nil {
 		return errors.New(u.TableName() + "表数据初始化失败!")

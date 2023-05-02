@@ -2,6 +2,7 @@ package taskApp
 
 import (
 	"net/http"
+	"new_it/app/taskApp/api"
 	"new_it/app/taskApp/dbdata"
 	"new_it/app/taskApp/model"
 )
@@ -33,7 +34,7 @@ var RouterList []RouterInfo
 
 func initRouter() {
 	//post
-	//RouterList = append(RouterList, RouterInfo{"/login", api.UserApi.Login})
+	RouterList = append(RouterList, RouterInfo{"/task/AddTask", api.TaskApi.AddTask})
 	//RouterList = append(RouterList, RouterInfo{"/user/register", api.UserApi.Register})
 
 	///menu/
