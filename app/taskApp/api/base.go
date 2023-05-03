@@ -1,8 +1,8 @@
 package api
 
 var (
-	ChatCommunicationApi = ChatCommunicationAPI{}
-	ContractApi          = ContractAPI{}
-	TaskApi              = TaskAPI{}
-	UserTaskRelationApi  = UserTaskRelationAPI{}
+	ChatMessageApi      = ChatMessageAPI{}
+	ContractApi         = ContractAPI{}
+	TaskApi             = TaskAPI{}
+	UserTaskRelationApi = UserTaskRelationAPI{}
 )
