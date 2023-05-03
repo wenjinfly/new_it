@@ -2,6 +2,8 @@ package api
 
 import (
 	"net/http"
+	"new_it/app/taskApp/api/request"
+	"new_it/app/taskApp/api/response"
 	"new_it/app/taskApp/model"
 	"new_it/app/taskApp/service"
 	"new_it/common"
@@ -75,6 +77,20 @@ func (us *TaskAPI) UpdateTaskPhase(w http.ResponseWriter, r *http.Request) {
 }
 
 func (us *TaskAPI) GetTaskByTaskID(w http.ResponseWriter, r *http.Request) {
+	var idInfo request.ParamTaskID
+	err := common.HttpRequest2Struct(r, &idInfo)
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+
+	if taskinfo, err := service.TaskService.GetTaskByTaskID(idInfo.TaskId); err != nil {
+
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("获取失败-"+err.Error()))
+
+	} else {
+		common.HttpOKResponse(w, response.ParamTaskResponse{TaskInfo: taskinfo})
+	}
 }
 
 func (us *TaskAPI) GetTaskListByUserId(w http.ResponseWriter, r *http.Request) {

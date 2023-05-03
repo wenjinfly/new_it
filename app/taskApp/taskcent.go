@@ -33,11 +33,9 @@ type RouterInfo struct {
 var RouterList []RouterInfo
 
 func initRouter() {
-	//post
+	//task
 	RouterList = append(RouterList, RouterInfo{"/task/AddTask", api.TaskApi.AddTask})
-	//RouterList = append(RouterList, RouterInfo{"/user/register", api.UserApi.Register})
-
-	///menu/
+	RouterList = append(RouterList, RouterInfo{"/task/GetTaskByTaskID", api.TaskApi.GetTaskByTaskID})
 
 }
 
