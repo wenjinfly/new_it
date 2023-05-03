@@ -1,6 +1,7 @@
 package service
 
 import (
+	"new_it/app/taskApp/api/request"
 	"new_it/app/taskApp/model"
 	"new_it/global"
 )
@@ -32,5 +33,19 @@ func (us *TASK_SERVICE) GetTaskByTaskID(TaskId uint64) (task model.Task, err err
 	return
 }
 
-func (us *TASK_SERVICE) GetTaskListByUserId() {
+func (us *TASK_SERVICE) GetTaskListByUserId(info request.ParamTaskInfoList) (list interface{}, total int64, err error) {
+
+	limit := info.PageSize
+	offset := info.PageSize * (info.Page - 1)
+	db := global.GLB_DB.Model(&model.Task{})
+
+	var taskList []model.Task
+	err = db.Where("user_id = ?", info.UserId).Count(&total).Error
+	if err != nil {
+		return
+	}
+
+	err = db.Limit(limit).Offset(offset).Where("user_id = ?", info.UserId).Find(&taskList).Error
+
+	return taskList, total, err
 }
