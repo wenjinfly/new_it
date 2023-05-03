@@ -19,7 +19,8 @@ type ChatMessage struct {
 	ChatType   int               `gorm:"column:chat_type" json:"ChatType"`         // 消息类型：1是普通文本，2是图片，3是表情
 	ClassType  int               `gorm:"column:class_type" json:"ClassType"`       //'消息分类：1是用户聊天，2是task下记录，3是群组聊天'
 	ChatStatus int               `gorm:"column:chat_status" json:"ChatStatus"`     //消息的状态：0未读消息；1：已读消息，2消息已撤销
-	GroupId    uint64            `gorm:"column:group_id" json:"GroupId"`           //群ID
+	TaskID     uint64            `gorm:"column:task_id" json:"TaskID"`             //任务ID 有的话
+	GroupId    uint64            `gorm:"column:group_id" json:"GroupId"`           //群ID 有的话
 	GroupName  string            `gorm:"column:group_name" json:"GroupName"`       //群名称
 
 	CreatedAt *time.Time `gorm:"column:created_at" json:"CreatedAt"` //type:*time.Time   comment:创建时间            version:2023-04-02 16:41

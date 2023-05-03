@@ -5,17 +5,8 @@ import (
 	"time"
 )
 
-// UserTaskRelation  申请用户任务关系。
-// 说明:
-// 表名:user_task_relation
-// group: UserTaskRelation
-// obsolete:
-// appliesto:go 1.8+;
-// namespace:hongmouer.his.models.UserTaskRelation
-// assembly: hongmouer.his.models.go
-// class:HongMouer.HIS.Models.UserTaskRelation
-// version:2023-04-02 16:08
-type UserTaskRelation struct {
+// 收藏的任务
+type FavoriteTask struct {
 	Id           uint64            `gorm:"column:id;primaryKey" json:"Id"`                     //type:  comment:关系id          version:2023-04-02 16:08
 	ApplyUserId  uint64            `gorm:"column:apply_user_id;primaryKey" json:"ApplyUserId"` //type:  comment:申请者用户ID    version:2023-04-02 16:08
 	TaskId       uint64            `gorm:"column:task_id;primaryKey" json:"TaskId"`            //type:  comment:任务ID          version:2023-04-02 16:08
@@ -28,8 +19,8 @@ type UserTaskRelation struct {
 	DeletedAt    *time.Time        `gorm:"column:deleted_at" json:"DeletedAt"` //type:*time.Time        comment:                version:2023-03-12 00:10
 }
 
-// TableName 表名:user_task_relation，申请用户任务关系(已签约)。
+// TableName 表名:favorite_task，收藏的任务
 // 说明:
-func (u *UserTaskRelation) TableName() string {
-	return "user_task_relation"
+func (u *FavoriteTask) TableName() string {
+	return "favorite_task"
 }
