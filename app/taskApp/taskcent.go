@@ -35,6 +35,12 @@ var RouterList []RouterInfo
 func initRouter() {
 	//task
 	RouterList = append(RouterList, RouterInfo{"/task/AddTask", api.TaskApi.AddTask})
+
+	RouterList = append(RouterList, RouterInfo{"/task/DeleteTask", api.TaskApi.DeleteTask})
+	RouterList = append(RouterList, RouterInfo{"/task/UpdateTaskInfo", api.TaskApi.UpdateTaskInfo})
+	RouterList = append(RouterList, RouterInfo{"/task/UpdateTaskStatus", api.TaskApi.UpdateTaskStatus})
+	RouterList = append(RouterList, RouterInfo{"/task/UpdateTaskPhase", api.TaskApi.UpdateTaskPhase})
+
 	RouterList = append(RouterList, RouterInfo{"/task/GetTaskByTaskID", api.TaskApi.GetTaskByTaskID})
 	RouterList = append(RouterList, RouterInfo{"/task/GetTaskListByUserId", api.TaskApi.GetTaskListByUserId})
 

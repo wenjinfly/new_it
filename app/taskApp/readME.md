@@ -24,3 +24,12 @@ curl -H "Content-Type: application/json" -X POST --cookie "token=eyJhbGciOiJIUzI
 curl -H "Content-Type: application/json" -X POST -d '{"TaskId": 2 }' "http://127.0.0.1:12345/task/GetTaskByTaskID"
 
 curl -H "Content-Type: application/json" -X POST --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiMTg4Y2Y4YjYtZDA4Ni00NmUxLWIwNTQtMjU3MTQxYWY2ZTlkIiwiSUQiOjMsIlVzZXJuYW1lIjoidGVzdCIsIkF1dGhvcml0eUlkIjoiNjY2IiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODMxMjkyNjcsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4MzA0MTg2N30.8OjCHqgCr8NDv32FS3maJWsxDlAIOptHbHeY6UiL4ug" -d '{"page":1,"pageSize": 20 }' "http://127.0.0.1:12345/task/GetTaskListByUserId"
+
+
+curl -H "Content-Type: application/json" -X POST --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiMTg4Y2Y4YjYtZDA4Ni00NmUxLWIwNTQtMjU3MTQxYWY2ZTlkIiwiSUQiOjMsIlVzZXJuYW1lIjoidGVzdCIsIkF1dGhvcml0eUlkIjoiNjY2IiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODMxMjkyNjcsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4MzA0MTg2N30.8OjCHqgCr8NDv32FS3maJWsxDlAIOptHbHeY6UiL4ug" -d '{"TaskId": 4,"TaskPhase":"111" }' "http://127.0.0.1:12345/task/UpdateTaskPhase"
+
+curl -H "Content-Type: application/json" -X POST --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiMTg4Y2Y4YjYtZDA4Ni00NmUxLWIwNTQtMjU3MTQxYWY2ZTlkIiwiSUQiOjMsIlVzZXJuYW1lIjoidGVzdCIsIkF1dGhvcml0eUlkIjoiNjY2IiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODMxMjkyNjcsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4MzA0MTg2N30.8OjCHqgCr8NDv32FS3maJWsxDlAIOptHbHeY6UiL4ug" -d '{"TaskId": 4,"TaskStatus":"203" }' "http://127.0.0.1:12345/task/UpdateTaskStatus"
+
+//DeleteTask
+
+curl -H "Content-Type: application/json" -X POST --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiMTg4Y2Y4YjYtZDA4Ni00NmUxLWIwNTQtMjU3MTQxYWY2ZTlkIiwiSUQiOjMsIlVzZXJuYW1lIjoidGVzdCIsIkF1dGhvcml0eUlkIjoiNjY2IiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODMxMjkyNjcsImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4MzA0MTg2N30.8OjCHqgCr8NDv32FS3maJWsxDlAIOptHbHeY6UiL4ug" -d '{"TaskId": 6 }' "http://127.0.0.1:12345/task/DeleteTask"

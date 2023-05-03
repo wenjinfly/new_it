@@ -68,3 +68,11 @@ func (us *DICT_INFO_SERVICE) GetDictInfoListByTypeCode(info request.ParamDictInf
 
 	return userList, total, err
 }
+
+func (us *DICT_INFO_SERVICE) CheckDictCodeExist(code string) bool {
+	if errors.Is(global.GLB_DB.Where("code = ?", code).First(&model.DictInfo{}).Error, gorm.ErrRecordNotFound) {
+		return false
+	}
+
+	return true
+}
