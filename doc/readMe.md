@@ -106,6 +106,7 @@ curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":11,"MenuLevel":0
 
 测试角色 \u6d4b\u8bd5\u89d2\u8272
 测试 \u6d4b\u8bd5
+测试人员 \u6d4b\u8bd5\u4eba\u5458
 
 #mysql config
 

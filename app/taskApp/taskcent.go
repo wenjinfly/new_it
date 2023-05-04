@@ -49,6 +49,9 @@ func initRouter() {
 	RouterList = append(RouterList, RouterInfo{"/relation/UpdateRelationStatus", api.UserTaskRelationApi.UpdateRelationStatus})
 	RouterList = append(RouterList, RouterInfo{"/relation/GetRelationListByUserId", api.UserTaskRelationApi.GetRelationListByUserId})
 
+	//chat
+	RouterList = append(RouterList, RouterInfo{"/chat/AddChat", api.ChatMessageApi.AddChat})
+
 }
 
 var Dbdatas []dbdata.InitDBData
