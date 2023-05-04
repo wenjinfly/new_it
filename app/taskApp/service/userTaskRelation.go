@@ -22,7 +22,14 @@ func (us *USER_TASK_REL_SERVICE) AddRelation(task model.UserTaskRelation) error 
 	return err
 }
 
-func (us *USER_TASK_REL_SERVICE) DeleteRelation() {
+func (us *USER_TASK_REL_SERVICE) DeleteRelation(param request.ParamUserTaskRelation) error {
+	var task model.Task
+	err := global.GLB_DB.Where("id = ? AND apply_user_id = ? ", param.Id, param.UserId).First(&task).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return errors.New("当前id和user_id关联的task没有找到")
+	}
+
+	return global.GLB_DB.Delete(&task).Error
 }
 
 func (us *USER_TASK_REL_SERVICE) UpdateRelationStatus(param request.ParamUserTaskStatus) error {

@@ -23,3 +23,8 @@ type ParamUserTaskStatus struct {
 	CommStatus string `json:"CommStatus"`           //任务状态
 	UserId     uint64 //通过token获取
 }
+
+type ParamUserTaskRelation struct {
+	Id     uint64 `json:"Id"` //type:  comment:关系id          version:2023-04-02 16:08
+	UserId uint64 //通过token获取
+}

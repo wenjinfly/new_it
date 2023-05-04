@@ -43,6 +43,11 @@ func initRouter() {
 
 	RouterList = append(RouterList, RouterInfo{"/task/GetTaskByTaskID", api.TaskApi.GetTaskByTaskID})
 	RouterList = append(RouterList, RouterInfo{"/task/GetTaskListByUserId", api.TaskApi.GetTaskListByUserId})
+	//todo
+	RouterList = append(RouterList, RouterInfo{"/relation/AddRelation", api.UserTaskRelationApi.AddRelation})
+	RouterList = append(RouterList, RouterInfo{"/relation/DeleteRelation", api.UserTaskRelationApi.DeleteRelation}) //todo
+	RouterList = append(RouterList, RouterInfo{"/relation/UpdateRelationStatus", api.UserTaskRelationApi.UpdateRelationStatus})
+	RouterList = append(RouterList, RouterInfo{"/relation/GetRelationListByUserId", api.UserTaskRelationApi.GetRelationListByUserId})
 
 }
 

@@ -45,6 +45,34 @@ func (us *UserTaskRelationAPI) AddRelation(w http.ResponseWriter, r *http.Reques
 }
 
 func (us *UserTaskRelationAPI) DeleteRelation(w http.ResponseWriter, r *http.Request) {
+	//拿不到token或是uuid则说明 认证异常
+	token, err := common.HttpRequestGetJWTToken(r)
+	if err != nil {
+		common.HttpErrorErrorResponse(w, http.StatusUnauthorized, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+	//通过token拿到userid
+	userid, errs := utils.GetUserIDFromJWT(token)
+	if errs != nil {
+		common.HttpErrorErrorResponse(w, http.StatusUnauthorized, errorcode.ErrUserComm.FillMsg(errs.Error()))
+		return
+	}
+
+	var param request.ParamUserTaskRelation
+	err = common.HttpRequest2Struct(r, &param)
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+
+	param.UserId = userid
+
+	if err = service.UserTaskService.DeleteRelation(param); err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg("删除失败-"+err.Error()))
+
+	} else {
+		common.HttpOKResponse(w, nil)
+	}
 }
 
 func (us *UserTaskRelationAPI) UpdateRelationStatus(w http.ResponseWriter, r *http.Request) {
