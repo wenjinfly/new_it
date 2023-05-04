@@ -56,3 +56,10 @@ curl -H "Content-Type: application/json" -X POST --cookie "token=eyJhbGciOiJIUzI
 
 
 curl -H "Content-Type: application/json" -X POST --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiZTkyMTRkNjEtYjczZS00OTE0LTg2MmMtNTU4MDJmOGZhYTQzIiwiSUQiOjIsIlVzZXJuYW1lIjoiYWRtaW4iLCJBdXRob3JpdHlJZCI6Ijc3NyIsIkJ1ZmZlclRpbWUiOjYwNDgwMCwiZXhwIjoxNjgzMjk3ODEyLCJpc3MiOiJuZXctaXQiLCJuYmYiOjE2ODMyMTA0MTJ9.3fkXMcqkrxghLU--0NAEFzBJukNJ_K0JTlq__Sz5Z4U" -d '{"FromId": 2, "FromName":"\u8d85\u7ea7\u7ba1\u7406\u5458","ToId": 3, "ToName":"\u6d4b\u8bd5\u4eba\u5458","SendTime":"2023-05-10 10:00:09","Content":"\u73b0\u5728\u8fd8\u53ef\u4ee5\u63a5\u5355\uff0c\u4f60\u4e4b\u524d\u505a\u8fc7\u7c7b\u4f3c\u7684\u9879\u76ee\u4e48\uff1f","ChatType":1,"ClassType":1 }' "http://127.0.0.1:12345/chat/AddChat"
+
+
+curl -H "Content-Type: application/json" -X POST --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiZTkyMTRkNjEtYjczZS00OTE0LTg2MmMtNTU4MDJmOGZhYTQzIiwiSUQiOjIsIlVzZXJuYW1lIjoiYWRtaW4iLCJBdXRob3JpdHlJZCI6Ijc3NyIsIkJ1ZmZlclRpbWUiOjYwNDgwMCwiZXhwIjoxNjgzMjk3ODEyLCJpc3MiOiJuZXctaXQiLCJuYmYiOjE2ODMyMTA0MTJ9.3fkXMcqkrxghLU--0NAEFzBJukNJ_K0JTlq__Sz5Z4U" -d '{"FromId": 2, "ToId": 3, "ClassType":1 }' "http://127.0.0.1:12345/chat/GetChatListByIds"
+
+
+curl -H "Content-Type: application/json" -X POST --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiZTkyMTRkNjEtYjczZS00OTE0LTg2MmMtNTU4MDJmOGZhYTQzIiwiSUQiOjIsIlVzZXJuYW1lIjoiYWRtaW4iLCJBdXRob3JpdHlJZCI6Ijc3NyIsIkJ1ZmZlclRpbWUiOjYwNDgwMCwiZXhwIjoxNjgzMjk3ODEyLCJpc3MiOiJuZXctaXQiLCJuYmYiOjE2ODMyMTA0MTJ9.3fkXMcqkrxghLU--0NAEFzBJukNJ_K0JTlq__Sz5Z4U" -d '{"FromId": 3, "ToId": 2, "ClassType":1 }' "http://127.0.0.1:12345/chat/GetChatListByIds"
+

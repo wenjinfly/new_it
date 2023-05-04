@@ -21,6 +21,7 @@ func (a *userAuthority) Initialize() error {
 	entities := []model.SysUserAuthority{
 		{UserId: 1, AuthorityId: "666"},
 		{UserId: 2, AuthorityId: "777"},
+		{UserId: 3, AuthorityId: "666"},
 	}
 	if err := global.GLB_DB.Create(&entities).Error; err != nil {
 		return errors.New(a.TableName() + "表数据初始化失败!")

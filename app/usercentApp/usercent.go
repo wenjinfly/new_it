@@ -18,9 +18,9 @@ func initTable() {
 	Tables = append(Tables, new(model.SysBaseMenus))
 	Tables = append(Tables, new(model.SysUserAuthority))
 	Tables = append(Tables, new(model.SysAuthorityMenus))
-	Tables = append(Tables, new(model.SysOperationRecords))
-	Tables = append(Tables, new(model.SysApis))
-	Tables = append(Tables, new(model.JwtBlacklists))
+	//Tables = append(Tables, new(model.SysOperationRecords))
+	//Tables = append(Tables, new(model.SysApis))
+	//Tables = append(Tables, new(model.JwtBlacklists))
 
 }
 

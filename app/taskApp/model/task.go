@@ -40,5 +40,5 @@ type Task struct {
 // TableName 表名:Task，任务单。
 // 说明:
 func (t *Task) TableName() string {
-	return "Task"
+	return "task"
 }

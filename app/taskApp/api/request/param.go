@@ -28,3 +28,14 @@ type ParamUserTaskRelation struct {
 	Id     uint64 `json:"Id"` //type:  comment:关系id          version:2023-04-02 16:08
 	UserId uint64 //通过token获取
 }
+
+type ParamGetChatMessage struct {
+	common.PageInfo
+	FromId    uint64 `json:"FromId"`    //发送人的userid
+	ToId      uint64 `json:"ToId"`      //接收人的userid
+	TaskID    uint64 `json:"TaskID"`    //任务ID 有的话
+	GroupId   uint64 `json:"GroupId"`   //群ID 有的话
+	ClassType int    `json:"ClassType"` //'消息分类：1是用户聊天，2是task下记录，3是群组聊天'
+
+	ChatUuid string
+}

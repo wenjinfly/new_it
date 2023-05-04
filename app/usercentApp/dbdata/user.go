@@ -22,10 +22,12 @@ func (u *DBDATA_USER) Initialize() error {
 
 	uid, _ := uuid.NewV4()
 	uid2, _ := uuid.NewV4()
+	uid3, _ := uuid.NewV4()
 
 	entities := []userModel.SysUsers{
 		{Uuid: uid2.String(), UserName: "root", Password: "2361bd3bf151f0ec52a3ee762bca3644", NickName: "研发者", HeaderImg: "https://qmplusimg.henrongyi.top/gva_header.jpg", AuthorityId: "666"},
 		{Uuid: uid.String(), UserName: "admin", Password: "2361bd3bf151f0ec52a3ee762bca3644", NickName: "超级管理员", HeaderImg: "https://qmplusimg.henrongyi.top/gva_header.jpg", AuthorityId: "777"},
+		{Uuid: uid3.String(), UserName: "test", Password: "2361bd3bf151f0ec52a3ee762bca3644", NickName: "测试人员", HeaderImg: "https://qmplusimg.henrongyi.top/gva_header.jpg", AuthorityId: "666"},
 	}
 	if err := global.GLB_DB.Create(&entities).Error; err != nil {
 		return errors.New(u.TableName() + "表数据初始化失败!")

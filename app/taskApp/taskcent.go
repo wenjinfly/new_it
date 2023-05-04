@@ -51,6 +51,7 @@ func initRouter() {
 
 	//chat
 	RouterList = append(RouterList, RouterInfo{"/chat/AddChat", api.ChatMessageApi.AddChat})
+	RouterList = append(RouterList, RouterInfo{"/chat/GetChatListByIds", api.ChatMessageApi.GetChatListByIds})
 
 }
 
@@ -58,8 +59,8 @@ var Dbdatas []dbdata.InitDBData
 
 // 初始化数据库表的内容
 func initdbdatas() {
-	//Dbdatas = append(Dbdatas, dbdata.User)
-	//Dbdatas = append(Dbdatas, dbdata.BaseMenu)
+	Dbdatas = append(Dbdatas, dbdata.TaskInfos)
+	Dbdatas = append(Dbdatas, dbdata.ChatInfo)
 }
 
 /*
