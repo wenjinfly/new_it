@@ -1,9 +1,7 @@
 <template>
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
+  <div id="app">
+    <router-view />
+  </div>
 </template>
 
 
