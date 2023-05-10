@@ -21,6 +21,8 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElButton } from 'element-plus';
+import md5 from 'js-md5'
+
 const loginFormRef = ref(null)
 const userInfo = reactive(
     {
@@ -56,7 +58,11 @@ const userInfoRules = reactive({
 const handleLogin = async () => {
     //console.log('submit!')
     // console.log(loginFormRef)
-    // console.log(userInfo)
+    console.log(userInfo)
+    let salt = 'new_it'
+    userInfo.password = md5(userInfo.password + salt);
+    console.log(userInfo)
+
     if (!loginFormRef.value) return
 
 
