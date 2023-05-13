@@ -4,8 +4,41 @@ import { defineStore } from 'pinia'
 export const useUsersStore = defineStore('users', {
     // 其它配置项
     state: () => {
+        //用户信息
+        const userInfo = ref({
+            userid: '',
+            uuid: '',
+            nickName: '',
+            headerImg: '',
+            authority: {},
+            sideMode: 'dark',
+            activeColor: '#4D70FF',
+            baseColor: '#fff'
+        })
+        const setUserInfo = (val) => {
+            userInfo.value = val
+        }
+        const ResetUserInfo = (value = {}) => {
+            userInfo.value = {
+                ...userInfo.value,
+                ...value
+            }
+        }
+
+        //token
+        const token = ref(window.localStorage.getItem('token') || '')
+        const setToken = (val) => {
+            token.value = val
+        }
+
+
+
 
         return {
+            userInfo,
+            token,
+
+            //测试使用
             name: "小猪课堂",
             age: 25,
             sex: "男",

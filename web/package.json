@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "vite --mode development",
+    "build": "vite build ",
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "element-plus": "^2.3.4",
     "pinia": "^2.0.36",
     "vue": "^3.2.47",

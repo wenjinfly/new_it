@@ -3,13 +3,13 @@
 
         <el-form ref="loginFormRef" class="login" :model="userInfo" :rules="userInfoRules">
             <h3 class="title">New IT 登录</h3>
-            <el-form-item prop="account">
-                <el-input v-model="userInfo.account" size="large" placeholder="账号" clearable />
+            <el-form-item prop="username">
+                <el-input v-model="userInfo.username" size="large" placeholder="账号" clearable />
             </el-form-item>
             <el-form-item prop="password">
                 <el-input v-model="userInfo.password" size="large" placeholder="密码" show-password />
             </el-form-item>
-            <el-button style="width: 100%" size="large" type="primary" @click="handleLogin">
+            <el-button style="width: 100%" size="large" type="primary" :loading="loginLoading" @click="handleLogin">
                 登录
             </el-button>
         </el-form>
@@ -23,14 +23,16 @@ import { reactive, ref } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElButton } from 'element-plus';
 import md5 from 'js-md5'
 
+const loginLoading = ref(false);
+
 const loginFormRef = ref(null)
 const userInfo = reactive(
     {
-        account: '',
+        username: '',
         password: ''
     })
 
-const checkAccount = (rule, value, callback) => {
+const checkUsername = (rule, value, callback) => {
     console.log(value)
 
     if (value.length < 4) {
@@ -50,18 +52,42 @@ const checkPassword = (rule, value, callback) => {
 }
 
 const userInfoRules = reactive({
-    account: [{ validator: checkAccount, trigger: 'blur', required: true, message: '请输入正确的账号' }],
+    username: [{ validator: checkUsername, trigger: 'blur', required: true, message: '请输入正确的账号' }],
     password: [{ validator: checkPassword, trigger: 'blur', required: true, message: '请输入正确的密码' }]
 })
 
+import userApi from '@/api/user.js';
+
 
 const handleLogin = async () => {
-    //console.log('submit!')
-    // console.log(loginFormRef)
-    console.log(userInfo)
+
+    loginLoading.value = true;
     let salt = 'new_it'
     userInfo.password = md5(userInfo.password + salt);
+
+    console.log(import.meta.env.VITE_APP_BASE_URL)
+
+    console.log("------1-----")
+
     console.log(userInfo)
+    console.log("------2-----")
+    try {
+        const info = await userApi.login(userInfo);
+        console.log("------3-----")
+        console.log(info)
+
+    } catch (e) {
+        console.warn(e);
+    } finally {
+        loginLoading.value = false;
+    }
+
+    console.log("------4----")
+
+    //import.meta.env.
+    console.log(import.meta.env.VITE_APP_BASE_URL)
+    //console.log(process.env.VITE_APP_BASE_URL)
+    console.log("------5-----")
 
     if (!loginFormRef.value) return
 
