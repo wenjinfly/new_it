@@ -33,7 +33,6 @@ const userInfo = reactive(
     })
 
 const checkUsername = (rule, value, callback) => {
-    console.log(value)
 
     if (value.length < 4) {
         return callback(new Error('请输入正确的账号'))
@@ -60,6 +59,12 @@ import userApi from '@/api/user.js';
 import menuApi from '@/api/menu.js';
 import { useUsersStore } from '@/pinia/modules/user.js'
 
+import router from '@/router/index.js'
+
+///
+import { useRouterStore } from '@/pinia/modules/router.js'
+
+///
 const handleLogin = async () => {
 
     loginLoading.value = true;
@@ -80,17 +85,42 @@ const handleLogin = async () => {
             store.setToken(res.data.data.token)
 
             const menus = await menuApi.getViewMenu()
-            console.log("------menus-----")
-            console.log(menus)
+            if (menus.data.code === 0) {
+                console.log("------menus-----")
+                console.log(menus)
+            } else {
+                console.log("----get--menus---error --")
 
-            // const routerStore = useRouterStore()
-            // await routerStore.SetAsyncRouter()
-            // const asyncRouters = routerStore.asyncRouters
-            // asyncRouters.forEach(asyncRouter => {
-            //     router.addRoute(asyncRouter)
-            // })
-            // router.push({ name: userInfo.value.authority.defaultRouter })
-            // return true
+            }
+
+            const routerStore = useRouterStore()
+            console.log("======222222===")
+
+            await routerStore.SetAsyncRouter(menus.data)
+            console.log("======2222223333322===")
+
+            const asyncRouters = routerStore.asyncRouters
+            console.log(asyncRouters)
+
+            const uuu = router.getRoutes()
+            console.log(uuu)
+
+            asyncRouters.forEach(asyncRouter => {
+                router.addRoute(asyncRouter)
+            })
+            console.log("=====22====")
+            const uuu2 = router.getRoutes()
+            console.log(uuu2)
+            console.log("=====33====")
+
+            console.log(router)
+            console.log("=====45====")
+            console.log(asyncRouters)
+
+            console.log(res.data.data.user.authority.DefaultRouter)
+
+            router.push({ name: res.data.data.user.authority.DefaultRouter })
+            return true
         }
 
     } catch (e) {

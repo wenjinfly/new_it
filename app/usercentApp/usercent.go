@@ -13,9 +13,9 @@ Tables : 当前模块数据库表
 var Tables []interface{}
 
 func initTable() {
+	Tables = append(Tables, new(model.SysBaseMenus))
 	Tables = append(Tables, new(model.SysUsers))
 	Tables = append(Tables, new(model.SysAuthorities))
-	Tables = append(Tables, new(model.SysBaseMenus))
 	Tables = append(Tables, new(model.SysUserAuthority))
 	Tables = append(Tables, new(model.SysAuthorityMenus))
 	//Tables = append(Tables, new(model.SysOperationRecords))

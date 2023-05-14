@@ -8,13 +8,13 @@ import "time"
 // 表名:sys_base_menus
 type SysBaseMenus struct {
 	MenuId        uint64                            `gorm:"column:menu_id;primaryKey" json:"MenuId"` //type:                  comment:菜单ID              version:2023-03-12 22:57
-	MenuLevel     int                               `gorm:"column:menu_level" json:"MenuLevel"`      //type:BIGINT UNSIGNED   comment:                    version:2023-03-12 22:57
-	ParentId      uint64                            `gorm:"column:parent_id" json:"ParentId"`        //type:string            comment:父菜单ID            version:2023-03-12 22:57
-	Path          string                            `gorm:"column:path" json:"Path"`                 //type:string            comment:路由path            version:2023-03-12 22:57
-	Name          string                            `gorm:"column:name" json:"Name"`                 //type:string            comment:路由name            version:2023-03-12 22:57
-	Hidden        bool                              `gorm:"column:hidden" json:"Hidden"`             //type:BIT               comment:是否在列表隐藏      version:2023-03-12 22:57
-	Component     string                            `gorm:"column:component" json:"Component"`       //type:string            comment:对应前端文件路径    version:2023-03-12 22:57
-	Sort          int                               `gorm:"column:sort" json:"Sort"`                 //type:int            comment:排序标记            version:2023-03-12 22:57
+	MenuLevel     int                               `gorm:"column:menu_level" json:"menuLevel"`      //type:BIGINT UNSIGNED   comment:                    version:2023-03-12 22:57
+	ParentId      uint64                            `gorm:"column:parent_id" json:"parentId"`        //type:string            comment:父菜单ID            version:2023-03-12 22:57
+	Path          string                            `gorm:"column:path" json:"path"`                 //type:string            comment:路由path            version:2023-03-12 22:57
+	Name          string                            `gorm:"column:name" json:"name"`                 //type:string            comment:路由name            version:2023-03-12 22:57
+	Hidden        bool                              `gorm:"column:hidden" json:"hidden"`             //type:BIT               comment:是否在列表隐藏      version:2023-03-12 22:57
+	Component     string                            `gorm:"column:component" json:"component"`       //type:string            comment:对应前端文件路径    version:2023-03-12 22:57
+	Sort          int                               `gorm:"column:sort" json:"sort"`                 //type:int            comment:排序标记            version:2023-03-12 22:57
 	Meta          `json:"meta" gorm:"comment:附加属性"` // 附加属性
 	CreatedAt     *time.Time                        `gorm:"column:created_at" json:"CreatedAt"` //type:*time.Time        comment:                    version:2023-03-12 22:57
 	UpdatedAt     *time.Time                        `gorm:"column:updated_at" json:"UpdatedAt"` //type:*time.Time        comment:                    version:2023-03-12 22:57

@@ -14,8 +14,6 @@ http.interceptors.request.use(
           1、比如添加token之类的请求头信息
           2、添加每次请求loading等
         */
-
-        console.log("#####config###")
         const userStore = useUsersStore()
 
         config.headers = {
@@ -24,8 +22,6 @@ http.interceptors.request.use(
             //'Access-Control-Allow-Origin': true,
             ...config.headers
         }
-
-        console.log(config)
         return config;
     },
     function (error) {

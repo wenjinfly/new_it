@@ -19,8 +19,16 @@ func (userService *UserService) Login(u *model.SysUsers) (err error, userInter *
 	}
 
 	var user model.SysUsers
-	//err = global.GLB_DB.Where("user_name = ? AND password = ?", u.UserName, u.Password).Preload("authority_id").First(&user).Error
-	err = global.GLB_DB.Where("user_name = ? AND password = ?", u.UserName, u.Password).First(&user).Error
+	err = global.GLB_DB.Where("user_name = ? AND password = ?", u.UserName, u.Password).Preload("Authorities").First(&user).Error
+	if err != nil {
+		return err, &user
+	}
+
+	var sa model.SysAuthorities
+	err = global.GLB_DB.Where("authority_id = ?", user.AuthorityId).First(&sa).Error
+
+	user.Authority = sa
+
 	return err, &user
 }
 

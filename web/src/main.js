@@ -3,7 +3,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 // 引入封装的router
-import router from '@/router/index'
+import router from '@/router/index.js'
 //
 import ElementPlus from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
