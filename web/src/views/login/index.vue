@@ -57,7 +57,8 @@ const userInfoRules = reactive({
 })
 
 import userApi from '@/api/user.js';
-
+import menuApi from '@/api/menu.js';
+import { useUsersStore } from '@/pinia/modules/user.js'
 
 const handleLogin = async () => {
 
@@ -67,14 +68,30 @@ const handleLogin = async () => {
 
     console.log(import.meta.env.VITE_APP_BASE_URL)
 
-    console.log("------1-----")
-
+    const store = useUsersStore();
     console.log(userInfo)
     console.log("------2-----")
     try {
-        const info = await userApi.login(userInfo);
-        console.log("------3-----")
-        console.log(info)
+        const res = await userApi.login(userInfo);
+
+        if (res.data.code === 0) {
+
+            store.setUserInfo(res.data.data.user)
+            store.setToken(res.data.data.token)
+
+            const menus = await menuApi.getViewMenu()
+            console.log("------menus-----")
+            console.log(menus)
+
+            // const routerStore = useRouterStore()
+            // await routerStore.SetAsyncRouter()
+            // const asyncRouters = routerStore.asyncRouters
+            // asyncRouters.forEach(asyncRouter => {
+            //     router.addRoute(asyncRouter)
+            // })
+            // router.push({ name: userInfo.value.authority.defaultRouter })
+            // return true
+        }
 
     } catch (e) {
         console.warn(e);
@@ -82,12 +99,6 @@ const handleLogin = async () => {
         loginLoading.value = false;
     }
 
-    console.log("------4----")
-
-    //import.meta.env.
-    console.log(import.meta.env.VITE_APP_BASE_URL)
-    //console.log(process.env.VITE_APP_BASE_URL)
-    console.log("------5-----")
 
     if (!loginFormRef.value) return
 

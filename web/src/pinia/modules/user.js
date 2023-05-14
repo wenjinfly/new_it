@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { ref, computed, watch } from 'vue'
 
 // 第一个参数是应用程序中 store 的唯一 id
 export const useUsersStore = defineStore('users', {
@@ -29,6 +30,13 @@ export const useUsersStore = defineStore('users', {
         const token = ref(window.localStorage.getItem('token') || '')
         const setToken = (val) => {
             token.value = val
+            console.log("111111")
+
+            console.log(val)
+            console.log(token)
+            console.log("22222")
+
+            console.log(token.value)
         }
 
 
@@ -37,7 +45,9 @@ export const useUsersStore = defineStore('users', {
         return {
             userInfo,
             token,
-
+            //
+            setUserInfo,
+            setToken,
             //测试使用
             name: "小猪课堂",
             age: 25,

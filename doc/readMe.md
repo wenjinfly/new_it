@@ -92,7 +92,7 @@ curl -H "Content-Type: application/json" -X POST  -d '{"authorityId":"222"}' "ht
 
 curl -H "Content-Type: application/json" -X POST  -d '{"authorityId":"222"}' "http://127.0.0.1:12345/menu/getBaseMenuTree"
 
-curl -H "Content-Type: application/json" -X POST --cookie "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiZTkyMTRkNjEtYjczZS00OTE0LTg2MmMtNTU4MDJmOGZhYTQzIiwiSUQiOjIsIlVzZXJuYW1lIjoiYWRtaW4iLCJBdXRob3JpdHlJZCI6Ijc3NyIsIkJ1ZmZlclRpbWUiOjYwNDgwMCwiZXhwIjoxNjgzMDMwNjQ5LCJpc3MiOiJuZXctaXQiLCJuYmYiOjE2ODI5NDMyNDl9.vfi2nguknGvqHy2JGpx0A32DL_w3NpLswi74tNXaGKE"  "http://127.0.0.1:12345/menu/getViewMenu"
+curl -H "Content-Type: application/json" -X POST -H "Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiMTg4Y2Y4YjYtZDA4Ni00NmUxLWIwNTQtMjU3MTQxYWY2ZTlkIiwiSUQiOjMsIlVzZXJuYW1lIjoidGVzdCIsIkF1dGhvcml0eUlkIjoiNjY2IiwiQnVmZmVyVGltZSI6NjA0ODAwLCJleHAiOjE2ODQxNDAyNTksImlzcyI6Im5ldy1pdCIsIm5iZiI6MTY4NDA1Mjg1OX0._LGTg7MrLgDwO5awZzFCIFkgem-z8n2jCn695jjNLJM"  "http://127.0.0.1:12345/menu/getViewMenu"
 //getViewMenu
 
 curl -H "Content-Type: application/json" -X POST  -d '{"MenuId":11,"MenuLevel":0,"ParentId": 3, "Path":"dashboardtest","Name":"dashboardtest", "Component":"view/task/index.vue","Sort":35,"Hidden":false,"Title":"\u4e3b\u9875\u9762"}' "http://127.0.0.1:12345/menu/updateBaseMenu"

@@ -1,5 +1,5 @@
 import axios from 'axios';// 引入axios
-
+import { useUsersStore } from '@/pinia/modules/user'
 
 const http = axios.create({
     // baseURL: import.meta.env.VITE_APP_BASE_URL, //在.env中
@@ -16,8 +16,11 @@ http.interceptors.request.use(
         */
 
         console.log("#####config###")
+        const userStore = useUsersStore()
+
         config.headers = {
             'Content-Type': 'application/json',
+            'Authorization': userStore.token,
             //'Access-Control-Allow-Origin': true,
             ...config.headers
         }

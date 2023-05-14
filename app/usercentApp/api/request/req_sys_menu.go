@@ -23,8 +23,10 @@ func DefaultMenu() []model.SysBaseMenus {
 		Name:      "dashboard",
 		Component: "view/dashboard/index.vue",
 		Sort:      1,
-		Title:     "仪表盘",
-		Icon:      "setting",
+		Meta: model.Meta{
+			Title: "仪表盘",
+			Icon:  "setting",
+		},
 	}}
 }
 

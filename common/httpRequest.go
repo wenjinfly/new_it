@@ -30,13 +30,14 @@ func HttpRequestGetJWTToken(req *http.Request) (string, error) {
 
 	//判断Cookie是否存在,再做cur的时候可能不会带，系统没有检查这个
 	header := req.Header
-	if _, ok := header["Cookie"]; !ok {
-		return "", errors.New("http: named cookie not present")
+
+	if _, ok := header["Authorization"]; !ok {
+		return "", errors.New("http: named Authorization not present")
 	}
 
-	c, err := req.Cookie("token")
+	c := header.Get("Authorization")
 
-	return c.Value, err
+	return c, nil
 }
 
 func decodeJSON(r io.Reader, obj interface{}) error {

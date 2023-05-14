@@ -31,16 +31,11 @@ func (a *authoritiesMenus) Initialize() error {
 		{MenuId: 9, AuthorityId: "666"},
 		{MenuId: 10, AuthorityId: "666"},
 		//管理员角色
-		{MenuId: 1, AuthorityId: "777"},
 		{MenuId: 2, AuthorityId: "777"},
 		{MenuId: 3, AuthorityId: "777"},
 		{MenuId: 4, AuthorityId: "777"},
 		{MenuId: 5, AuthorityId: "777"},
 		{MenuId: 6, AuthorityId: "777"},
-		{MenuId: 7, AuthorityId: "777"},
-		{MenuId: 8, AuthorityId: "777"},
-		{MenuId: 9, AuthorityId: "777"},
-		{MenuId: 10, AuthorityId: "777"},
 
 		//普通用户
 		{MenuId: 1, AuthorityId: "888"},
