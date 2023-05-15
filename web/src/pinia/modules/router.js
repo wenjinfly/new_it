@@ -51,31 +51,19 @@ export const useRouterStore = defineStore("router", {
                 children: []
             }]
             const asyncRouterRes = val
-            console.log("------SetAsyncRouter---------")
 
-            console.log(val)
-            console.log(asyncRouterRes)
-            console.log("------SetAsyncRouter---11------")
-            console.log(baseRouter)
-
+            //格式化菜单
             const asyncRouter = asyncRouterRes.data.menus
             formatRouter(asyncRouter, routeMap)
-            console.log("------SetAsyncRouter---22------")
-            console.log(baseRouter)
 
             baseRouter[0].children = asyncRouter
 
-            console.log("------SetAsyncRouter---33------")
-            console.log(baseRouter)
-
+            //将component 函数化
             asyncRouterHandle(asyncRouter)
-            console.log("------SetAsyncRouter--44-------")
-            console.log(baseRouter)
 
-            KeepAliveFilter(asyncRouter)
-            console.log("------SetAsyncRouter----55-----")
-
+            //KeepAliveFilter(asyncRouter)
             //asyncRouters.value = baseRouter
+
             asyncRouters.value = asyncRouter
             routerList.value = routerListArr
             keepAliveRouters.value = keepAliveRoutersArr

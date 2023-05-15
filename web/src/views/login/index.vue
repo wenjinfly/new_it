@@ -60,6 +60,7 @@ import menuApi from '@/api/menu.js';
 import { useUsersStore } from '@/pinia/modules/user.js'
 
 import router from '@/router/index.js'
+import { ElMessage } from 'element-plus'
 
 ///
 import { useRouterStore } from '@/pinia/modules/router.js'
@@ -69,58 +70,52 @@ const handleLogin = async () => {
 
     loginLoading.value = true;
     let salt = 'new_it'
+    //将密码加盐做md5
     userInfo.password = md5(userInfo.password + salt);
 
     console.log(import.meta.env.VITE_APP_BASE_URL)
 
     const store = useUsersStore();
     console.log(userInfo)
-    console.log("------2-----")
     try {
+        //http的 login从服务请求登录
         const res = await userApi.login(userInfo);
 
         if (res.data.code === 0) {
-
+            // 将用户信息和token放入store
             store.setUserInfo(res.data.data.user)
             store.setToken(res.data.data.token)
 
+            // 再去请求动态菜单信息
             const menus = await menuApi.getViewMenu()
             if (menus.data.code === 0) {
-                console.log("------menus-----")
-                console.log(menus)
+                const routerStore = useRouterStore()
+                //存储菜单信息
+                await routerStore.SetAsyncRouter(menus.data)
+
+                const asyncRouters = routerStore.asyncRouters
+                //将菜单信息加入动态路由
+                asyncRouters.forEach(asyncRouter => {
+                    router.addRoute(asyncRouter)
+                })
+
+                console.log(res.data.data.user.authority.DefaultRouter)
+                //跳转到当前角色的默认页面
+                router.push({ name: res.data.data.user.authority.DefaultRouter })
+                return true
+
             } else {
                 console.log("----get--menus---error --")
 
             }
 
-            const routerStore = useRouterStore()
-            console.log("======222222===")
-
-            await routerStore.SetAsyncRouter(menus.data)
-            console.log("======2222223333322===")
-
-            const asyncRouters = routerStore.asyncRouters
-            console.log(asyncRouters)
-
-            const uuu = router.getRoutes()
-            console.log(uuu)
-
-            asyncRouters.forEach(asyncRouter => {
-                router.addRoute(asyncRouter)
+        }//end of if (res.data.code === 0)
+        else {
+            ElMessage({
+                type: 'error',
+                message: '登录失败，请正确填写登录信息',
+                showClose: true,
             })
-            console.log("=====22====")
-            const uuu2 = router.getRoutes()
-            console.log(uuu2)
-            console.log("=====33====")
-
-            console.log(router)
-            console.log("=====45====")
-            console.log(asyncRouters)
-
-            console.log(res.data.data.user.authority.DefaultRouter)
-
-            router.push({ name: res.data.data.user.authority.DefaultRouter })
-            return true
         }
 
     } catch (e) {

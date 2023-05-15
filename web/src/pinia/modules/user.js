@@ -30,13 +30,6 @@ export const useUsersStore = defineStore('users', {
         const token = ref(window.localStorage.getItem('token') || '')
         const setToken = (val) => {
             token.value = val
-            console.log("111111")
-
-            console.log(val)
-            console.log(token)
-            console.log("22222")
-
-            console.log(token.value)
         }
 
 

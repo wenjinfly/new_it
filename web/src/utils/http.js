@@ -39,7 +39,6 @@ http.interceptors.response.use(
         /**
           1、集中处理响应数据（如错误码处理）
         */
-        console.log(response)
 
         return response;
     },

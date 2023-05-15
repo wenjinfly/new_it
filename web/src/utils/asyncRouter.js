@@ -18,19 +18,12 @@ function dynamicImport(
     component
 ) {
     const keys = Object.keys(dynamicViewsModules)
-    console.log(dynamicViewsModules)
-    console.log(component)
-
-    console.log("key:")
-    console.log(keys)
 
     const matchKeys = keys.filter((key) => {
         const k = key.replace('../', '')
         return k === component
     })
     const matchKey = matchKeys[0]
-    console.log(matchKey)
-    console.log(dynamicViewsModules[matchKey])
 
     return dynamicViewsModules[matchKey]
 }
