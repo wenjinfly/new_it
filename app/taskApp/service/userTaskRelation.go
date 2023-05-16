@@ -61,7 +61,7 @@ func (us *USER_TASK_REL_SERVICE) GetRelationListByUserId(info request.ParamTaskI
 		return
 	}
 
-	err = db.Limit(limit).Offset(offset).Where("apply_user_id = ?", info.UserId).Find(&taskList).Error
+	err = db.Limit(limit).Offset(offset).Find(&taskList).Error
 
 	return taskList, total, err
 }

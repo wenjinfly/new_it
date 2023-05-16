@@ -64,7 +64,7 @@ func (us *DICT_INFO_SERVICE) GetDictInfoListByTypeCode(info request.ParamDictInf
 		return
 	}
 
-	err = db.Limit(limit).Offset(offset).Where("type_code = ?", info.TypeCode).Find(&userList).Error
+	err = db.Limit(limit).Offset(offset).Find(&userList).Error
 
 	return userList, total, err
 }

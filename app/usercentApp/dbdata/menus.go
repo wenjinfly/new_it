@@ -25,6 +25,8 @@ func (m *MENU) Initialize() error {
 		{MenuLevel: 0, Hidden: false, ParentId: 3, Path: "/menu", Name: "menu", Component: "views/admin/menu/index.vue", Sort: 31, Meta: model.Meta{Title: "菜单管理", KeepAlive: true}},
 		{MenuLevel: 0, Hidden: false, ParentId: 3, Path: "/role", Name: "role", Component: "views/admin/role/index.vue", Sort: 32, Meta: model.Meta{Title: "角色管理", KeepAlive: true}},
 		{MenuLevel: 0, Hidden: false, ParentId: 3, Path: "/user", Name: "user", Component: "views/admin/user/index.vue", Sort: 33, Meta: model.Meta{Title: "用户管理", KeepAlive: true}},
+		{MenuLevel: 0, Hidden: false, ParentId: 3, Path: "/dictType", Name: "dictType", Component: "views/admin/dictionary/dictType.vue", Sort: 34, Meta: model.Meta{Title: "字典类型管理", KeepAlive: true}},
+		{MenuLevel: 0, Hidden: false, ParentId: 3, Path: "/dictInfo", Name: "dictInfo", Component: "views/admin/dictionary/dictInfo.vue", Sort: 35, Meta: model.Meta{Title: "字典字段管理", KeepAlive: true}},
 		{MenuLevel: 0, Hidden: false, ParentId: 0, Path: "/person", Name: "person", Component: "views/person/index.vue", Sort: 4, Meta: model.Meta{Title: "个人信息", KeepAlive: true}},
 		{MenuLevel: 0, Hidden: false, ParentId: 1, Path: "/personalTask", Name: "personalTask", Component: "views/task/personalTask/index.vue", Sort: 11, Meta: model.Meta{Title: "个人任务", KeepAlive: true}},
 		{MenuLevel: 0, Hidden: false, ParentId: 1, Path: "/taskDetails", Name: "taskDetails", Component: "views/task/taskDetails/index.vue", Sort: 12, Meta: model.Meta{Title: "任务详情", KeepAlive: true}},
