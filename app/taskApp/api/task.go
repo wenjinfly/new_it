@@ -264,3 +264,25 @@ func (us *TaskAPI) GetTaskListByUserId(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 }
+
+func (us *TaskAPI) GetTaskListByName(w http.ResponseWriter, r *http.Request) {
+	var pageInfo request.ParamTaskInfoList
+	err := common.HttpRequest2Struct(r, &pageInfo)
+
+	if err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+		return
+	}
+
+	if list, total, err := service.TaskService.GetTaskListByName(pageInfo); err != nil {
+		common.HttpOKErrorResponse(w, errorcode.ErrUserComm.FillMsg(err.Error()))
+
+	} else {
+		common.HttpOKResponse(w, common.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     pageInfo.Page,
+			PageSize: pageInfo.PageSize,
+		})
+	}
+}

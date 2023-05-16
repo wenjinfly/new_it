@@ -83,7 +83,24 @@ func (us *TASK_SERVICE) GetTaskListByUserId(info request.ParamTaskInfoList) (lis
 		return
 	}
 
-	err = db.Limit(limit).Offset(offset).Where("user_id = ?", info.UserId).Find(&taskList).Error
+	err = db.Limit(limit).Offset(offset).Find(&taskList).Error
+
+	return taskList, total, err
+}
+
+func (us *TASK_SERVICE) GetTaskListByName(info request.ParamTaskInfoList) (list interface{}, total int64, err error) {
+
+	limit := info.PageSize
+	offset := info.PageSize * (info.Page - 1)
+	db := global.GLB_DB.Model(&model.Task{})
+
+	var taskList []model.Task
+	err = db.Where("task_name Like ?", "%"+info.Name+"%").Count(&total).Error
+	if err != nil {
+		return
+	}
+
+	err = db.Limit(limit).Offset(offset).Find(&taskList).Error
 
 	return taskList, total, err
 }
