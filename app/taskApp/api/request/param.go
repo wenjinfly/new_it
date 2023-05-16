@@ -16,6 +16,7 @@ type ParamTaskIDStatusPhash struct {
 type ParamTaskInfoList struct {
 	common.PageInfo
 	UserId uint64 //通过token获取
+	Name   string `json:"name"`
 }
 
 type ParamUserTaskStatus struct {
