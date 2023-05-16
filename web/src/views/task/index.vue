@@ -1,5 +1,12 @@
 <template>
     <div>
+        <el-header>
+            <div>
+                <img src="">
+                <span>New IT</span>
+            </div>
+            <el-button>登录/注册</el-button>
+        </el-header>
         <el-row>
             <el-col :span="2" class="left">
                 <h3>New IT</h3>
@@ -109,7 +116,23 @@ export default {
 };
 </script>
   
-<style scoped>
+<style lang="less" scoped>
+.el-header {
+    background-color: #333541;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 0;
+    align-items: center;
+    color: #0fff;
+    font-size: 30px;
+    > div {
+        display: flex;
+        align-items: center;
+        span {
+            margin-left: 30px;
+        }
+    }
+}
 .left {
     margin-left: 200px;
 }
