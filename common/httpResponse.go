@@ -10,8 +10,8 @@ import (
 func HttpStatusResponse(w http.ResponseWriter, statusCode int, res Response) {
 
 	msg, _ := json.Marshal(res)
-	w.WriteHeader(statusCode)
 	w.Header().Set("Access-Control-Allow-Origin", "*") //Header().Set("Access-Control-Allow-Origin", "*")
+	w.WriteHeader(statusCode)
 	w.Write(msg)
 }
 
