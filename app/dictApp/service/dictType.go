@@ -2,8 +2,8 @@ package service
 
 import (
 	"errors"
+	"new_it/app/dictApp/api/request"
 	"new_it/app/dictApp/model"
-	"new_it/common"
 	"new_it/global"
 
 	"gorm.io/gorm"
@@ -83,10 +83,22 @@ func (us *DICT_TYPE_SERVICE) GetDictTypeByCode(typecode string) (dt model.DictTy
 //	@return list
 //	@return total
 //	@return err
-func (us *DICT_TYPE_SERVICE) GetDictTypeList(info common.PageInfo) (list interface{}, total int64, err error) {
+func (us *DICT_TYPE_SERVICE) GetDictTypeList(info request.ParamDictTypeList) (list interface{}, total int64, err error) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
 	db := global.GLB_DB.Model(&model.DictType{})
+
+	if info.TypeCode != "" {
+		db = db.Where("type_code = ?", info.TypeCode)
+	}
+
+	if info.TypeName != "" {
+		db = db.Where("type_name = ?", info.TypeName)
+	}
+
+	if info.TypeCNName != "" {
+		db = db.Where("type_cn_name = ?", info.TypeCNName)
+	}
 
 	var userList []model.DictType
 	err = db.Count(&total).Error

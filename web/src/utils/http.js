@@ -39,8 +39,8 @@ http.interceptors.response.use(
         /**
           1、集中处理响应数据（如错误码处理）
         */
-
-        return response;
+        // 统一返回
+        return response.data;
     },
     function (error) {
         // 对响应错误做点什么

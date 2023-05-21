@@ -64,6 +64,7 @@ import { ElMessage } from 'element-plus'
 
 ///
 import { useRouterStore } from '@/pinia/modules/router.js'
+import { useRouter, useRoute } from 'vue-router'
 
 ///
 const handleLogin = async () => {
@@ -81,27 +82,28 @@ const handleLogin = async () => {
         //http的 login从服务请求登录
         const res = await userApi.login(userInfo);
 
-        if (res.data.code === 0) {
+        if (res.code === 0) {
             // 将用户信息和token放入store
-            store.setUserInfo(res.data.data.user)
-            store.setToken(res.data.data.token)
+            store.setUserInfo(res.data.user)
+            store.setToken(res.data.token)
 
             // 再去请求动态菜单信息
             const menus = await menuApi.getViewMenu()
-            if (menus.data.code === 0) {
+            if (menus.code === 0) {
                 const routerStore = useRouterStore()
                 //存储菜单信息
-                await routerStore.SetAsyncRouter(menus.data)
+                await routerStore.SetAsyncRouter(menus)
 
                 const asyncRouters = routerStore.asyncRouters
                 //将菜单信息加入动态路由
                 asyncRouters.forEach(asyncRouter => {
                     router.addRoute(asyncRouter)
                 })
+                console.log(asyncRouters)
 
-                console.log(res.data.data.user.authority.DefaultRouter)
+                console.log(res.data.user.authority.DefaultRouter)
                 //跳转到当前角色的默认页面
-                router.push({ name: res.data.data.user.authority.DefaultRouter })
+                router.push({ name: res.data.user.authority.DefaultRouter })
                 return true
 
             } else {

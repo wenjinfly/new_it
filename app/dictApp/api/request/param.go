@@ -1,6 +1,9 @@
 package request
 
-import "new_it/common"
+import (
+	"new_it/app/dictApp/model"
+	"new_it/common"
+)
 
 type ParamDictTypeCode struct {
 	TypeCode string `json:"TypeCode" form:"TypeCode"` //
@@ -13,4 +16,9 @@ type ParamDictInfoCode struct {
 type ParamDictInfoList struct {
 	common.PageInfo
 	TypeCode string `json:"TypeCode" form:"TypeCode"` //
+}
+
+type ParamDictTypeList struct {
+	common.PageInfo
+	model.DictType
 }
