@@ -11,6 +11,11 @@ const routes = [
         component: () => import('@/views/login/index.vue')
     },
     {
+        path: '/register',
+        name: 'register',
+        component: () => import('@/views/login/register.vue')
+    },
+    {
         path: '/home',
         name: 'home',
         component: () => import('@/views/task/index.vue')
@@ -26,7 +31,7 @@ const routes = [
         component: () => import('@/views/base/404.vue'),
         meta: { title: 'Page not found', isLogin: false },
     }
-
+    //
 ]
 
 const router = createRouter({

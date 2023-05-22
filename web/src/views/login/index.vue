@@ -12,6 +12,15 @@
             <el-button style="width: 100%" size="large" type="primary" :loading="loginLoading" @click="handleLogin">
                 登录
             </el-button>
+            <el-row>
+                <el-col :span="16">
+                    <router-link :to="{ name: 'register' }">没有密码？注册</router-link>
+                </el-col>
+                <el-col :span="8">
+                    <el-link type="primary">忘记密码</el-link>
+                </el-col>
+
+            </el-row>
         </el-form>
     </section>
 </template>
