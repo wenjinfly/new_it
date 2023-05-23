@@ -26,6 +26,11 @@ const routes = [
         component: () => import('@/views/admin/dictionary/dictType.vue')
     },
     {
+        path: '/person',
+        name: 'person',
+        component: () => import('@/views/person/index.vue')
+    },
+    {
         path: "/404",
         name: "NotFound",
         component: () => import('@/views/base/404.vue'),
