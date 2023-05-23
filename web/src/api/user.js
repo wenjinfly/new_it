@@ -4,7 +4,7 @@ import http from '../utils/http';
 // @Produce  application/json
 // @Param data body {username:"string",password:"string"}
 // @Router /base/login [post]
-export const login = (data) => {
+const login = (data) => {
 
     return http.post(
         '/login',
@@ -12,7 +12,14 @@ export const login = (data) => {
     )
 }
 
+const register = (data) => {
+    return http.post(
+        '/user/register',
+        data
+    )
+}
 
 export default {
     login,
+    register
 };

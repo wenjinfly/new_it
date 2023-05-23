@@ -13,7 +13,7 @@
                 <el-input v-model="userInfo.cheackPassword" size="large" placeholder="请确认密码" show-password />
             </el-form-item>
             <el-form-item>
-                <el-button style="width: 100%" size="large" type="primary" @click="register"
+                <el-button style="width: 100%" size="large" type="primary" @click="onrRegister"
                     :icon="UploadFilled">注册</el-button>
             </el-form-item>
             <el-row>
@@ -29,7 +29,9 @@
 
 <script setup>
 import { UploadFilled } from '@element-plus/icons-vue'
-
+import userApi from '@/api/user.js';
+import router from '@/router/index.js'
+import { ElMessage } from 'element-plus'
 import { reactive, ref } from 'vue'
 import md5 from 'js-md5'
 
@@ -42,14 +44,11 @@ const userInfo = ref({
     md5Password: ""
 })
 
-const showButton = ref(false)
-const sss = ref(0)
 
-const register = async () => {
+const onrRegister = async () => {
 
     if (!ruleFormRef.value) return
-
-    await ruleFormRef.value.validate((valid, fields) => {
+    ruleFormRef.value.validate(async (valid, fields) => {
         if (valid) {
             console.log('submit!')
             console.log(userInfo)
@@ -58,6 +57,25 @@ const register = async () => {
             userInfo.value.md5Password = md5(userInfo.value.password + salt);
 
             console.log(userInfo)
+
+            const table = await userApi.register({
+                username: userInfo.value.username,
+                password: userInfo.value.md5Password,
+                nickname: "user001",
+                authorityId: "999"
+            })
+
+            if (table.code === 0) {
+                console.log(table)
+                ElMessage.success("注册成功，请登录！")
+                router.push({ name: "Login" })
+
+            } else {
+                console.log("error:" + table.msg)
+
+            }
+
+
 
         } else {
             console.log('error submit!', fields)
