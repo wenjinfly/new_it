@@ -62,7 +62,7 @@ const onrRegister = async () => {
                 username: userInfo.value.username,
                 password: userInfo.value.md5Password,
                 nickname: "user001",
-                authorityId: "999"
+                authorityId: "888"
             })
 
             if (table.code === 0) {
