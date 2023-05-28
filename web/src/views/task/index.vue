@@ -5,7 +5,14 @@
                 <img src="">
                 <span>New IT</span>
             </div>
-            <el-button>登录/注册</el-button>
+            <div>
+                <router-link v-if="isLogin" class="header-link" :to="{ name: 'person' }">
+                    {{ userInfo.NickName }}
+                    <el-avatar class="header-link" :src="headerImg" />
+                </router-link>
+                <router-link v-else="isLogin" class="header-link" :to="{ name: 'Login' }"> 登录/注册</router-link>
+            </div>
+
         </el-header>
         <el-row>
             <el-col :span="2" class="left">
@@ -28,7 +35,7 @@
                     <el-card shadow="hover">
                         <el-descriptions :title="item.TaskName">
                             <el-descriptions-item label="酬金:">
-                                <el-text type="danger" tag="b">{{ item.TaskRewardMin }}-{{ item.TaskRewardMax }}</el-text>
+                                <el-text type="danger" tag="b">{{ item.TaskRewardMin }}-{{ item.TaskRewardMax }} 元</el-text>
                             </el-descriptions-item>
 
                             <el-descriptions-item label="任务需要人数:">
@@ -62,7 +69,12 @@ import { Search } from '@element-plus/icons-vue'
 
 import taskApi from '@/api/task.js'
 import { ref, onMounted } from 'vue'
-
+//
+import { storeToRefs } from 'pinia';
+import { useUsersStore } from "../../pinia/modules/user";
+const store = useUsersStore();
+const { userInfo } = storeToRefs(store)
+const { isLogin } = storeToRefs(store);
 //
 const tableData = ref([])
 
@@ -73,6 +85,8 @@ const page = ref(1)
 const total = ref(0)
 const pageSize = ref(10)
 
+const headerImg = ref("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png");
+
 const focus = () => {
     isFocus.value = true
 }
@@ -82,6 +96,12 @@ const blur = () => {
 
 onMounted(() => {
     console.log("-----onMounted----")
+    if (userInfo.value.HeaderImg !== "") {
+        console.log(userInfo)
+        console.log(userInfo.value.HeaderImg)
+        headerImg.value = userInfo.value.HeaderImg
+        console.log(headerImg)
+    }
 
     getTableData()
 })
@@ -98,6 +118,7 @@ const handleCurrentChange = (val) => {
 
 const getTableData = async () => {
     console.log(searchKey.value)
+    console.log(userInfo)
 
     const table = await taskApi.GetTaskListByName({
         page: page.value,
@@ -120,6 +141,12 @@ const getTableData = async () => {
 </script>
   
 <style  scoped>
+.header-link {
+    color: aqua;
+    font-size: 20px;
+    vertical-align: middle;
+}
+
 .el-row {
     margin-bottom: 10px;
 }

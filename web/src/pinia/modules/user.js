@@ -7,10 +7,11 @@ export const useUsersStore = defineStore('users', {
     state: () => {
         //用户信息
         const userInfo = ref({
-            userid: '',
-            uuid: '',
-            nickName: '',
-            headerImg: '',
+            UserId: '',
+            UserName: '',
+            Uuid: '',
+            NickName: '',
+            HeaderImg: '',
             authority: {},
             sideMode: 'dark',
             activeColor: '#4D70FF',
@@ -18,6 +19,8 @@ export const useUsersStore = defineStore('users', {
         })
         const setUserInfo = (val) => {
             userInfo.value = val
+
+            console.log(userInfo)
         }
         const ResetUserInfo = (value = {}) => {
             userInfo.value = {
@@ -32,15 +35,22 @@ export const useUsersStore = defineStore('users', {
             token.value = val
         }
 
+        const isLogin = ref(false)
+        const setIsLogin = (val) => {
+            isLogin.value = val
+        }
+
 
 
 
         return {
             userInfo,
             token,
+            isLogin,
             //
             setUserInfo,
             setToken,
+            setIsLogin,
             //测试使用
             name: "小猪课堂",
             age: 25,

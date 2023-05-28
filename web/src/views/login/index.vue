@@ -95,6 +95,7 @@ const handleLogin = async () => {
             // 将用户信息和token放入store
             store.setUserInfo(res.data.user)
             store.setToken(res.data.token)
+            store.setIsLogin(true)
 
             // 再去请求动态菜单信息
             const menus = await menuApi.getViewMenu()
