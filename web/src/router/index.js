@@ -21,6 +21,11 @@ const routes = [
         component: () => import('@/views/task/index.vue')
     },
     {
+        path: '/taskDetails',
+        name: 'taskDetails',
+        component: () => import('@/views/task/taskDetails/index.vue')
+    },
+    {
         path: '/dictType',
         name: 'dictType',
         component: () => import('@/views/admin/dictionary/dictType.vue')

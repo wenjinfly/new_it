@@ -32,7 +32,7 @@
         <div>
             <el-row v-for="(item) in tableData" :key="item.TaskId">
                 <el-col :span="24">
-                    <el-card shadow="hover">
+                    <el-card shadow="hover" @click.native="onCardClick(item.TaskId)">
                         <el-descriptions :title="item.TaskName">
                             <el-descriptions-item label="酬金:">
                                 <el-text type="danger" tag="b">{{ item.TaskRewardMin }}-{{ item.TaskRewardMax }} 元</el-text>
@@ -86,6 +86,13 @@ const total = ref(0)
 const pageSize = ref(10)
 
 const headerImg = ref("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png");
+
+import router from '@/router/index.js'
+
+const onCardClick = (TaskId) => {
+    console.log(TaskId)
+    router.push({ name: "taskDetails", query: { TaskId: TaskId } })
+}
 
 const focus = () => {
     isFocus.value = true

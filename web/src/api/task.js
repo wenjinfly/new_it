@@ -6,8 +6,13 @@ const GetTaskListByName = (params) => {
         '/task/GetTaskListByName',
         params)
 }
-
+const GetTaskByTaskID = (params) => {
+    return http.post(
+        '/task/GetTaskByTaskID',
+        params)
+}
 
 export default {
     GetTaskListByName,
+    GetTaskByTaskID
 }
